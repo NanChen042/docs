@@ -11,14 +11,14 @@ const props = defineProps<{
 }>();
 
 const formatTitle = computed(() => {
- 
-  
   if (!props.title) {
     return "";
   }
   if (!props.desc) {
     return "";
   }
+  console.log(props.title);
+  
   return slugify(props.title);
 });
 
@@ -31,22 +31,22 @@ const svg = computed(() => {
 <template>
   <!-- trigger="click" -->
   <client-only>
-  <el-tooltip :content="desc?desc:'待更新'" effect="customized">
-    <a  class="m-nav-link" :href="link" target="_blank">
-      <article class="box">
-        <div class="box-header">
-          <div v-if="svg" class="icon" v-html="svg"></div>
-          <div v-else-if="icon && typeof icon === 'string'" class="icon">
-            <img :src="icon" :alt="title" onerror="this.parentElement.style.display='none'" />
+    <el-tooltip :content="desc?desc:'待更新'" effect="customized">
+      <a class="m-nav-link" :href="link" target="_blank">
+        <article class="box">
+          <div class="box-header">
+            <div v-if="svg" class="icon" v-html="svg"></div>
+            <div v-else-if="icon && typeof icon === 'string'" class="icon">
+              <img :src="icon" :alt="title" onerror="this.parentElement.style.display='none'" />
+            </div>
+            <!-- <h6 v-if="title" class="title">{{ title }}</h6> -->
+            <h5 v-if="title" :id="formatTitle" class="title">{{ title }}</h5>
           </div>
-          <!-- <h6 v-if="title" class="title">{{ title }}</h6> -->
-          <h5 v-if="title" :id="formatTitle" class="title">{{ title }}</h5>
-        </div>
-        <p v-if="desc" class="desc">{{ desc }}</p>
-      </article>
-    </a>
-  </el-tooltip>
-</client-only>
+          <p v-if="desc" class="desc">{{ desc }}</p>
+        </article>
+      </a>
+    </el-tooltip>
+  </client-only>
 </template>
 <style>
 .el-popper span {
@@ -127,7 +127,7 @@ const svg = computed(() => {
     font-size: 16px;
     font-weight: 600;
   }
-  .el-link__inner{
+  .el-link__inner {
     display: block;
   }
 
