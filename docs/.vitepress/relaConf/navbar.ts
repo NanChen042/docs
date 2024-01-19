@@ -3,7 +3,7 @@
  * @Autor: Southern Wind
  * @Date: 2024-01-10 11:29:56
  * @LastEditors: Southern Wind
- * @LastEditTime: 2024-01-18 13:02:22
+ * @LastEditTime: 2024-01-19 09:45:05
  */
 import { DefaultTheme } from 'vitepress';
 export const nav: DefaultTheme.NavItem[] = [
@@ -13,7 +13,7 @@ export const nav: DefaultTheme.NavItem[] = [
   },
   {
     text: '地图',
-    link:'/column/maps/'
+    link:'/column/map/map.md'
   },
   {
     text: '个人历程',

@@ -24,7 +24,7 @@ hero:
   actions:
     - theme: brand
       text: 进入主页
-      link: /column/api-examples
+      link: 'https://nanchen042.gitee.io/vue3-blog/'
     - theme: alt
       text: 个人成长
       link: /column/home/index
