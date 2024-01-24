@@ -5827,13 +5827,11 @@ function assertType(value, type) {
   let valid;
   const expectedType = getType(type);
   if (isSimpleType(expectedType)) {
-
-      const t = typeof value;
-      valid = t === expectedType.toLowerCase();
-      if (!valid && t === "object") {
-        valid = value instanceof type;
-      }
- 
+    const t = typeof value;
+    valid = t === expectedType.toLowerCase();
+    if (!valid && t === "object") {
+      valid = value instanceof type;
+    }
   } else if (expectedType === "Object") {
     valid = isObject(value);
   } else if (expectedType === "Array") {
@@ -9564,10 +9562,7 @@ var doc = typeof document !== "undefined" ? document : null;
 var templateContainer = doc && doc.createElement("template");
 var nodeOps = {
   insert: (child, parent, anchor) => {
-    if (child) {
-      parent.insertBefore(child, anchor || null);
-    }
-
+    parent.insertBefore(child, anchor || null);
   },
   remove: (child) => {
     const parent = child.parentNode;

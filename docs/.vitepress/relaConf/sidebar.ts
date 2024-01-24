@@ -2,7 +2,7 @@ import { DefaultTheme } from 'vitepress';
 export const sidebar: DefaultTheme.Sidebar = {
   // /column/Algothm/表示对这个文件夹下的所有md文件做侧边栏配置
   '/column/harmony-os-4.0-series': [
-     // 第一部分
+    // 第一部分
     {
       collapsed: true,
       text: 'HarmonyOS4.0',
@@ -26,23 +26,28 @@ export const sidebar: DefaultTheme.Sidebar = {
         {
           text: '05、状态管理之@Prop、@Link、@Provide、@Consume，以及@Watch装饰器',
           link: '/column/harmony-os-4.0-series/HarmonyOS4.0系列——05、状态管理之@Prop、@Link、@Provide、@Consume，以及@Watch装饰器'
-        },    {
+        },
+        {
           text: '06、渲染之条件渲染、循环渲染以及懒加载渲染',
           link: '/column/harmony-os-4.0-series/HarmonyOS06.md'
+        },
+        {
+          text: '07、自定义组件的生命周期、路由跳转以及传参',
+          link: '/column/harmony-os-4.0-series/HarmonyOS07——LifeCycle.md'
         },
 
       ]
     },
-/*     {
-      text: 'ThreeJS',
-      collapsed: true,
-      items: [
-        {
-          text: 'Threejs',
-          link: '/column/harmony-os-4.0-series/HarmonyOS4.0系列——01、下载、安装、配置环境、搭建页面以及运行示例代码.md'
-        },
-      ]
-    } */
+    /*     {
+          text: 'ThreeJS',
+          collapsed: true,
+          items: [
+            {
+              text: 'Threejs',
+              link: '/column/harmony-os-4.0-series/HarmonyOS4.0系列——01、下载、安装、配置环境、搭建页面以及运行示例代码.md'
+            },
+          ]
+        } */
   ],
   '/column/ThreeJS': [
     {
@@ -77,7 +82,7 @@ export const sidebar: DefaultTheme.Sidebar = {
           link: '/column/ThreeJS/three07.md'
         },
         {
-          text: 'Three.js——八、坐标、更改模型原点、移除、显示隐藏模型对象',          link: '/column/ThreeJS/three08.md'
+          text: 'Three.js——八、坐标、更改模型原点、移除、显示隐藏模型对象', link: '/column/ThreeJS/three08.md'
         },
         {
           text: 'Three.js——九、纹理贴图、纹理对象阵列、地面网格辅助观察、UV坐标以及动画',
