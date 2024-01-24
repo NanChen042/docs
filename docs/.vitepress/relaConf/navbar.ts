@@ -3,13 +3,17 @@
  * @Autor: Southern Wind
  * @Date: 2024-01-10 11:29:56
  * @LastEditors: Southern Wind
- * @LastEditTime: 2024-01-10 11:30:09
+ * @LastEditTime: 2024-01-19 09:45:05
  */
 import { DefaultTheme } from 'vitepress';
 export const nav: DefaultTheme.NavItem[] = [
   {
     text: '首页',
     link: '/' // 表示docs/index.md
+  },
+  {
+    text: '地图',
+    link:'/column/map/map.md'
   },
   {
     text: '个人历程',

@@ -3,11 +3,12 @@
  * @Autor: Southern Wind
  * @Date: 2024-01-10 11:37:47
  * @LastEditors: Southern Wind
- * @LastEditTime: 2024-01-10 11:37:53
+ * @LastEditTime: 2024-01-18 14:47:38
 -->
 <template>
   <div class="home-wrapper">
     <div v-for="item in list" :key="item" class="home-item">{{ item }}</div>
+    
   </div>
 </template>
   

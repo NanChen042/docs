@@ -78,7 +78,7 @@ aside::-webkit-scrollbar-thumb {
 .box .icon{
  text-align: center;
 }
-.clip[data-v-d14c56d9]{
+.clip{
   animation: hueRotate 3s infinite alternate;
 }
 @keyframes hueRotate {
