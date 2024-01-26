@@ -29,25 +29,29 @@ export const sidebar: DefaultTheme.Sidebar = {
         },
         {
           text: '06、渲染之条件渲染、循环渲染以及懒加载渲染',
-          link: '/column/harmony-os-4.0-series/HarmonyOS06.md'
+          link: '/column/harmony-os-4.0-series/HarmonyOS4.0系列——06、渲染之条件渲染、循环渲染以及懒加载渲染.md'
         },
         {
           text: '07、自定义组件的生命周期、路由跳转以及传参',
-          link: '/column/harmony-os-4.0-series/HarmonyOS07——LifeCycle.md'
+          link: '/column/harmony-os-4.0-series/HarmonyOS4.0系列——07、自定义生命周期、路由跳转及传参.md'
+        },
+        {
+          text: '08、UI组件',
+          link: '/column/harmony-os-4.0-series/HarmonyOS4.0系列——08、UI组件.md'
         },
 
       ]
     },
-    /*     {
-          text: 'ThreeJS',
-          collapsed: true,
-          items: [
-            {
-              text: 'Threejs',
-              link: '/column/harmony-os-4.0-series/HarmonyOS4.0系列——01、下载、安装、配置环境、搭建页面以及运行示例代码.md'
-            },
-          ]
-        } */
+    {
+      collapsed: true,
+      text: 'HarmonyOS4.0案例',
+      items: [
+        {
+          text: '简易版todoList',
+          link: '/column/harmony-os-4.0-series/HarmonyOS4.0——案例一、简易版todoList.md'
+        }
+      ]
+    }
   ],
   '/column/ThreeJS': [
     {
