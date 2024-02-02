@@ -3,7 +3,7 @@
  * @Autor: Southern Wind
  * @Date: 2024-01-10 13:16:40
  * @LastEditors: Southern Wind
- * @LastEditTime: 2024-01-18 14:47:49
+ * @LastEditTime: 2024-01-31 09:58:03
  */
 import { h, watch } from 'vue'
 import DefaultTheme from "vitepress/theme";
@@ -12,7 +12,9 @@ import { useData,EnhanceAppContext } from 'vitepress'
 import ElementPlus from 'element-plus'
 import MLayout from '../../nav/components/MLayout.vue'
 import Home from '../../column/home/home.vue'
+import Map from '../../column/map/Map.vue'
 import Contribute from '../components/Contribute/Contribute.vue'
+import NightLight from '../../column/home/NightLight.vue'
 
 
 import MNavLinks from '../../nav/components/MNavLinks.vue'
@@ -38,6 +40,8 @@ export default {
     app.component('MNavLinks', MNavLinks)
     app.component('Home', Home)
     app.component('Contribute', Contribute)
+    app.component('NightLight', NightLight)
+    app.component('Map', Map)
    // 全局注册基础组件
    app.use(ElementPlus)
   }
