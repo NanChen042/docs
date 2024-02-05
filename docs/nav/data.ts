@@ -1,39 +1,52 @@
 export const NAV_DATA = [
     {
         title: '常用工具',
-        items: [{
-            icon: 'https://devtool.tech/logo.svg',
-            title: '开发者武器库',
-            desc: '专业工具箱',
-            link: 'https://devtool.tech/'
-        }, {
-            icon: 'https://caniuse.com/img/favicon-128.png',
-            title: 'Can I use',
-            desc: '前端API兼容性查询',
-            link: 'https://caniuse.com/'
-        }, {
-            icon: 'https://tool.lu/favicon.ico',
-            title: '在线工具',
-            desc: '开发人员工具库',
-            link: 'https://tool.lu/'
-        },
-        /*  {
-            icon: '',
-            title: '',
-            desc: '',
-            link: ''
-        }, {
-            icon: '',
-            title: '',
-            desc: '',
-            link: ''
-        }, {
-            icon: '',
-            title: '',
-            desc: '',
-            link: ''
-        } */
-    ]
+        items: [
+            {
+                icon: 'https://fanyi-cdn.cdn.bcebos.com/webStatic/translation/img/favicon/favicon-32x32.png',
+                title: '百度翻译',
+                desc: '翻译工具',
+                link: 'https://fanyi.baidu.com/'
+            },
+            {
+                icon: 'https://img.alicdn.com/imgextra/i4/O1CN01Z5paLz1O0zuCC7osS_!!6000000001644-55-tps-83-82.svg',
+                title: 'iconfont-阿里巴巴矢量图标库',
+                desc: 'iconfont-国内功能很强大且图标内容很丰富的矢量图标库，提供矢量图标下载、在线存储、格式转换等功能。阿里巴巴体验团队倾力打造，设计和前端开发的便捷工具',
+                link: 'https://www.iconfont.cn/'
+            }
+            , {
+                icon: 'https://devtool.tech/logo.svg',
+                title: '开发者武器库',
+                desc: '专业工具箱',
+                link: 'https://devtool.tech/'
+            }, {
+                icon: 'https://caniuse.com/img/favicon-128.png',
+                title: 'Can I use',
+                desc: '前端API兼容性查询',
+                link: 'https://caniuse.com/'
+            }, {
+                icon: 'https://tool.lu/favicon.ico',
+                title: '在线工具',
+                desc: '开发人员工具库',
+                link: 'https://tool.lu/'
+            },
+            /*  {
+                icon: '',
+                title: '',
+                desc: '',
+                link: ''
+            }, {
+                icon: '',
+                title: '',
+                desc: '',
+                link: ''
+            }, {
+                icon: '',
+                title: '',
+                desc: '',
+                link: ''
+            } */
+        ]
 
     },
     {
@@ -55,11 +68,6 @@ export const NAV_DATA = [
                 title: '图贴士（原工具之家）',
                 desc: '图贴士(原GIF工具之家)在线图片压缩尺寸大小和视频转gif在线制作工具，支持JPG压缩、PNG压缩、GIF压缩等免费在线图片制作工具网。',
                 link: 'https://www.tutieshi.com/'
-            }, {
-                icon: 'https://fanyi-cdn.cdn.bcebos.com/webStatic/translation/img/favicon/favicon-32x32.png',
-                title: '百度翻译',
-                desc: '翻译工具',
-                link: 'https://fanyi.baidu.com/'
             },]
     },
 
@@ -160,31 +168,31 @@ export const NAV_DATA = [
     {
         title: 'JS框架以及动画库',
         items: [
-        {
-            icon: 'https://fe-nav.netlify.app/icons/jquery.svg',
-            title: 'Jquery Api文档',
-            desc: '一个兼容多浏览器的 JavaScript 框架',
-            link: 'https://jquery.cuishifeng.cn/'
-        }, 
-        {
-            icon: 'https://wowjs.uk/favicon.ico',
-            title: 'WoWJS',
-            desc: 'wow.js, wow js, wowjs, JavaScript 浏览器动画库',
-            link: 'https://www.dowebok.com/demo/131/',
-        },
-        
-/*         {
-            icon: '',
-            title: '',
-            desc: '',
-            link: ''
-        }, */
-        {
-            icon: 'https://gsap.com/favicon-32x32.png',
-            title: 'GSAP',
-            desc: '一款二维动画引擎',
-            link: 'https://gsap.com/'
-        }]
+            {
+                icon: 'https://fe-nav.netlify.app/icons/jquery.svg',
+                title: 'Jquery Api文档',
+                desc: '一个兼容多浏览器的 JavaScript 框架',
+                link: 'https://jquery.cuishifeng.cn/'
+            },
+            {
+                icon: 'https://wowjs.uk/favicon.ico',
+                title: 'WoWJS',
+                desc: 'wow.js, wow js, wowjs, JavaScript 浏览器动画库',
+                link: 'https://www.dowebok.com/demo/131/',
+            },
+
+            /*         {
+                        icon: '',
+                        title: '',
+                        desc: '',
+                        link: ''
+                    }, */
+            {
+                icon: 'https://gsap.com/favicon-32x32.png',
+                title: 'GSAP',
+                desc: '一款二维动画引擎',
+                link: 'https://gsap.com/'
+            }]
     },
     {
         title: 'Vue生态',
@@ -193,48 +201,102 @@ export const NAV_DATA = [
             title: 'Vue 3',
             desc: '渐进式JavaScript 框架易学易用，性能出色，适用场景丰富的 Web 前端框架。',
             link: 'https://cn.vuejs.org/',
-        },{
+        }, {
             icon: 'https://cn.vuejs.org/logo.svg',
             title: 'Vue 2',
             desc: ' Vue 2 已经终止支持且不再维护。',
             link: 'https://v2.cn.vuejs.org/',
-        },{
+        }, {
             icon: 'https://cn.vuejs.org/logo.svg',
             title: 'Vue Router',
             desc: 'Vue Router。Vue.js 的官方路由,为 Vue.js 提供富有表现力、可配置的、方便的路由。',
             link: 'https://router.vuejs.org/zh/',
-        },{
+        }, {
             icon: 'https://pinia.web3doc.top/logo.svg',
             title: 'Pinia',
             desc: 'Pinia 中文文档，您将喜欢使用的 Vue 存储库。',
             link: 'https://pinia.web3doc.top/',
-        },{
+        }, {
             icon: 'https://nuxt.com/icon.png',
             title: 'Nuxt.js',
             desc: '一个基于 Vue.js 的通用应用框架。',
             link: 'https://www.nuxtjs.cn/',
-        },{
+        }, {
             icon: 'https://vueuse.org/favicon-32x32.png',
             title: 'VueUse',
             desc: 'Vue Composition API 的常用工具集',
             link: 'https://vueuse.org/',
-        },{
+        }, {
             icon: 'https://element-plus.gitee.io/images/element-plus-logo-small.svg',
             title: 'Element-Plus',
             desc: '基于 Vue 3，面向设计师和开发者的组件库',
             link: 'https://element-plus.gitee.io/zh-CN/',
         }
-        ,{
+            , {
             icon: 'https://fastly.jsdelivr.net/npm/@vant/assets/logo.png',
             title: 'Vant 4',
             desc: '轻量、可定制的移动端 Vue 组件库',
             link: 'https://vant-ui.github.io/vant/#/zh-CN/',
         }
-        ,{
+        , {
+            icon: 'https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/icon.png?v=1556263038788',
+            title: 'UniApp',
+            desc: 'uni-app 是一个使用 Vue.js 开发所有前端应用的框架，开发者编写一套代码，可发布到iOS、Android、Web（响应式）、以及各种小程序（微信/支付宝/百度/头条/飞书/QQ/快手/钉钉/淘宝）、快应用等多个平台。',
+            link: 'https://uniapp.dcloud.net.cn/',
+        }
+        , {
+            icon: 'https://www.uviewui.com/common/logo.png',
+            title: 'uView',
+            desc: 'uView UI，是全面兼容nvue的uni-app生态框架，全面的组件和便捷的工具会让您信手拈来，如鱼得水',
+            link: 'https://www.uviewui.com/',
+        }
+
+            , { 
             icon: 'https://wujie-micro.github.io/doc/favicon.ico',
             title: '无界',
             desc: '无界微前端方案基于 WebComponent 容器 + iframe 沙箱 能够完善的解决适配成本、样式隔离、运行性能、页面白屏、子应用通信、子应用保活、多应用激活、vite 框架支持、应用共享等',
             link: 'https://wujie-micro.github.io/doc/',
+        }
+        ]
+    },
+    {
+        title: 'WebGL or 动画引擎',
+        items: [{
+            icon: '/docs/icon/three.ico',
+            title: 'Three.JS',
+            desc: 'Three.js – JavaScript 3D Library。浏览器端3D引擎超级大库。',
+            link: 'https://threejs.org/',
+        },{
+            icon: 'https://www.mixamo.com/favicon.ico',
+            title: 'mixamo',
+            desc: '人物行为动作库',
+            link: 'https://www.mixamo.com/#/',
+        },
+        {
+        
+            icon: '/docs/bitbug_favicon.ico',
+            title: 'HDRI-to-CubeMap',
+            desc: '立方体拆切图工具',
+            link: 'https://matheowis.github.io/HDRI-to-CubeMap/',
+        },
+        {
+        
+            icon: '/docs/icon/sketchfab.png',
+            title: 'sketchfab',
+            desc: '3D模型库',
+            link: 'https://sketchfab.com/',
+        },
+        {
+            icon: '/docs/icon/gsap.png',
+            title: 'GSAP',
+            desc: 'GSAP是GreenSock的一个行业标准JavaScript动画库，可以让您制作在每个主要浏览器中都能工作的高性能动画。',
+            link: 'https://gsap.com/',
+        },
+        {
+            icon: 'https://www.cocos.com/_nuxt/img/logo.b924db5.png',
+            title: 'Cocos',
+            desc: 'Cocos是全球领先的3D引擎，拥有强大的跨平台开发能力，同时具备易上手、轻量化、开源、免费、高性能等优势，标准的可视化工作流适用于游戏、智能座舱、XR、虚拟角色、教育等多个领域',
+            link: 'https://www.cocos.com/',
         }
     ]
     }
