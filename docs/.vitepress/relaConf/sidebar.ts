@@ -36,7 +36,7 @@ export const sidebar: DefaultTheme.Sidebar = {
           link: '/column/harmony-os-4.0-series/HarmonyOS4.0系列——07、自定义生命周期、路由跳转及传参.md'
         },
         {
-          text: '08、UI组件',
+          text: '08、整合UI常用组件',
           link: '/column/harmony-os-4.0-series/HarmonyOS4.0系列——08、UI组件.md'
         },
 
