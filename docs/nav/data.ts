@@ -68,12 +68,22 @@ export const NAV_DATA = [
                 title: '图贴士（原工具之家）',
                 desc: '图贴士(原GIF工具之家)在线图片压缩尺寸大小和视频转gif在线制作工具，支持JPG压缩、PNG压缩、GIF压缩等免费在线图片制作工具网。',
                 link: 'https://www.tutieshi.com/'
+            }, {
+                icon: 'https://www.bootcdn.cn/assets/ico/apple-touch-icon-144-precomposed.png?1694658481677',
+                title: 'Boot CDN',
+                desc: '稳定、快速、免费的前端开源项目 CDN 加速服务',
+                link: 'https://www.bootcdn.cn/'
             },]
     },
 
     {
         title: 'CSS工具库',
         items: [{
+            icon: 'https://www.tailwindcss.cn/favicons/favicon-32x32.png?v=3',
+            title: 'tailwindcss',
+            desc: '只需书写 HTML 代码，无需书写 CSS，即可快速构建美观的网站。',
+            link: 'https://www.tailwindcss.cn/'
+        }, {
             icon: '/docs/image.png',
             title: 'CSShake',
             desc: '超级抖动库',
@@ -180,6 +190,18 @@ export const NAV_DATA = [
                 desc: 'wow.js, wow js, wowjs, JavaScript 浏览器动画库',
                 link: 'https://www.dowebok.com/demo/131/',
             },
+            {
+                icon: '',
+                title: 'Swiper',
+                desc: '开源、免费、强大的触摸滑动插件',
+                link: 'https://www.swiper.com.cn/',
+            },
+            {
+                icon: 'http://mockjs.com/assets/img/logo-2.svg',
+                title: 'Mock.js',
+                desc: '生成随机数据，拦截 Ajax 请求',
+                link: 'http://mockjs.com/',
+            },
 
             /*         {
                         icon: '',
@@ -237,26 +259,44 @@ export const NAV_DATA = [
             title: 'Vant 4',
             desc: '轻量、可定制的移动端 Vue 组件库',
             link: 'https://vant-ui.github.io/vant/#/zh-CN/',
-        }
-        , {
+        },
+         {
             icon: 'https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/icon.png?v=1556263038788',
             title: 'UniApp',
             desc: 'uni-app 是一个使用 Vue.js 开发所有前端应用的框架，开发者编写一套代码，可发布到iOS、Android、Web（响应式）、以及各种小程序（微信/支付宝/百度/头条/飞书/QQ/快手/钉钉/淘宝）、快应用等多个平台。',
             link: 'https://uniapp.dcloud.net.cn/',
-        }
-        , {
+        },
+        {
+            icon: 'https://uiadmin.net/uview-plus/common/logo.png',
+            title: 'uview-plus',
+            desc: 'uview-plus为采用MIT (opens new window)许可证的开源项目，uview-plus是基于uView2.x修改发布的，感谢uView2.x，使用完全免费。',
+            link: 'https://uiadmin.net/uview-plus/components/intro.html',
+        },
+        {
             icon: 'https://www.uviewui.com/common/logo.png',
             title: 'uView',
             desc: 'uView UI，是全面兼容nvue的uni-app生态框架，全面的组件和便捷的工具会让您信手拈来，如鱼得水',
             link: 'https://www.uviewui.com/',
-        }
-
-            , { 
+        },
+        {
             icon: 'https://wujie-micro.github.io/doc/favicon.ico',
             title: '无界',
             desc: '无界微前端方案基于 WebComponent 容器 + iframe 沙箱 能够完善的解决适配成本、样式隔离、运行性能、页面白屏、子应用通信、子应用保活、多应用激活、vite 框架支持、应用共享等',
             link: 'https://wujie-micro.github.io/doc/',
-        }
+        }, 
+        {
+            icon: 'https://wujie-micro.github.io/doc/favicon.ico',
+            title: '无界',
+            desc: '无界微前端方案基于 WebComponent 容器 + iframe 沙箱 能够完善的解决适配成本、样式隔离、运行性能、页面白屏、子应用通信、子应用保活、多应用激活、vite 框架支持、应用共享等',
+            link: 'https://wujie-micro.github.io/doc/',
+        },
+        {
+            icon: 'https://www.axios-http.cn/img/favicon.ico',
+            title: 'Axios',
+            desc: 'Axios 是一个基于 promise 网络请求库，作用于node.js 和浏览器中。 它是 isomorphic 的(即同一套代码可以运行在浏览器和node.js中)。在服务端它使用原生 node.js http 模块, 而在客户端 (浏览端) 则使用 XMLHttpRequests。',
+            link: 'https://www.axios-http.cn/',
+        },
+        
         ]
     },
     {
@@ -266,21 +306,21 @@ export const NAV_DATA = [
             title: 'Three.JS',
             desc: 'Three.js – JavaScript 3D Library。浏览器端3D引擎超级大库。',
             link: 'https://threejs.org/',
-        },{
+        }, {
             icon: 'https://www.mixamo.com/favicon.ico',
             title: 'mixamo',
             desc: '人物行为动作库',
             link: 'https://www.mixamo.com/#/',
         },
         {
-        
+
             icon: '/docs/bitbug_favicon.ico',
             title: 'HDRI-to-CubeMap',
             desc: '立方体拆切图工具',
             link: 'https://matheowis.github.io/HDRI-to-CubeMap/',
         },
         {
-        
+
             icon: '/docs/icon/sketchfab.png',
             title: 'sketchfab',
             desc: '3D模型库',
@@ -298,8 +338,33 @@ export const NAV_DATA = [
             desc: 'Cocos是全球领先的3D引擎，拥有强大的跨平台开发能力，同时具备易上手、轻量化、开源、免费、高性能等优势，标准的可视化工作流适用于游戏、智能座舱、XR、虚拟角色、教育等多个领域',
             link: 'https://www.cocos.com/',
         }
-    ]
-    }
+        ]
+    },
+    {
+        title: '地理空间数据可视化',
+        items: [
+            {
+                icon: 'https://echarts.apache.org/zh/images/favicon.png?_v_=20240226',
+                title: 'Apache ECharts',
+                desc: '一个基于 JavaScript 的开源可视化图表库',
+                link: 'https://echarts.apache.org/zh/index.html',
+            }
+            , {
+                icon: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original',
+                title: 'L7·蚂蚁地理空间数据可视化',
+                desc: '蚂蚁集团 AntV 数据可视化团队推出的基于 WebGL 的开源大规模地理空间数据可视分析引擎。',
+                link: 'https://threejs.org/',
+            },
+            {
+                icon: 'https://datav-vue3.jiaminghi.com/favicon.ico',
+                title: 'DataV',
+                desc: 'Vue 大屏数据展示组件库',
+                link: 'https://datav-vue3.jiaminghi.com/',
+            },
+
+        ],
+    },
+
 
 ]
 

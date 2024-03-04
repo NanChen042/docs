@@ -120,7 +120,8 @@ export const sidebar: DefaultTheme.Sidebar = {
           text: 'three模型Glb压缩教程',
           link: '/column/ThreeJS/three模型Glb压缩教程.md'
         },
-      ]
+      ],
+      
     }
   ]
 };
