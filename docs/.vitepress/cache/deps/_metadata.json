@@ -1,67 +1,88 @@
 {
-  "hash": "ac75dacf",
-  "configHash": "53bed960",
-  "lockfileHash": "a54c17db",
-  "browserHash": "4c097766",
+  "hash": "f614f70a",
+  "configHash": "da6a74f6",
+  "lockfileHash": "27c49c3e",
+  "browserHash": "f8356015",
   "optimized": {
     "vue": {
-      "src": "../../../../node_modules/.pnpm/vue@3.4.8/node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "e1aef6b4",
+      "fileHash": "be0db304",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
-      "src": "../../../../node_modules/.pnpm/@vue+devtools-api@6.5.1/node_modules/@vue/devtools-api/lib/esm/index.js",
+      "src": "../../../../node_modules/@vue/devtools-api/lib/esm/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "44a82a08",
+      "fileHash": "14a43309",
       "needsInterop": false
     },
     "vitepress > @vueuse/core": {
-      "src": "../../../../node_modules/.pnpm/@vueuse+core@10.7.1_vue@3.4.8/node_modules/@vueuse/core/index.mjs",
+      "src": "../../../../node_modules/vitepress/node_modules/@vueuse/core/index.mjs",
       "file": "vitepress___@vueuse_core.js",
-      "fileHash": "d98abdbc",
+      "fileHash": "f9c862f9",
       "needsInterop": false
     },
     "vitepress > @vueuse/integrations/useFocusTrap": {
-      "src": "../../../../node_modules/.pnpm/@vueuse+integrations@10.7.1_focus-trap@7.5.4_vue@3.4.8/node_modules/@vueuse/integrations/useFocusTrap.mjs",
+      "src": "../../../../node_modules/@vueuse/integrations/useFocusTrap.mjs",
       "file": "vitepress___@vueuse_integrations_useFocusTrap.js",
-      "fileHash": "6e0248fd",
+      "fileHash": "36c24e55",
       "needsInterop": false
     },
     "vitepress > mark.js/src/vanilla.js": {
-      "src": "../../../../node_modules/.pnpm/mark.js@8.11.1/node_modules/mark.js/src/vanilla.js",
+      "src": "../../../../node_modules/mark.js/src/vanilla.js",
       "file": "vitepress___mark__js_src_vanilla__js.js",
-      "fileHash": "8c96d5d2",
+      "fileHash": "05ad775c",
       "needsInterop": false
     },
     "vitepress > minisearch": {
-      "src": "../../../../node_modules/.pnpm/minisearch@6.3.0/node_modules/minisearch/dist/es/index.js",
+      "src": "../../../../node_modules/minisearch/dist/es/index.js",
       "file": "vitepress___minisearch.js",
-      "fileHash": "97372bb9",
+      "fileHash": "b07d0b34",
       "needsInterop": false
     },
     "element-plus": {
-      "src": "../../../../node_modules/.pnpm/element-plus@2.5.0_vue@3.4.8/node_modules/element-plus/es/index.mjs",
+      "src": "../../../../node_modules/element-plus/es/index.mjs",
       "file": "element-plus.js",
-      "fileHash": "3fb75171",
+      "fileHash": "335eb01d",
+      "needsInterop": false
+    },
+    "three": {
+      "src": "../../../../node_modules/three/build/three.module.js",
+      "file": "three.js",
+      "fileHash": "aac21873",
+      "needsInterop": false
+    },
+    "three/examples/jsm/controls/OrbitControls": {
+      "src": "../../../../node_modules/three/examples/jsm/controls/OrbitControls.js",
+      "file": "three_examples_jsm_controls_OrbitControls.js",
+      "fileHash": "b24f8c41",
+      "needsInterop": false
+    },
+    "three/examples/jsm/renderers/CSS2DRenderer": {
+      "src": "../../../../node_modules/three/examples/jsm/renderers/CSS2DRenderer.js",
+      "file": "three_examples_jsm_renderers_CSS2DRenderer.js",
+      "fileHash": "d7618e93",
       "needsInterop": false
     },
     "@mdit-vue/shared": {
-      "src": "../../../../node_modules/.pnpm/@mdit-vue+shared@2.0.0/node_modules/@mdit-vue/shared/dist/index.mjs",
+      "src": "../../../../node_modules/@mdit-vue/shared/dist/index.mjs",
       "file": "@mdit-vue_shared.js",
-      "fileHash": "056425a4",
+      "fileHash": "ce3e309d",
+      "needsInterop": false
+    },
+    "d3": {
+      "src": "../../../../node_modules/d3/src/index.js",
+      "file": "d3.js",
+      "fileHash": "cf303b03",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-W4JJFQD4": {
-      "file": "chunk-W4JJFQD4.js"
+    "chunk-J226FIFC": {
+      "file": "chunk-J226FIFC.js"
     },
-    "chunk-7AKGZ3CM": {
-      "file": "chunk-7AKGZ3CM.js"
-    },
-    "chunk-YRCM6ECU": {
-      "file": "chunk-YRCM6ECU.js"
+    "chunk-2YKXJRXA": {
+      "file": "chunk-2YKXJRXA.js"
     },
     "chunk-LQ2VYIYD": {
       "file": "chunk-LQ2VYIYD.js"

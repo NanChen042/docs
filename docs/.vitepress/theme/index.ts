@@ -2,17 +2,19 @@
  * @Description: 
  * @Autor: Southern Wind
  * @Date: 2024-01-10 13:16:40
- * @LastEditors: Southern Wind
- * @LastEditTime: 2024-01-31 09:58:03
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2024-03-04 19:17:47
  */
 import { h, watch } from 'vue'
 import DefaultTheme from "vitepress/theme";
 import "element-plus/dist/index.css";
 import { useData,EnhanceAppContext } from 'vitepress'
 import ElementPlus from 'element-plus'
+
+
 import MLayout from '../../nav/components/MLayout.vue'
 import Home from '../../column/home/home.vue'
-import Map from '../../column/map/Map.vue'
+import Map from '../../column/map/map.vue'
 import Contribute from '../components/Contribute/Contribute.vue'
 import NightLight from '../../column/home/NightLight.vue'
 
