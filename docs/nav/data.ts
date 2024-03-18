@@ -13,23 +13,14 @@ export const NAV_DATA = [
                 title: 'iconfont-阿里巴巴矢量图标库',
                 desc: 'iconfont-国内功能很强大且图标内容很丰富的矢量图标库，提供矢量图标下载、在线存储、格式转换等功能。阿里巴巴体验团队倾力打造，设计和前端开发的便捷工具',
                 link: 'https://www.iconfont.cn/'
-            }
-            , {
-                icon: 'https://devtool.tech/logo.svg',
-                title: '开发者武器库',
-                desc: '专业工具箱',
-                link: 'https://devtool.tech/'
-            }, {
-                icon: 'https://caniuse.com/img/favicon-128.png',
-                title: 'Can I use',
-                desc: '前端API兼容性查询',
-                link: 'https://caniuse.com/'
-            }, {
-                icon: 'https://tool.lu/favicon.ico',
-                title: '在线工具',
-                desc: '开发人员工具库',
-                link: 'https://tool.lu/'
             },
+            {
+                icon: 'https://www.mockplus.cn/favicon.ico',
+                title: '慕客',
+                desc: '设计 1 + 2，摹客就够了！  全能设计协作平台，产品经理用 RP，UI设计师用 DT',
+                link: 'https://www.mockplus.cn/?home=1'
+            },
+          
             /*  {
                 icon: '',
                 title: '',
@@ -73,14 +64,32 @@ export const NAV_DATA = [
                 title: 'Boot CDN',
                 desc: '稳定、快速、免费的前端开源项目 CDN 加速服务',
                 link: 'https://www.bootcdn.cn/'
-            },]
+            }
+            , {
+                icon: 'https://devtool.tech/logo.svg',
+                title: '开发者武器库',
+                desc: '专业工具箱',
+                link: 'https://devtool.tech/'
+            }, {
+                icon: 'https://caniuse.com/img/favicon-128.png',
+                title: 'Can I use',
+                desc: '前端API兼容性查询',
+                link: 'https://caniuse.com/'
+            }, {
+                icon: 'https://tool.lu/favicon.ico',
+                title: '在线工具',
+                desc: '开发人员工具库',
+                link: 'https://tool.lu/'
+            },
+        
+        ]
     },
 
     {
         title: 'CSS工具库',
         items: [{
             icon: 'https://www.tailwindcss.cn/favicons/favicon-32x32.png?v=3',
-            title: 'tailwindcss',
+            title: 'Tailwind CSS',
             desc: '只需书写 HTML 代码，无需书写 CSS，即可快速构建美观的网站。',
             link: 'https://www.tailwindcss.cn/'
         }, {
@@ -337,6 +346,12 @@ export const NAV_DATA = [
             title: 'Cocos',
             desc: 'Cocos是全球领先的3D引擎，拥有强大的跨平台开发能力，同时具备易上手、轻量化、开源、免费、高性能等优势，标准的可视化工作流适用于游戏、智能座舱、XR、虚拟角色、教育等多个领域',
             link: 'https://www.cocos.com/',
+        },
+        {
+            icon: 'https://polyhaven.com/Logo%20256.png',
+            title: 'Poly Haven',
+            desc: '环境场景以及纹理贴图',
+            link: 'https://polyhaven.com/hdris',
         }
         ]
     },
@@ -353,7 +368,7 @@ export const NAV_DATA = [
                 icon: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original',
                 title: 'L7·蚂蚁地理空间数据可视化',
                 desc: '蚂蚁集团 AntV 数据可视化团队推出的基于 WebGL 的开源大规模地理空间数据可视分析引擎。',
-                link: 'https://threejs.org/',
+                link: 'https://l7.antv.antgroup.com/',
             },
             {
                 icon: 'https://datav-vue3.jiaminghi.com/favicon.ico',
