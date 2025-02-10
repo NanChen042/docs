@@ -4,16 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "deploy": "bash deploy.sh",
     "test": "echo \"Error: no test specified\" && exit 1",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "predeploy": "vitepress build docs",
+    "deploy": "gh-pages -d docs/.vitepress/dist -r https://github.com/NanChen042/docs.git -b gh-pages"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "sass": "^1.69.7",
     "vitepress": "1.0.0-rc.36",
     "vue": "^3.4.8"
@@ -26,6 +28,7 @@
     }
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "@mdit-vue/shared": "^2.0.0",
     "d3": "^7.8.5",
     "element-plus": "^2.5.0",

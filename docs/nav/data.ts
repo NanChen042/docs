@@ -20,25 +20,37 @@ export const NAV_DATA = [
                 desc: '设计 1 + 2，摹客就够了！  全能设计协作平台，产品经理用 RP，UI设计师用 DT',
                 link: 'https://www.mockplus.cn/?home=1'
             },
-          
-            /*  {
-                icon: '',
-                title: '',
-                desc: '',
-                link: ''
-            }, {
-                icon: '',
-                title: '',
-                desc: '',
-                link: ''
-            }, {
-                icon: '',
-                title: '',
-                desc: '',
-                link: ''
-            } */
         ]
 
+    },
+    {
+        title: '素材库',
+        items: [
+            {
+                icon: 'https://img.alicdn.com/imgextra/i4/O1CN01Z5paLz1O0zuCC7osS_!!6000000001644-55-tps-83-82.svg',
+                title: 'iconfont-阿里巴巴矢量图标库',
+                desc: 'iconfont-国内功能很强大且图标内容很丰富的矢量图标库，提供矢量图标下载、在线存储、格式转换等功能。阿里巴巴体验团队倾力打造，设计和前端开发的便捷工具',
+                link: 'https://www.iconfont.cn/'
+            },
+            {
+                icon: 'https://navnav.co/assets/logo-7d2e3e19995a6030c546114a9d5133d0c30ca2c8025e47c40b68d67347dbfa07.png',
+                title: 'NavNav +',
+                desc: '各种样式库集合',
+                link: 'https://navnav.co/'
+            },
+            {
+                icon: 'https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png',
+                title: 'CodePen',
+                desc: 'CodePen是一个面向前端设计师和开发人员的社交开发环境。构建和部署一个网站，展示你的工作，构建测试用例来学习和调试，并寻找灵感。',
+                link: 'https://codepen.io/'
+            },
+            {
+                icon: 'https://uiverse.io/favicon-32x32.png',
+                title: 'Open-Source UI',
+                desc: '超级小众按钮样式！！创建、共享和使用CSS或Tailwind制作的漂亮的自定义元素。',
+                link: 'https://uiverse.io/'
+            },
+        ]
     },
     {
         title: '效率工具',
@@ -81,107 +93,110 @@ export const NAV_DATA = [
                 desc: '开发人员工具库',
                 link: 'https://tool.lu/'
             },
-        
+
         ]
     },
 
     {
         title: 'CSS工具库',
-        items: [{
-            icon: 'https://www.tailwindcss.cn/favicons/favicon-32x32.png?v=3',
-            title: 'Tailwind CSS',
-            desc: '只需书写 HTML 代码，无需书写 CSS，即可快速构建美观的网站。',
-            link: 'https://www.tailwindcss.cn/'
-        }, {
-            icon: '/docs/image.png',
-            title: 'CSShake',
-            desc: '超级抖动库',
-            link: 'https://elrumordelaluz.github.io/csshake/'
-        },
-        {
-            icon: 'http://zhongguose.com/img/favicon.ico',
-            title: '中国色, 中国传统色, 色名, 色谱, 中国色名综览',
-            desc: '提供各种中国的传统颜色的名称，CMYK值，RGB值，16进制表示。',
-            link: 'http://zhongguose.com/#'
-        },
-        {
-            icon: 'https://neumorphism.io/apple-touch-icon.png',
-            title: 'Neumorphism.io',
-            desc: '拟物设计 Generate Soft-UI CSS code 设置块级元素的凹凸阴影大小效果',
-            link: 'https://neumorphism.io/#'
-        },
-        {
-            icon: 'https://mycolor.space/favicon5.png',
-            title: 'ColorSpace',
-            desc: '再也不要浪费时间去寻找完美的调色板了！只需输入一种颜色！',
-            link: 'https://mycolor.space/'
-        },
-        {
-            icon: 'https://cpwebassets.codepen.io/assets/favicon/favicon-touch-de50acbf5d634ec6791894eba4ba9cf490f709b3d742597c6fc4b734e6492a5a.png',
-            title: 'CodePen',
-            desc: 'CodePen是一个面向前端设计师和开发人员的社交开发环境。构建和部署一个网站，展示你的工作，构建测试用例来学习和调试，并寻找灵感。',
-            link: 'https://codepen.io/'
-        },
-        {
-            icon: 'https://glassgenerator.netlify.app/assets/images/favicon.png',
-            title: 'Glass Morphism',
-            desc: '模糊玻璃',
-            link: 'https://glassgenerator.netlify.app/#'
-        },
-        {
-            icon: 'https://chokcoco.github.io/CSS-Inspiration/logo2.png',
-            title: 'CSS Inspiration',
-            desc: '可以称之为CSS灵感,里面大部分使用css-doodle实现。 是一个基于 Web-Component 的库。允许我们快速的创建基于 CSS Grid 布局的页面，以实现各种 CSS 效果（或许可以称之为 CSS 艺术）。',
-            link: 'https://chokcoco.github.io/CSS-Inspiration/#/'
-        },
-        {
-            icon: 'https://coolbackgrounds.io/images/favicon-fe5a0ff5.png',
-            title: 'Cool Backgrounds',
-            desc: '艺术背景图片',
-            link: 'https://coolbackgrounds.io/'
-        },
-        {
-            icon: 'https://uiverse.io/favicon-32x32.png',
-            title: 'Open-Source UI',
-            desc: '超级小按钮样式！！创建、共享和使用CSS或Tailwind制作的漂亮的自定义元素。',
-            link: 'https://uiverse.io/'
-        },
-        {
-            icon: '/docs/image-1.png',
-            title: '贝塞尔曲线',
-            desc: '贝塞尔曲线，可以用来尝试购物车小球',
-            link: 'https://cubic-bezier.com/#.17,.67,.83,.67'
-        },
-        {
-            icon: '/docs/image-4.png',
-            title: 'CSS3自定义滚动条',
-            desc: '滚动条大全，查看源代码即可',
-            link: 'https://www.xuanfengge.com/demo/201311/scroll/css3-scroll.html'
-        },
-        {
-            icon: 'https://webgradients.com/favicons/apple-touch-icon-57x57.png',
-            title: 'ITMEO',
-            desc: '渐变背景大全,一个两个不够，还有更多！！',
-            link: 'https://webgradients.com/'
-        },
-        {
-            icon: 'https://css-loaders.com/fav.png',
-            title: 'CSS Loaders',
-            desc: 'Continuous CSS Loaders集合,进度条加载样式大全',
-            link: 'https://css-loaders.com/'
-        },
-        {
-            icon: 'https://shadows.brumm.af/favicon.svg',
-            title: 'Make a smooth css shadow',
-            desc: 'Make a smooth shadow, friend. 超级阴影样式大全 ！',
-            link: 'https://shadows.brumm.af/'
-        },
-        {
-            icon: 'https://animate.style/img/favicon.ico',
-            title: 'Animate.css',
-            desc: '实用的animate动画！！',
-            link: 'https://animate.style/'
-        },
+        items: [
+            {
+                icon: 'https://cssgrid-generator.netlify.app/favicon.ico',
+                title: ' CSS Grid Generator',
+                desc: '超级无敌Grid布局，无需思考，点开急用',
+                link: 'https://cssgrid-generator.netlify.app/'
+            },
+            {
+                icon: '/docs/bitbug_favicon.ico',
+                title: 'SASS/LESS => CSS',
+                desc: 'SASS/LESS => CSS,再也不用去记那些复杂的CSS代码了,一键生成~~',
+                link: 'https://css.bqrdh.com/saless-css'
+            },
+            {
+                icon: 'https://www.tailwindcss.cn/favicons/favicon-32x32.png?v=3',
+                title: 'Tailwind CSS',
+                desc: '只需书写 HTML 代码，无需书写 CSS，即可快速构建美观的网站。',
+                link: 'https://www.tailwindcss.cn/'
+            }, {
+                icon: '/docs/image.png',
+                title: 'CSShake',
+                desc: '超级抖动库',
+                link: 'https://elrumordelaluz.github.io/csshake/'
+            },
+            {
+                icon: 'http://zhongguose.com/img/favicon.ico',
+                title: '中国色, 中国传统色, 色名, 色谱, 中国色名综览',
+                desc: '提供各种中国的传统颜色的名称，CMYK值，RGB值，16进制表示。',
+                link: 'http://zhongguose.com/#'
+            },
+            {
+                icon: 'https://neumorphism.io/apple-touch-icon.png',
+                title: 'Neumorphism.io',
+                desc: '拟物设计 Generate Soft-UI CSS code 设置块级元素的凹凸阴影大小效果',
+                link: 'https://neumorphism.io/#'
+            },
+            {
+                icon: 'https://mycolor.space/favicon5.png',
+                title: 'ColorSpace',
+                desc: '再也不要浪费时间去寻找完美的调色板了！只需输入一种颜色！',
+                link: 'https://mycolor.space/'
+            },
+
+            {
+                icon: 'https://glassgenerator.netlify.app/assets/images/favicon.png',
+                title: 'Glass Morphism',
+                desc: '模糊玻璃',
+                link: 'https://glassgenerator.netlify.app/#'
+            },
+            {
+                icon: 'https://chokcoco.github.io/CSS-Inspiration/logo2.png',
+                title: 'CSS Inspiration',
+                desc: '可以称之为CSS灵感,里面大部分使用css-doodle实现。 是一个基于 Web-Component 的库。允许我们快速的创建基于 CSS Grid 布局的页面，以实现各种 CSS 效果（或许可以称之为 CSS 艺术）。',
+                link: 'https://chokcoco.github.io/CSS-Inspiration/#/'
+            },
+            {
+                icon: 'https://coolbackgrounds.io/images/favicon-fe5a0ff5.png',
+                title: 'Cool Backgrounds',
+                desc: '艺术背景图片',
+                link: 'https://coolbackgrounds.io/'
+            },
+
+            {
+                icon: '/docs/image-1.png',
+                title: '贝塞尔曲线',
+                desc: '贝塞尔曲线，可以用来尝试购物车小球',
+                link: 'https://cubic-bezier.com/#.17,.67,.83,.67'
+            },
+            {
+                icon: '/docs/image-4.png',
+                title: 'CSS3自定义滚动条',
+                desc: '滚动条大全，查看源代码即可',
+                link: 'https://www.xuanfengge.com/demo/201311/scroll/css3-scroll.html'
+            },
+            {
+                icon: 'https://webgradients.com/favicons/apple-touch-icon-57x57.png',
+                title: 'ITMEO',
+                desc: '渐变背景大全,一个两个不够，还有更多！！',
+                link: 'https://webgradients.com/'
+            },
+            {
+                icon: 'https://css-loaders.com/fav.png',
+                title: 'CSS Loaders',
+                desc: 'Continuous CSS Loaders集合,进度条加载样式大全',
+                link: 'https://css-loaders.com/'
+            },
+            {
+                icon: 'https://shadows.brumm.af/favicon.svg',
+                title: 'Make a smooth css shadow',
+                desc: 'Make a smooth shadow, friend. 超级阴影样式大全 ！',
+                link: 'https://shadows.brumm.af/'
+            },
+            {
+                icon: 'https://animate.style/img/favicon.ico',
+                title: 'Animate.css',
+                desc: '实用的animate动画！！',
+                link: 'https://animate.style/'
+            },
         ]
     },
     {
@@ -227,12 +242,20 @@ export const NAV_DATA = [
     },
     {
         title: 'Vue生态',
-        items: [{
+        items: [
+            {
             icon: 'https://cn.vuejs.org/logo.svg',
             title: 'Vue 3',
             desc: '渐进式JavaScript 框架易学易用，性能出色，适用场景丰富的 Web 前端框架。',
             link: 'https://cn.vuejs.org/',
-        }, {
+        },
+            {
+            icon: 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg',
+            title: 'Naive UI',
+            desc: '一个 Vue 3 组件库比较完整，主题可调，使用 TypeScript，快，有点意思',
+            link: 'https://www.naiveui.com/zh-CN/light',
+        },
+         {
             icon: 'https://cn.vuejs.org/logo.svg',
             title: 'Vue 2',
             desc: ' Vue 2 已经终止支持且不再维护。',
@@ -258,7 +281,7 @@ export const NAV_DATA = [
             desc: 'Vue Composition API 的常用工具集',
             link: 'https://vueuse.org/',
         }, {
-            icon: 'https://element-plus.gitee.io/images/element-plus-logo-small.svg',
+            icon: 'https://ele.hamm.cn/images/element-plus-logo-small.svg',
             title: 'Element-Plus',
             desc: '基于 Vue 3，面向设计师和开发者的组件库',
             link: 'https://element-plus.gitee.io/zh-CN/',
@@ -269,7 +292,7 @@ export const NAV_DATA = [
             desc: '轻量、可定制的移动端 Vue 组件库',
             link: 'https://vant-ui.github.io/vant/#/zh-CN/',
         },
-         {
+        {
             icon: 'https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/icon.png?v=1556263038788',
             title: 'UniApp',
             desc: 'uni-app 是一个使用 Vue.js 开发所有前端应用的框架，开发者编写一套代码，可发布到iOS、Android、Web（响应式）、以及各种小程序（微信/支付宝/百度/头条/飞书/QQ/快手/钉钉/淘宝）、快应用等多个平台。',
@@ -292,12 +315,6 @@ export const NAV_DATA = [
             title: '无界',
             desc: '无界微前端方案基于 WebComponent 容器 + iframe 沙箱 能够完善的解决适配成本、样式隔离、运行性能、页面白屏、子应用通信、子应用保活、多应用激活、vite 框架支持、应用共享等',
             link: 'https://wujie-micro.github.io/doc/',
-        }, 
-        {
-            icon: 'https://wujie-micro.github.io/doc/favicon.ico',
-            title: '无界',
-            desc: '无界微前端方案基于 WebComponent 容器 + iframe 沙箱 能够完善的解决适配成本、样式隔离、运行性能、页面白屏、子应用通信、子应用保活、多应用激活、vite 框架支持、应用共享等',
-            link: 'https://wujie-micro.github.io/doc/',
         },
         {
             icon: 'https://www.axios-http.cn/img/favicon.ico',
@@ -305,7 +322,7 @@ export const NAV_DATA = [
             desc: 'Axios 是一个基于 promise 网络请求库，作用于node.js 和浏览器中。 它是 isomorphic 的(即同一套代码可以运行在浏览器和node.js中)。在服务端它使用原生 node.js http 模块, 而在客户端 (浏览端) 则使用 XMLHttpRequests。',
             link: 'https://www.axios-http.cn/',
         },
-        
+
         ]
     },
     {

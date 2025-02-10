@@ -23,8 +23,8 @@ hero:
   # 按钮相关
   actions:
     - theme: brand
-      text: 进入主页
-      link: 'https://nanchen042.gitee.io/vue3-blog/'
+      text: 开篇
+      link: 'https://nanchen042.github.io/vue3-blog/#/'
     - theme: alt
       text: 个人成长
       link: /column/home/index

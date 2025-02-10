@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, defineProps } from "vue";
+import { computed,  } from "vue";
 import { NavLink } from "./type";
 import { slugify } from "@mdit-vue/shared";
 
@@ -18,7 +18,7 @@ const formatTitle = computed(() => {
     return "";
   }
   console.log(props.title);
-  
+
   return slugify(props.title);
 });
 
@@ -38,6 +38,9 @@ const svg = computed(() => {
             <div v-if="svg" class="icon" v-html="svg"></div>
             <div v-else-if="icon && typeof icon === 'string'" class="icon">
               <img :src="icon" :alt="title" onerror="this.parentElement.style.display='none'" />
+            </div>
+            <div v-else class="icon">
+              <img src="/bitbug_favicon.ico" alt="">
             </div>
             <!-- <h6 v-if="title" class="title">{{ title }}</h6> -->
             <h5 v-if="title" :id="formatTitle" class="title">{{ title }}</h5>
@@ -66,9 +69,6 @@ const svg = computed(() => {
 <style lang="scss" scoped>
 .vp-doc a {
   text-decoration: auto;
-  &:hover {
-    // text-decoration: underline;
-  }
 }
 .m-nav-link {
   display: block;

@@ -1,12 +1,9 @@
-/*
- * @Description: 
- * @Autor: Southern Wind
- * @Date: 2024-01-10 11:29:56
- * @LastEditors: Southern Wind
- * @LastEditTime: 2024-01-19 09:45:05
- */
 import { DefaultTheme } from 'vitepress';
 export const nav: DefaultTheme.NavItem[] = [
+  {
+    text: 'DeepSeek',
+    link: 'https://nanchen042.github.io/deepseek/' // 表示docs/index.md
+  },
   {
     text: '首页',
     link: '/' // 表示docs/index.md
@@ -32,6 +29,10 @@ export const nav: DefaultTheme.NavItem[] = [
     text: '相关技术文章',
     items: [
       {
+        text: '🤖 DeepSeek',
+        link: '/column/deepseek/deepseek.md',
+      },
+      {
         text: '👶 HarmonyOS 4.0',
         link: '/column/harmony-os-4.0-series/HarmonyOS4.0系列——01、下载、安装、配置环境、搭建页面以及运行示例代码.md', // 表示docs/column/Travel/index.md
        /*  target: '_blank', */
@@ -43,6 +44,7 @@ export const nav: DefaultTheme.NavItem[] = [
        /*  target: '_blank', */
         /* rel: 'sponsored' */
       }
+
     ]
   },
   {
