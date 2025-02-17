@@ -1,10 +1,3 @@
-/*
- * @Description: 
- * @Autor: Southern Wind
- * @Date: 2024-01-10 13:16:40
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2024-03-04 19:17:47
- */
 import { h, watch } from 'vue'
 import DefaultTheme from "vitepress/theme";
 import "element-plus/dist/index.css";
@@ -17,11 +10,12 @@ import Home from '../../column/home/home.vue'
 import Map from '../../column/map/map.vue'
 import Contribute from '../components/Contribute/Contribute.vue'
 import NightLight from '../../column/home/NightLight.vue'
-
-
+import Confetti from '../components/Confetti/Confetti.vue'
 import MNavLinks from '../../nav/components/MNavLinks.vue'
 
 import './custom.css';
+import './style/blur.css';
+import './style.css';
 // 图标并进行全局注册
 export default {
   Layout: () => {
@@ -29,7 +23,7 @@ export default {
     // 获取 frontmatter
     const { frontmatter } = useData()
     console.log(frontmatter);
-    
+
     /* 添加自定义 class */
     if (frontmatter.value?.layoutClass) {
       props.class = frontmatter.value.layoutClass
@@ -37,13 +31,15 @@ export default {
 
     return h(MLayout, props)
   },
-  
+
   enhanceApp({app,router}:EnhanceAppContext) {
+    app.component('Confetti', Confetti)
     app.component('MNavLinks', MNavLinks)
     app.component('Home', Home)
     app.component('Contribute', Contribute)
     app.component('NightLight', NightLight)
     app.component('Map', Map)
+
    // 全局注册基础组件
    app.use(ElementPlus)
   }
@@ -67,6 +63,6 @@ export default {
 
 //     return h(Theme.Layout, props)
 //   },
-  
+
 
 // })

@@ -284,7 +284,7 @@ export const NAV_DATA = [
             icon: 'https://ele.hamm.cn/images/element-plus-logo-small.svg',
             title: 'Element-Plus',
             desc: '基于 Vue 3，面向设计师和开发者的组件库',
-            link: 'https://element-plus.gitee.io/zh-CN/',
+            link: 'https://element-plus.org/zh-CN/',
         }
             , {
             icon: 'https://fastly.jsdelivr.net/npm/@vant/assets/logo.png',

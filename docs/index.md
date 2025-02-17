@@ -49,6 +49,7 @@ features:
 
 
 <Contribute />
+<Confetti />
 <style>
 /*爱的魔力转圈圈*/
 @media screen and (max-width: 768px) {

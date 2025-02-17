@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+  <title>{$title}</title>
+  <!-- 引入2.0 -->
+  <script src="/ttvideos/js/vue3.js"></script>
+  <!-- swiper.com.cn -->
+  <link rel="stylesheet" href="/ttvideos/css/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="/ttvideos/css/swiper-video.css" />
+  <script src="/expert/js/jquery.js"></script>
+
+  <script src="/ttvideos/js/rem.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div class="box" v-if="status" style="
+          width: 100%;
+          height: 100vh;
+          position: fixed;
+          background-color: #fff;
+          color: #000;
+          line-height: 100vh;
+          text-align: center;
+          font-size: 26px;
+        ">
+      加载中...
+    </div>
+    <div class="shade" ref="shades" @click="shade()" v-if="shadestatus == true">
+      <img src="/ttvideos/static/img/shade.png" alt="" />
+      <p>上下滑动可切换视频</p>
+    </div>
+    <div class="fixed_top"></div>
+    <div class="swiper-container" ref="refswiping">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" v-for="(v,ind) in videos" @click="playClick(v,ind)">
+          <!-- 播放按钮 -->
+
+          <div style="position: relative; width: 100%" :style="{height:swiperHeight}">
+            <video style="object-fit: contain;width: 100%;height: 100%;position: relative;" controls preload="none" x5-video-player-fullscreen="true" data-object-fit="cover" data-wf-ignore="true" x-webkit-airplay="true" playsinline webkit-playsinline ref="videoss" x5-playsinline :id="'v-'+v.id" :poster="v.poster" :src="v.videourl"></video>
+            <img v-show="!v.playing" class="play-btn" src="/ttvideos/static/img/play.png" />
+          </div>
+          <div class="aside-b" style="padding:0.2rem 0.2rem  0.5rem; align-items: center" ref="asideb">
+            <img :src="v.expertavatar" style="
+                  width: 0.7rem;
+                  height: 0.7rem;
+                  margin-right: 0.1rem;
+                  border-radius: 50%;
+                " @click.stop="backexpert(v)" />
+            <p class="aside-p">{{ v.title }}</p>
+            <!-- <img class="zhuanfa" @click="shareFn" src="/ttvideos/static/img/zhuanfa.png" alt=""> -->
+            <div class="aixin-div" @click.stop="likeFn(v,ind)">
+              <p>{{ v.count }}</p>
+              <img :src="v.isIncremented==true?'/ttvideos/static/img/aixin.png':'/ttvideos/static/img/weidianzan.png'" alt="" />
+            </div>
+            <!--<p> {{v.keshi}} &nbsp;&nbsp;&nbsp; {{v.owner}}</p>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/ttvideos/js/swiper-bundle.min.js"></script>
+  <script src="/ttvideos/js/axios.js"></script>
+  <script src="/ttvideos/js/data.js"></script>
+  <script src="/ttvideos/js/api.js?v=6"></script>
+  <script src="/ttvideos/js/config.js?v=2"></script>
+
+  <script>
+    new Vue({
+      el: "#app",
+      data() {
+        return {
+          videos: [],
+          lastIndex: 0,
+          currentIndex: 0,
+          shadestatus: true,
+          isActive: true,
+          cookie: null,
+          status: true,
+          count: 83,
+          asideb: null,
+          refswiping: null,
+          swiperHeight: null,
+        };
+      },
+      computed: {
+        /*                 buttonText() {
+                        return this.isIncremented ? "取消" : "加一";
+                    }, */
+      },
+
+      create() { },
+      mounted() {
+        setTimeout(() => {
+          this.$nextTick(() => {
+            const asideb = this.$refs.asideb;
+          });
+        }, 100);
+        setTimeout(() => {
+          this.shade();
+        }, 2000);
+        /* 弹窗只出现一次 */
+        this.$nextTick(() => {
+          const swiperHeight = this.$refs.refswiping.offsetHeight;
+          console.log(swiperHeight);
+
+          if (localStorage.getItem("isReload")) {
+            console.log("页面被刷新");
+            this.$refs.shades.style.display = "none";
+          } else {
+            console.log("首次被加载");
+            localStorage.setItem("isReload", true);
+          }
+        });
+        document.body.addEventListener(
+          "touchmove",
+          function (e) {
+            e.preventDefault();
+          },
+          { passive: false }
+        ); //passive 参数不能省略，用来兼容ios和android
+        let that = this;
+        const mySwiper = new Swiper(".swiper-container", {
+          direction: "vertical", //垂直切换选项
+          mousewheel: true,
+          lazy: true,
+          on: {
+            //上滑动结束
+            slideChangeTransitionEnd: function () {
+              that.lastIndex = that.currentIndex;
+              that.currentIndex = this.activeIndex;
+              that.switchVideo();
+            },
+          },
+        });
+        this.confirmBtn();
+
+        // 添加窗口大小改变监听
+        window.addEventListener("resize", () => {
+          if (this.$refs.asideb && this.$refs.asideb.length > 0) {
+            const windowHeight = window.innerHeight;
+            const asideHeight = this.$refs.asideb[0].offsetHeight;
+            this.swiperHeight = windowHeight - asideHeight + "px";
+          }
+        });
+      },
+      methods: {
+        backexpert(v) {
+          //window.history.go(-1);
+          window.location.href = v.experturl;
+        },
+        //点击确定
+        confirmBtn() {
+          let that = this;
+          faceSignSave("{$id}", "{$vid}").then((res) => {
+            if (res) {
+              console.log(res);
+              this.status = false;
+              this.$refs.refswiping.style.display = "block";
+              that.videos = res.videos;
+
+              // 在数据加载完成后计算高度
+              this.$nextTick(() => {
+                if (this.$refs.asideb && this.$refs.asideb.length > 0) {
+                  const windowHeight = window.innerHeight; // 获取视窗高度
+                  const asideHeight = this.$refs.asideb[0].offsetHeight; // 获取aside高度
+                  this.swiperHeight = windowHeight - asideHeight + "px";
+                }
+              });
+            } else {
+              this.$refs.refswiping.style.display = "none";
+            }
+          });
+        },
+        // 分享
+        shareFn(event) {
+          event.cancelBubble = true;
+        },
+        likeFn(item, index) {
+          console.log("likeFn", item);
+          // console.log(this.videos);
+          countSignSave(item.id).then((res) => {
+            if (res.status) {
+              item.count++;
+              if (!item.isIncremented)
+                item.isIncremented = !item.isIncremented;
+            }
+          });
+        },
+        shade() {
+          this.$refs.shades.style.display = "none";
+          this.shadestatus = false;
+        },
+        //点击播放
+        playClick(id, index) {
+          if (id.playing) {
+            id.playing = false;
+            this.$refs.videoss[index].pause();
+            // console.log( document.querySelector('#v-' + id));
+          } else {
+            id.playing = true;
+            this.$refs.videoss[index].play();
+            // this.$refs.videoss.play();
+            // document.querySelector('#v-' + id).play();
+          }
+        },
+        //判断当前视频
+        switchVideo() {
+          const IS_IOS = !/(Android)/i.test(navigator.userAgent);
+          /*           console.log(IS_IOS);
+                          console.log(this.currentIndex, '当前');
+                          console.log(this.lastIndex, '上一个'); */
+          let str = this.$refs.videoss[this.lastIndex];
+          let str1 = this.$refs.videoss[this.currentIndex];
+          // console.log(this.$refs.videoss[this.currentIndex]);
+
+          if (IS_IOS == true) {
+            str1.pause();
+            str.pause();
+            this.videos[this.currentIndex].playing = false;
+            this.videos[this.lastIndex].playing = true;
+          } else {
+            // console.log(this.$refs.videoss);
+            this.videos[this.currentIndex].playing = true;
+            str1.play();
+            this.videos[this.lastIndex].playing = false;
+            str.pause();
+          }
+        },
+      },
+
+      updated() {
+        // document.querySelector('video').pause();
+      },
+
+      watch: {
+        videos: {
+          handler() {
+            this.$nextTick(() => {
+              if (this.$refs.asideb && this.$refs.asideb.length > 0) {
+                const windowHeight = window.innerHeight;
+                const asideHeight = this.$refs.asideb[0].offsetHeight;
+                this.swiperHeight = windowHeight - asideHeight + "px";
+              }
+            });
+          },
+          deep: true,
+        },
+      },
+      beforeDestroy() {
+        window.removeEventListener("resize", this.handleResize);
+      },
+    });
+  </script>
+
+  <include file="Index:wxshare" />
+</body>
+
+</html>

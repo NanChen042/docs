@@ -1,4 +1,7 @@
 import {
+  isVue2
+} from "./chunk-7AKGZ3CM.js";
+import {
   arrow_down_default,
   arrow_left_default,
   arrow_right_default,
@@ -42,9 +45,6 @@ import {
   zoom_in_default,
   zoom_out_default
 } from "./chunk-RWX37R44.js";
-import {
-  isVue2
-} from "./chunk-7AKGZ3CM.js";
 import {
   Comment,
   Fragment,
