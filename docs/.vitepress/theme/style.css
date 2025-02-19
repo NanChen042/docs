@@ -3,13 +3,6 @@
   cursor: url('/docs/SimplifyCoffee/cursor.cur'), auto;
 }
 
-/* 导航栏样式 */
-.VPNav {
-  background-color: rgba(255, 255, 255, 0.8);
-/*   background-image: radial-gradient(transparent 1px, var(--bg-color) 1px);
-  background-size: 4px 4px;
-  backdrop-filter: saturate(50%) blur(4px); */
-}
 
 /* 指针样式元素 */
 a,
