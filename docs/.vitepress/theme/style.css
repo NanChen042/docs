@@ -1,23 +1,17 @@
-/* 01 - 默认鼠标样式 */
+/* 基础光标样式 */
 * {
-  cursor: url('/SimplifyCoffee/cursor.cur'), auto;
+  cursor: url('/docs/SimplifyCoffee/cursor.cur'), auto;
 }
 
-/* 02 - 文本选择 */
-::selection {
-  background-color: var(--vp-button-brand-bg);  /* 修改为使用 VitePress 的品牌按钮背景色变量 */
-  color: #ffffff !important;             /* 设置文字颜色 */
-  cursor: url('/SimplifyCoffee/03_text_select.cur') 4 8, text;
+/* 导航栏样式 */
+.VPNav {
+  background-color: rgba(255, 255, 255, 0.8);
+/*   background-image: radial-gradient(transparent 1px, var(--bg-color) 1px);
+  background-size: 4px 4px;
+  backdrop-filter: saturate(50%) blur(4px); */
 }
 
-/* Firefox 浏览器需要单独设置 */
-::-moz-selection {
-  background-color: var(--vp-button-brand-bg);  /* 同样修改 Firefox 的选择背景色 */
-  color: #ffffff !important;
-  cursor: url('/SimplifyCoffee/03_text_select.cur') 4 8, text;
-}
-
-/* 03 - 链接和可点击元素 */
+/* 指针样式元素 */
 a,
 button,
 .VPButton,
@@ -28,10 +22,10 @@ button,
 input[type="button"],
 input[type="submit"],
 .clickable {
-  cursor: url('/docs/SimplifyCoffee/cursor2.cur') 6 0, pointer !important;
+  cursor: url('/docs/SimplifyCoffee/cursor2.cur'), pointer !important;
 }
 
-/* 04 - 文本编辑 */
+/* 文本编辑样式元素 */
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -42,93 +36,16 @@ input[type="url"],
 textarea,
 input,
 [contenteditable="true"] {
-  cursor: url('/SimplifyCoffee/cursor4.cur'), text;
+  cursor: url('/docs/SimplifyCoffee/cursor3.cur'), text !important;
 }
 
-/* 05 - 帮助信息 */
-[title],
-[data-tooltip],
-.help-text,
-.tooltip {
-  cursor: url('/SimplifyCoffee/cursor4.cur'), help;
+/* 文本选择样式 */
+::selection {
+  background-color: var(--vp-button-brand-bg);
+  color: #ffffff !important;
 }
 
-/* 06 - 处理中/加载状态 */
-.loading,
-[aria-busy="true"],
-.processing {
-  cursor: url('/SimplifyCoffee/03_working_in_background.cur'), progress;
-}
-
-/* 07 - 禁用状态 */
-[disabled],
-.disabled,
-[aria-disabled="true"] {
-  cursor: url('/SimplifyCoffee/06_busy_select.cur'), not-allowed;
-}
-
-
-/* 09 - 可移动元素 */
-[draggable="true"],
-.draggable,
-.movable {
-  cursor: url('/SimplifyCoffee/08_move_select.cur'), move;
-}
-
-/* 10 - 可调整大小 */
-.resizable,
-.resize-handle {
-  cursor: url('/SimplifyCoffee/09_resize_select.cur'), se-resize;
-}
-
-/* 11 - 等待状态 */
-.wait,
-.processing {
-  cursor: url('/SimplifyCoffee/11_wait_select.cur'), wait;
-}
-
-/* 12 - 放大镜效果 */
-.zoomable,
-[data-zoom] {
-  cursor: url('/SimplifyCoffee/12_zoom_select.cur'), zoom-in;
-}
-
-/* 13 - 抓取工具 */
-.grabbable,
-.drag-handle {
-  cursor: url('/SimplifyCoffee/13_grab_select.cur'), grab;
-}
-
-/* 14 - 正在抓取 */
-.grabbing,
-.dragging {
-  cursor: url('/SimplifyCoffee/14_grabbing_select.cur'), grabbing;
-}
-
-/* 15 - 垂直文本 */
-.vertical-text {
-  cursor: url('/SimplifyCoffee/15_vertical_text_select.cur'), vertical-text;
-}
-
-/* 16 - 单元格选择 */
-td,
-th,
-.cell-select {
-  cursor: url('/SimplifyCoffee/16_cell_select.cur'), cell;
-}
-
-/* 17 - 复制指示器 */
-[data-copyable],
-.copyable {
-  cursor: url('/SimplifyCoffee/17_copy_select.cur'), copy;
-}
-
-/* 悬停状态 */
-a:hover,
-button:hover,
-.VPButton:hover,
-.VPLink:hover,
-.VPNavBarMenuLink:hover,
-.VPSidebarItem:hover {
-  cursor: url('/SimplifyCoffee/02_link_select.cur'), pointer;
+::-moz-selection {
+  background-color: var(--vp-button-brand-bg);
+  color: #ffffff !important;
 }

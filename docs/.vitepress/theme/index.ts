@@ -3,7 +3,7 @@ import DefaultTheme from "vitepress/theme";
 import "element-plus/dist/index.css";
 import { useData,EnhanceAppContext } from 'vitepress'
 import ElementPlus from 'element-plus'
-
+import { initCustomCursor } from './cursor'
 
 import MLayout from '../../nav/components/MLayout.vue'
 import Home from '../../column/home/home.vue'
@@ -42,6 +42,12 @@ export default {
 
    // 全局注册基础组件
    app.use(ElementPlus)
+
+   if (typeof window !== 'undefined') {
+     window.addEventListener('DOMContentLoaded', () => {
+       initCustomCursor()
+     })
+   }
   }
 };
 
