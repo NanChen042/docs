@@ -8,3 +8,4 @@ layoutClass: "m-home-layout"
 
 
 <Map />
+<Map4 />
