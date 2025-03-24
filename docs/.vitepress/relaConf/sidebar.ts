@@ -1,6 +1,35 @@
 import { DefaultTheme } from 'vitepress';
 export const sidebar: DefaultTheme.Sidebar = {
   // /column/Algothm/表示对这个文件夹下的所有md文件做侧边栏配置
+  '/column/AI': [
+    // 第一部分
+    {
+      collapsed: true,
+      text: 'AI 系列',
+      items: [
+        {
+          text: 'AI系列——01、用cursor接入mcp协议并体验Magic生成AI网站',
+          link: '/column/AI/AI系列——01、用cursor接入mcp协议并体验Magic生成AI网站.md'
+        },
+        {
+          text: 'AI系列——02、探索AI的无限可能，体验智能对话的未来，大模型 API 演示',
+          link: '/column/AI/AI系列——02、探索AI的无限可能，体验智能对话的未来，大模型 API 演示.md'
+        },
+
+
+      ]
+    },
+    {
+      collapsed: true,
+      text: 'HarmonyOS4.0案例',
+      items: [
+        {
+          text: '简易版todoList',
+          link: '/column/harmony-os-4.0-series/HarmonyOS4.0——案例一、简易版todoList.md'
+        }
+      ]
+    }
+  ],
   '/column/harmony-os-4.0-series': [
     // 第一部分
     {
@@ -121,7 +150,7 @@ export const sidebar: DefaultTheme.Sidebar = {
           link: '/column/ThreeJS/three模型Glb压缩教程.md'
         },
       ],
-      
+
     }
   ]
 };

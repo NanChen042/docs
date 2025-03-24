@@ -1,8 +1,12 @@
 import { DefaultTheme } from 'vitepress';
 export const nav: DefaultTheme.NavItem[] = [
   {
+    text: '👁️ VISTAAI',
+    link: 'https://nanchen042.github.io/magicforge/'
+  },
+  {
     text: 'DeepSeek',
-    link: 'https://nanchen042.github.io/deepseek/' // 表示docs/index.md
+    link: 'https://nanchen042.github.io/deepseek/'
   },
   {
     text: '首页',
@@ -28,6 +32,10 @@ export const nav: DefaultTheme.NavItem[] = [
   {
     text: '相关技术文章',
     items: [
+      {
+        text: '🧠 AI',
+        link: '/column/AI/AI系列——01、用cursor接入mcp协议并体验Magic生成AI网站.md',
+      },
       {
         text: '🤖 DeepSeek',
         link: '/column/deepseek/deepseek.md',
