@@ -15,17 +15,21 @@ export const sidebar: DefaultTheme.Sidebar = {
           text: 'AI系列——02、探索AI的无限可能，体验智能对话的未来，大模型 API 演示',
           link: '/column/AI/AI系列——02、探索AI的无限可能，体验智能对话的未来，大模型 API 演示.md'
         },
+        {
+          text: 'AI系列——03、Vista AI 情景模拟类游戏开发指南',
+          link: '/column/AI/AI系列——03、Vista AI 情景模拟类游戏开发指南.md'
+        },
 
 
       ]
     },
     {
       collapsed: true,
-      text: 'HarmonyOS4.0案例',
+      text: 'Vista AI',
       items: [
         {
-          text: '简易版todoList',
-          link: '/column/harmony-os-4.0-series/HarmonyOS4.0——案例一、简易版todoList.md'
+          text: 'Vista平台 接入 智能体API 演示',
+          link: '/column/AI/VistaAI.md'
         }
       ]
     }
