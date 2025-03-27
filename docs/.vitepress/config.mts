@@ -65,4 +65,16 @@ export default defineConfig({
   },
   lastUpdated: true,
 
+  // 添加Vite配置，设置代理解决腾讯地图API跨域问题
+  vite: {
+    server: {
+      proxy: {
+        '/api/map': {
+          target: 'https://apis.map.qq.com',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/map/, '')
+        }
+      }
+    }
+  }
 })
