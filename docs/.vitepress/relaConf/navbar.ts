@@ -51,6 +51,10 @@ export const nav: DefaultTheme.NavItem[] = [
         link: '/column/ThreeJS/three01场景搭建.md', // 表示docs/column/Travel/index.md
        /*  target: '_blank', */
         /* rel: 'sponsored' */
+      },
+      {
+        text: '🎮 Games',
+        link: '/column/Games/从零开始打造HTML5拼图游戏：一个Canvas实战项目.md',
       }
 
     ]

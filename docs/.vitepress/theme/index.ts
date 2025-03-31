@@ -9,6 +9,7 @@ import TlbsMap from 'tlbs-map-vue'
 import MLayout from '../../nav/components/MLayout.vue'
 import Home from '../../column/home/home.vue'
 import Map from '../../column/map/map.vue'
+import Games from '../../column/Games/Games.vue'
 // import Map4 from '../../column/map/map4.vue'
 import Contribute from '../components/Contribute/Contribute.vue'
 import NightLight from '../../column/home/NightLight.vue'
@@ -41,6 +42,7 @@ export default {
     app.component('Contribute', Contribute)
     app.component('NightLight', NightLight)
     app.component('Map', Map)
+    app.component('Games', Games)
     // app.component('Map4', Map4)
 
    // 全局注册基础组件
