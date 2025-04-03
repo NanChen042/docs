@@ -1,42 +1,30 @@
 <template>
   <div class="map-explorer">
-    <!-- 顶部导航栏 -->
-    <header class="explorer-header">
-      <div class="header-content">
+    <!-- 左侧操作面板 -->
+    <aside class="sidebar" :class="{ 'collapsed': !showSidebar }">
+      <!-- 侧边栏头部 -->
+      <div class="sidebar-header">
         <div class="header-brand">
           <div class="brand-logo">🌏</div>
-          <h1 class="brand-title">探索地图</h1>
+          <h2 class="brand-title">探索地图</h2>
       </div>
         <div class="header-actions">
-          <el-tooltip content="刷新地图" placement="bottom">
-            <el-button class="action-btn" circle @click="refreshMap">
+          <el-button circle text @click="refreshMap" class="header-action-btn">
               <el-icon><Refresh /></el-icon>
             </el-button>
-          </el-tooltip>
-          <el-tooltip content="全屏模式" placement="bottom">
-            <el-button class="action-btn" circle @click="toggleFullscreen">
-              <el-icon><FullScreen /></el-icon>
-            </el-button>
-          </el-tooltip>
-          <el-tooltip content="设置" placement="bottom">
-            <el-button class="action-btn" circle @click="showSettings = true">
+          <el-button circle text @click="showSettings = true" class="header-action-btn">
               <el-icon><Setting /></el-icon>
             </el-button>
-          </el-tooltip>
         </div>
       </div>
-    </header>
 
-    <!-- 主要内容 -->
-    <main class="explorer-content">
-      <!-- 侧边栏面板 -->
-      <aside :class="['sidebar-panel', { 'sidebar-collapsed': !showSidebar }]">
-        <div class="sidebar-container" v-show="showSidebar">
-        <div class="sidebar-header">
+      <!-- 侧边栏内容区 -->
+      <div class="sidebar-content">
+        <!-- 搜索栏 -->
+        <div class="search-bar">
           <el-input
             v-model="searchQuery"
             placeholder="搜索位置"
-            prefix-icon="Search"
             clearable
             @keyup.enter="searchLocation"
             class="search-input"
@@ -47,12 +35,26 @@
             </el-input>
         </div>
 
-          <div class="sidebar-body">
-            <el-scrollbar>
-              <el-collapse v-model="activeCollapse" class="explorer-collapse">
-                <!-- 保存的位置面板 -->
-            <el-collapse-item title="保存的位置" name="locations">
-                  <div class="locations-panel">
+        <!-- 标签页 -->
+        <div class="tabs-header">
+          <el-radio-group v-model="activeTab" size="large">
+            <el-radio-button value="locations">位置</el-radio-button>
+            <el-radio-button value="search">搜索</el-radio-button>
+            <el-radio-button value="controls">地图控制</el-radio-button>
+          </el-radio-group>
+        </div>
+
+        <!-- 标签页内容 -->
+        <div class="tab-content">
+          <!-- 位置标签页 -->
+          <div v-if="activeTab === 'locations'" class="locations-panel">
+            <div class="locations-header">
+              <h3>保存的位置</h3>
+              <div class="locations-stats">
+                共 {{ savedLocations.length }} 个位置
+              </div>
+            </div>
+
                     <!-- 位置筛选 -->
                     <div class="filter-container">
                   <el-input
@@ -65,7 +67,7 @@
                         </template>
                       </el-input>
 
-                  <div class="filter-tags">
+              <div class="tags-container">
                         <div
                           v-for="tag in locationTags"
                           :key="tag.value"
@@ -90,24 +92,18 @@
                         </div>
                         <div class="location-info">
                           <div class="location-name">{{ location.name }}</div>
-                          <div class="location-coords">{{ formatCoordinates(location) }}</div>
+                  <div class="location-coordinates">{{ formatCoordinates(location) }}</div>
                         </div>
                         <div class="location-actions">
-                          <el-tooltip content="定位" placement="top">
                             <el-button circle size="small" type="primary" @click.stop="goToLocation(location)">
                               <el-icon><Position /></el-icon>
                             </el-button>
-                          </el-tooltip>
-                          <el-tooltip content="编辑" placement="top">
                             <el-button circle size="small" type="warning" @click.stop="editMarker(index)">
                               <el-icon><Edit /></el-icon>
                             </el-button>
-                          </el-tooltip>
-                          <el-tooltip content="删除" placement="top">
                             <el-button circle size="small" type="danger" @click.stop="confirmDeleteLocation(index)">
                               <el-icon><Delete /></el-icon>
                             </el-button>
-                          </el-tooltip>
                         </div>
                       </div>
                     </div>
@@ -118,17 +114,10 @@
                     <el-button type="primary" @click="addNewLocation">添加位置</el-button>
                   </el-empty>
                 </div>
-
-                <!-- 位置统计 -->
-                    <div class="stats-bar">
-                      <span class="stats-text">共 {{ savedLocations.length }} 个位置</span>
                 </div>
-              </div>
-            </el-collapse-item>
 
-            <!-- 周边搜索面板 -->
-            <el-collapse-item title="周边搜索" name="nearby-search">
-                  <div class="search-panel">
+          <!-- 搜索标签页 -->
+          <div v-if="activeTab === 'search'" class="search-panel">
                 <!-- 搜索表单 -->
                 <div class="search-form">
                     <el-autocomplete
@@ -145,58 +134,39 @@
                             <el-icon><Search /></el-icon>
                           </el-button>
                       </template>
-                      <template #default="{ item }">
-                        <div class="suggestion-item">
-                          <div class="suggestion-icon">
-                              <el-icon v-if="item.type === 0"><Flag /></el-icon>
-                            <el-icon v-else-if="item.type === 1"><Van /></el-icon>
-                            <el-icon v-else-if="item.type === 2"><MapLocation /></el-icon>
-                            <el-icon v-else-if="item.type === 3"><Guide /></el-icon>
-                            <el-icon v-else><Place /></el-icon>
-                          </div>
-                          <div class="suggestion-content">
-                            <div class="suggestion-title">{{ item.title }}</div>
-                            <div class="suggestion-address" v-if="item.address">{{ item.address }}</div>
-                          </div>
-                          <div class="suggestion-distance" v-if="item._distance">
-                            {{ formatDistance(item._distance) }}
-                          </div>
-                        </div>
-                      </template>
                     </el-autocomplete>
 
-                      <div class="location-toggle">
+              <div class="search-form-group">
                       <el-button
                         :type="isUsingUserLocation ? 'primary' : 'default'"
-                        :icon="isUsingUserLocation ? Position : MapLocation"
                         @click="toggleUseCurrentLocation"
                           class="toggle-button"
-                          size="small"
                       >
+                  <el-icon v-if="isUsingUserLocation"><Position /></el-icon>
+                  <el-icon v-else><MapLocation /></el-icon>
                         {{ isUsingUserLocation ? '使用我的位置' : '使用地图中心' }}
                       </el-button>
                   </div>
 
                   <div class="search-options">
-                        <div class="radius-control">
-                          <span class="option-label">搜索范围:</span>
+                <div class="option-group">
+                  <label class="option-label">搜索范围:</label>
                       <el-slider
                         v-model="poiSearchRadius"
                         :min="100"
                         :max="1000"
                         :step="100"
                         :marks="{100: '100m', 500: '500m', 1000: '1km'}"
-                        class="radius-slider"
+                    class="option-slider"
                       />
                     </div>
 
-                        <div class="search-filters">
+                <div class="search-form-group">
+                  <div class="form-control">
                       <el-select
                         v-model="poiSearchCategory"
                         placeholder="分类筛选"
                         clearable
-                        class="category-select"
-                            size="small"
                       >
                         <el-option
                           v-for="item in poiCategories"
@@ -205,26 +175,43 @@
                           :value="item.value"
                         />
                       </el-select>
-
+                  </div>
+                  <div class="form-control">
                       <el-switch
                         v-model="poiAutoExtend"
                         active-text="自动扩大范围"
                         inactive-text="固定范围"
-                        class="auto-extend-switch"
-                            size="small"
-                      />
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="button-group">
+                <el-button type="primary" @click="searchNearbyPoi">搜索</el-button>
+                <el-button @click="clearSearchResults">清除</el-button>
+              </div>
+            </div>
+
+            <!-- 快捷搜索 -->
+            <div class="quick-search">
+              <div class="quick-title">快速搜索</div>
+              <div class="tags-container">
+                <div
+                  v-for="tag in quickSearchTags"
+                  :key="tag"
+                  class="tag-chip"
+                  @click="quickSearch(tag)"
+                >
+                  {{ tag }}
                     </div>
                   </div>
                 </div>
 
                 <!-- 搜索结果 -->
                 <div class="search-results" v-if="showSearchResults">
-                  <div class="results-header">
-                        <div class="results-title">
-                          <el-icon><Flag /></el-icon>
-                          <span v-if="poiTotalCount">找到 {{ poiTotalCount }} 个结果</span>
-                      <span v-else>搜索结果</span>
-                        </div>
+              <div class="search-header">
+                <h3 v-if="poiTotalCount">找到 {{ poiTotalCount }} 个结果</h3>
+                <h3 v-else>搜索结果</h3>
                         <el-button size="small" text @click="clearSearchResults">
                       <el-icon><Close /></el-icon>
                           清除
@@ -238,44 +225,29 @@
                   </div>
 
                   <!-- 结果列表 -->
-                      <div v-else-if="poiSearchResults.length" class="results-list">
-
+              <div v-else-if="poiSearchResults.length" class="location-list">
                       <div
                         v-for="poi in poiSearchResults"
                         :key="poi.id"
-                          :class="['poi-item', { 'active': activePoi === poi.id }]"
+                  :class="['location-item', { 'active': activePoi === poi.id }]"
                         @click="selectPoi(poi)"
                       >
-                        <div class="poi-icon">
+                  <div class="location-icon">
                             <el-icon><Flag /></el-icon>
-                          <span class="poi-distance">{{ Math.round(poi._distance) }}m</span>
                         </div>
-                          <div class="poi-info">
-                            <div class="poi-title">{{ poi.title }}</div>
-                            <div class="poi-address" v-if="poi.address">{{ poi.address }}</div>
-                            <div class="poi-category">{{ poi.category }}</div>
+                  <div class="location-info">
+                    <div class="location-name">{{ poi.title }}</div>
+                    <div class="location-coordinates">
+                      {{ poi.address || '约' + Math.round(poi._distance) + 'm' }}
                         </div>
-                        <div class="poi-actions">
-                          <el-tooltip content="在地图上查看" placement="top">
-                            <el-button
-                              type="primary"
-                              circle
-                              size="small"
-                              @click.stop="goToPoi(poi)"
-                              >
+                  </div>
+                  <div class="location-actions">
+                    <el-button circle size="small" type="primary" @click.stop="goToPoi(poi)">
                                 <el-icon><Position /></el-icon>
                               </el-button>
-                          </el-tooltip>
-                          <el-tooltip content="保存位置" placement="top">
-                            <el-button
-                              type="success"
-                              circle
-                              size="small"
-                              @click.stop="savePoiLocation(poi)"
-                              >
+                    <el-button circle size="small" type="success" @click.stop="savePoiLocation(poi)">
                                 <el-icon><Plus /></el-icon>
                               </el-button>
-                          </el-tooltip>
                         </div>
                       </div>
                     </div>
@@ -300,39 +272,20 @@
                         />
                   </div>
                 </div>
-
-                    <!-- 快捷搜索 -->
-                    <div class="quick-search">
-                      <div class="quick-search-label">快速搜索</div>
-                <div class="quick-search-tags">
-                        <div
-                      v-for="tag in quickSearchTags"
-                      :key="tag"
-                          class="search-tag"
-                          :data-keyword="tag"
-                      @click="quickSearch(tag)"
-                    >
-                          <span>{{ tag }}</span>
                         </div>
-                  </div>
-                </div>
-              </div>
-            </el-collapse-item>
 
-            <!-- 地图控制面板 -->
-            <el-collapse-item title="地图控制" name="controls">
-                  <div class="controls-panel">
+          <!-- 地图控制标签页 -->
+          <div v-if="activeTab === 'controls'" class="control-panel">
               <div class="control-section">
                       <div class="section-title">地图样式</div>
                       <el-radio-group
                         v-model="mapStyle"
                         @change="updateMapStyle"
                         class="style-selector"
-                        size="large"
                       >
-                  <el-radio-button label="standard">标准</el-radio-button>
-                  <el-radio-button label="satellite">卫星</el-radio-button>
-                  <el-radio-button label="dark">暗色</el-radio-button>
+                  <el-radio-button value="standard">标准</el-radio-button>
+                  <el-radio-button value="satellite">卫星</el-radio-button>
+                  <el-radio-button value="dark">暗色</el-radio-button>
                 </el-radio-group>
               </div>
 
@@ -349,35 +302,26 @@
                       />
                     </div>
               </div>
-            </el-collapse-item>
-          </el-collapse>
-            </el-scrollbar>
+        </div>
         </div>
 
+      <!-- 底部操作区 -->
         <div class="sidebar-footer">
             <el-button type="primary" @click="saveCurrentView" class="save-view-btn">
               保存当前视图
             </el-button>
         </div>
-        </div>
+    </aside>
 
         <!-- 侧边栏切换按钮 -->
-        <div class="sidebar-toggle">
-          <el-button
-            circle
-            @click="showSidebar = !showSidebar"
-            class="toggle-btn"
-          >
+    <button class="toggle-btn" @click="showSidebar = !showSidebar">
             <el-icon v-if="showSidebar"><ArrowLeft /></el-icon>
             <el-icon v-else><ArrowRight /></el-icon>
-          </el-button>
-        </div>
-      </aside>
+    </button>
 
-      <!-- 地图区域 -->
-      <div class="map-container">
+    <!-- 右侧地图容器 -->
+    <div class="map-wrapper">
         <!-- 腾讯地图组件 -->
-
         <tlbs-map
           ref="mapRef"
           api-key="XFIBZ-74JKO-3XCW3-SDVGT-FVOVF-RBFAS"
@@ -397,7 +341,13 @@
             @marker_init="handleMarkerInit"
           />
           <!-- 添加圆形覆盖物 -->
-          <tlbs-multi-polygon :geometries="circleGeometries" :styles="circleStyles" />
+          <tlbs-multi-polygon
+            id="search_polygon"
+            ref="polygonRef"
+            :geometries="circleGeometries"
+            :styles="circleStyles"
+            @polygon_init="handlePolygonInit"
+          />
           <tlbs-info-window
             ref="infoWindowRef"
             :visible="infoWindowVisible"
@@ -427,7 +377,7 @@
         <el-card v-if="selectedLocation" class="info-card">
           <template #header>
             <div class="card-header">
-                <span style="color: #409EFF">选中的位置</span>
+              <span>选中的位置</span>
                 <el-button text @click="selectedLocation = null">
                   <el-icon><Close /></el-icon>
                 </el-button>
@@ -452,7 +402,6 @@
         </el-card>
         </transition>
       </div>
-    </main>
 
     <!-- 设置对话框 -->
     <el-dialog
@@ -499,88 +448,54 @@
       </template>
     </el-dialog>
 
-    <!-- 标记编辑对话框 -->
+    <!-- 新建标记对话框 -->
     <el-dialog
-      v-model="showEditDialog"
-      title="编辑位置"
+      v-model="showNewMarkerDialog"
+      title="新建标记"
       width="400px"
-      class="marker-dialog"
       destroy-on-close
-      :modal="false"
-      :close-on-click-modal="false"
-      append-to-body
     >
-
       <el-form label-position="top">
         <el-form-item label="标记名称" required>
-            <el-input
-              v-model="markerName"
-              placeholder="输入标记名称"
-              maxlength="30"
-              show-word-limit
-              clearable
-            />
-          </el-form-item>
-        <el-form-item label="位置坐标" v-if="editingMarker">
+          <el-input v-model="markerName" placeholder="请输入标记名称" />
+        </el-form-item>
+        <el-form-item label="坐标">
           <div class="coord-display">
-            <div>纬度: {{ editingMarker.data.lat.toFixed(6) }}</div>
-            <div>经度: {{ editingMarker.data.lng.toFixed(6) }}</div>
-            </div>
-          </el-form-item>
-        </el-form>
+            <span>纬度: {{ selectedLocation?.lat.toFixed(6) }}</span>
+            <span>经度: {{ selectedLocation?.lng.toFixed(6) }}</span>
+          </div>
+        </el-form-item>
+      </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="showEditDialog = false">取消</el-button>
-          <el-button
-            type="primary"
-            @click="saveMarkerEdit"
-            :disabled="!markerName.trim()"
-          >
-            保存
-          </el-button>
+          <el-button @click="showNewMarkerDialog = false">取消</el-button>
+          <el-button type="primary" @click="saveNewMarker">保存</el-button>
         </div>
       </template>
     </el-dialog>
 
-    <!-- 新增标记对话框 -->
+    <!-- 编辑标记对话框 -->
     <el-dialog
-      v-model="showNewMarkerDialog"
-      title="新增位置"
+      v-model="showEditDialog"
+      title="编辑标记"
       width="400px"
-      class="marker-dialog"
       destroy-on-close
-      :modal="false"
-      :close-on-click-modal="false"
-      append-to-body
     >
-
       <el-form label-position="top">
         <el-form-item label="标记名称" required>
-            <el-input
-              v-model="markerName"
-              placeholder="输入标记名称"
-              maxlength="30"
-              show-word-limit
-              clearable
-            />
-          </el-form-item>
-        <el-form-item label="位置坐标" v-if="selectedLocation">
+          <el-input v-model="markerName" placeholder="请输入标记名称" />
+        </el-form-item>
+        <el-form-item label="坐标" v-if="editingMarker">
           <div class="coord-display">
-            <div>纬度: {{ selectedLocation.lat.toFixed(6) }}</div>
-            <div>经度: {{ selectedLocation.lng.toFixed(6) }}</div>
-            </div>
-          </el-form-item>
-        </el-form>
+            <span>纬度: {{ editingMarker.data?.lat.toFixed(6) }}</span>
+            <span>经度: {{ editingMarker.data?.lng.toFixed(6) }}</span>
+          </div>
+        </el-form-item>
+      </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="showNewMarkerDialog = false">取消</el-button>
-          <el-button
-            type="primary"
-            @click="saveNewMarker"
-            :disabled="!markerName.trim()"
-          >
-            保存
-          </el-button>
+          <el-button @click="showEditDialog = false">取消</el-button>
+          <el-button type="primary" @click="saveMarkerEdit">保存</el-button>
         </div>
       </template>
     </el-dialog>
@@ -588,7 +503,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, onUnmounted } from 'vue'
+import { ref, onMounted, computed, onUnmounted, reactive } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   Flag,
@@ -645,11 +560,12 @@ const markerName = ref('')
 const showNewMarkerDialog = ref(false)
 
 // 地图状态
-const mapCenter = ref({ lat: 39.984120, lng: 116.307484 })
+const mapCenter = ref({ lat: 39.909187, lng: 116.397451 })
 const defaultCenter = ref({ lat: 39.984120, lng: 116.307484 })
-const mapZoom = ref(17.2)
+const mapZoom = ref(12)
 const defaultZoom = ref(17.2)
 const mapStyle = ref('standard')
+const activeTab = ref('locations')
 const mapControl = ref({
   scale: true,
   zoom: {
@@ -676,6 +592,8 @@ const circleGeometries = ref<CircleGeometry[]>([])
 
 // 标记相关数据
 const markerRef = ref<any>(null)
+// 多边形覆盖物引用
+const polygonRef = ref<any>(null)
 
 // 修改样式类型和geometries类型
 interface PoiMarkerStyle {
@@ -759,10 +677,10 @@ const styles = ref<MarkerStyles>({
 // 圆形样式
 const circleStyles = ref({
   circle: {
-    color: 'rgba(103, 194, 58, 0.2)', // 填充颜色
+    color: 'rgba(103, 194, 58, 0.25)', // 填充颜色（稍微增加透明度）
     borderColor: '#67C23A',           // 描边颜色
-    borderWidth: 2,                  // 描边宽度
-    borderStyle: 'dashed'            // 虚线样式
+    borderWidth: 3,                   // 增加边框宽度
+    borderStyle: 'solid'              // 改为实线边框，更加明显
   }
 })
 
@@ -892,8 +810,74 @@ const onMapInited = () => {
   ElMessage.success('地图加载成功')
   console.log('地图实例:', mapRef.value?.map)
 
-  // 在初始化完成后设置事件处理
+  // 加载保存的默认设置
+  try {
+    const savedSettings = localStorage.getItem('mapSettings')
+    if (savedSettings) {
+      const settings = JSON.parse(savedSettings)
+      if (settings.center) {
+        defaultCenter.value = settings.center
+        mapCenter.value = { ...settings.center }
+      }
+      if (settings.zoom) {
+        defaultZoom.value = settings.zoom
+        mapZoom.value = settings.zoom
+      }
+      if (settings.style) {
+        mapStyle.value = settings.style
+        updateMapStyle(settings.style)
+      }
+    }
+
+    // 加载保存的位置标记
+    const savedLocationData = localStorage.getItem('savedLocations')
+    if (savedLocationData) {
+      const locations = JSON.parse(savedLocationData)
+      if (Array.isArray(locations) && locations.length > 0) {
+        savedLocations.value = locations
+        // 重建对应的标记几何数据
+        rebuildMarkersFromLocations()
+      }
+    }
+  } catch (error) {
+    console.error('加载保存的设置失败:', error)
+  }
+
+  // 设置标记和地图事件
   console.log('标记和地图事件已正确设置')
+}
+
+// 添加函数：重建标记
+const rebuildMarkersFromLocations = () => {
+  // 清除现有标记（保留ID 1和2的预设标记）
+  const defaultMarkers = geometries.value.filter(m => m.properties.id === 1 || m.properties.id === 2)
+  const newGeometries = [...defaultMarkers]
+
+  // 重新添加保存的位置标记
+  savedLocations.value.forEach((location, index) => {
+    // 跳过已包含在默认标记中的位置
+    const isDuplicate = defaultMarkers.some(m =>
+      m.position.lat === location.lat && m.position.lng === location.lng
+    )
+
+    if (!isDuplicate) {
+      newGeometries.push({
+        styleId: 'default',
+        position: { lat: location.lat, lng: location.lng },
+        properties: { title: location.name, id: defaultMarkers.length + index + 1 }
+      })
+    }
+  })
+
+  // 更新几何标记数据
+  geometries.value = newGeometries
+
+  // 刷新标记组件
+  setTimeout(() => {
+    if (markerRef.value && markerRef.value.refresh) {
+      markerRef.value.refresh()
+    }
+  }, 100)
 }
 
 // 直接处理标记点击事件（符合腾讯地图API方式）
@@ -937,37 +921,54 @@ const handleMarkerClickDirect = (evt) => {
 
 // 处理地图点击
 const handleMapClick = (e) => {
-  // 检查是否点击了信息卡片
-  const infoCard = document.querySelector('.info-card');
-  if (infoCard && infoCard.contains(e.target)) {
-    console.log('点击了信息卡片，忽略地图点击事件');
-    return;
-  }
+  console.log('Map clicked:', e);
 
-  // 检查是否在短时间内已经处理了标记点击
+  // 检查是否在短时间内已经处理了标记点击（防止双重触发）
   if (isMarkerClick.value && Date.now() - lastMarkerClickTime.value < 300) {
     console.log('忽略地图点击，因为刚刚点击了标记');
     isMarkerClick.value = false;
     return;
   }
 
-  console.log('地图点击:', e);
+  // 必须延迟一点点检查，确保DOM已更新
+  setTimeout(() => {
+    // 检查点击是否在info-card上
+    const infoCard = document.querySelector('.info-card');
+    if (infoCard) {
+      // 使用事件路径或组合坐标检查
+      const rect = infoCard.getBoundingClientRect();
+      const clickX = e.pixel.x;
+      const clickY = e.pixel.y;
+
+      // 检查点击坐标是否在info-card矩形范围内
+      if (
+        clickX >= rect.left &&
+        clickX <= rect.right &&
+        clickY >= rect.top &&
+        clickY <= rect.bottom
+      ) {
+        console.log('Click detected on info-card, ignoring map click');
+        return;
+      }
+    }
 
   // 先隐藏信息窗口
   infoWindowVisible.value = false;
 
-  // 设置选中位置
+    // 点击不在card上，正常处理地图点击
   selectedLocation.value = {
     lat: e.latLng.lat,
     lng: e.latLng.lng
   };
 
+    console.log('Selected location updated:', selectedLocation.value);
+
   // 如果新增标记对话框已打开，则更新坐标
   if (showNewMarkerDialog.value) {
     console.log('对话框打开状态，更新选中的位置坐标');
-    // 坐标已经更新到selectedLocation，无需额外操作
   }
-}
+  }, 10); // 很短的延迟以确保DOM已更新
+};
 
 // 地图控制方法
 const zoomIn = () => {
@@ -989,8 +990,38 @@ const updateMapStyle = (style) => {
 }
 
 const refreshMap = () => {
-  // 刷新地图
-  ElMessage.success('地图已刷新')
+  // 实际刷新地图，重新初始化组件状态
+  if (mapRef.value && mapRef.value.map) {
+    // 刷新地图标记
+    if (markerRef.value && markerRef.value.refresh) {
+      markerRef.value.refresh();
+    }
+
+    // 清除搜索圆圈
+    circleGeometries.value = [];
+
+    // 重置POI搜索结果
+    clearSearchResults();
+
+    // 重置地图视图到默认值
+    mapCenter.value = { ...defaultCenter.value };
+    mapZoom.value = defaultZoom.value;
+
+    // 刷新地图瓦片
+    setTimeout(() => {
+      mapRef.value.map.setCenter(mapCenter.value);
+      mapRef.value.map.setZoom(mapZoom.value);
+
+      // 同步地图实例中可能的缓存
+      if (typeof mapRef.value.map.updateView === 'function') {
+        mapRef.value.map.updateView();
+      }
+    }, 100);
+
+    ElMessage.success('地图已刷新');
+  } else {
+    ElMessage.warning('地图实例未初始化，无法刷新');
+  }
 }
 
 const toggleFullscreen = () => {
@@ -1066,14 +1097,62 @@ const saveLocation = () => {
 }
 
 const removeLocation = (index) => {
-  savedLocations.value.splice(index, 1)
-  ElMessage.success('位置已删除')
+  if (index >= 0 && index < savedLocations.value.length) {
+    const location = savedLocations.value[index];
+
+    // 从列表中移除
+    savedLocations.value.splice(index, 1);
+
+    // 保存到本地存储
+    try {
+      localStorage.setItem('savedLocations', JSON.stringify(savedLocations.value));
+    } catch (error) {
+      console.error('更新位置到本地存储失败:', error);
+    }
+
+    // 同步移除地图标记
+    const markerIndex = geometries.value.findIndex(marker =>
+      marker.position.lat === location.lat &&
+      marker.position.lng === location.lng
+    );
+
+    if (markerIndex >= 0) {
+      geometries.value.splice(markerIndex, 1);
+      // 刷新标记组件
+      setTimeout(() => {
+        if (markerRef.value && markerRef.value.refresh) {
+          markerRef.value.refresh();
+        }
+      }, 100);
+    }
+
+    ElMessage.success('位置已删除');
+  }
 }
 
 const copyCoordinates = () => {
   if (selectedLocation.value) {
-    // 使用剪贴板API
-    ElMessage.success('坐标已复制到剪贴板')
+    try {
+      const coordText = `${selectedLocation.value.lat.toFixed(6)}, ${selectedLocation.value.lng.toFixed(6)}`;
+      navigator.clipboard.writeText(coordText)
+        .then(() => {
+          ElMessage.success('坐标已复制到剪贴板');
+        })
+        .catch(err => {
+          console.error('无法复制到剪贴板:', err);
+          // 备用方法
+          const textArea = document.createElement('textarea');
+          textArea.value = coordText;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+          ElMessage.success('坐标已复制到剪贴板');
+        });
+    } catch (error) {
+      console.error('复制坐标失败:', error);
+      ElMessage.error('复制坐标失败');
+    }
   }
 }
 
@@ -1094,10 +1173,24 @@ const saveCurrentView = () => {
 }
 
 const saveSettings = () => {
-  defaultCenter.value = { ...mapCenter.value }
-  defaultZoom.value = mapZoom.value
-  showSettings.value = false
-  ElMessage.success('设置已保存')
+  // 设置当前值
+  defaultCenter.value = { ...mapCenter.value };
+  defaultZoom.value = mapZoom.value;
+
+  // 保存到本地存储
+  try {
+    const settings = {
+      center: defaultCenter.value,
+      zoom: defaultZoom.value,
+      style: mapStyle.value
+    };
+    localStorage.setItem('mapSettings', JSON.stringify(settings));
+  } catch (error) {
+    console.error('保存设置到本地存储失败:', error);
+  }
+
+  showSettings.value = false;
+  ElMessage.success('设置已保存');
 }
 
 // 保存新标记
@@ -1108,14 +1201,23 @@ const saveNewMarker = () => {
       lat: selectedLocation.value.lat,
       lng: selectedLocation.value.lng
     }
-    savedLocations.value.push(newLocation)
+    savedLocations.value.push(newLocation);
+
     // 添加标记
-    addMarker(selectedLocation.value, newLocation.name)
+    addMarker(selectedLocation.value, newLocation.name);
+
+    // 保存到本地存储
+    try {
+      localStorage.setItem('savedLocations', JSON.stringify(savedLocations.value));
+    } catch (error) {
+      console.error('保存位置到本地存储失败:', error);
+    }
+
     // 关闭对话框
-    showNewMarkerDialog.value = false
-    ElMessage.success('位置已保存')
+    showNewMarkerDialog.value = false;
+    ElMessage.success('位置已保存');
   } else {
-    ElMessage.warning('请输入标记名称')
+    ElMessage.warning('请输入标记名称');
   }
 }
 
@@ -1158,6 +1260,37 @@ const editMarker = (index) => {
 
 // 显示带操作按钮的信息窗口
 const showInfoWindowWithActions = (position, markerInfo, savedIndex, markerIndex) => {
+  // 确保全局方法注册 - 这是关键修复，防止全局函数丢失
+  if (!window.handleMarkerEdit || !window.handleMarkerCenter ||
+      !window.handleMarkerDelete || !window.handleMarkerSave) {
+
+    window.handleMarkerEdit = (index) => {
+      console.log('编辑标记:', index);
+      if (index > -1) {
+        editMarker(index);
+      }
+    };
+
+    window.handleMarkerCenter = (lat, lng) => {
+      console.log('定位到坐标:', lat, lng);
+      mapCenter.value = { lat, lng };
+
+      // 添加视图调整
+      mapZoom.value = 16; // 设置更高的缩放级别
+    };
+
+    window.handleMarkerDelete = (index) => {
+      console.log('删除标记:', index);
+      confirmDeleteLocation(index);
+    };
+
+    window.handleMarkerSave = (lat, lng) => {
+      console.log('保存位置:', lat, lng);
+      selectedLocation.value = { lat, lng };
+      showNewMarkerDialog.value = true;
+    };
+  }
+
   const content = `
     <div class="info-window-content">
       <h3>${markerInfo.name}</h3>
@@ -1212,12 +1345,34 @@ const showInfoWindow = (position, content) => {
 const saveMarkerEdit = () => {
   if (editingMarker.value && markerName.value.trim()) {
     // 更新保存的位置名称
-    savedLocations.value[editingMarker.value.index].name = markerName.value
+    savedLocations.value[editingMarker.value.index].name = markerName.value;
 
-    const position = savedLocations.value[editingMarker.value.index]
+    const position = savedLocations.value[editingMarker.value.index];
+
+    // 保存到本地存储
+    try {
+      localStorage.setItem('savedLocations', JSON.stringify(savedLocations.value));
+
+      // 更新地图标记
+      const markerIndex = geometries.value.findIndex(marker =>
+        marker.position.lat === position.lat && marker.position.lng === position.lng
+      );
+
+      if (markerIndex >= 0) {
+        geometries.value[markerIndex].properties.title = markerName.value;
+        // 刷新标记组件
+        setTimeout(() => {
+          if (markerRef.value && markerRef.value.refresh) {
+            markerRef.value.refresh();
+          }
+        }, 100);
+      }
+    } catch (error) {
+      console.error('更新位置到本地存储失败:', error);
+    }
 
     // 关闭编辑对话框
-    showEditDialog.value = false
+    showEditDialog.value = false;
 
     // 显示信息窗口
     showInfoWindow(
@@ -1227,7 +1382,7 @@ const saveMarkerEdit = () => {
         <p>位置已更新</p>
         <p class="info-coordinates">${position.lat.toFixed(6)}, ${position.lng.toFixed(6)}</p>
       </div>`
-    )
+    );
   }
 }
 
@@ -1308,6 +1463,41 @@ const toggleUseCurrentLocation = async () => {
   }
 }
 
+// 定义事件处理函数（需要在setup顶层作用域内）
+const markerEditHandler = ((e: CustomEvent) => {
+  const { index } = e.detail as { index: number };
+  if (index > -1) {
+    editMarker(index);
+  }
+}) as EventListener;
+
+const markerCenterHandler = ((e: CustomEvent) => {
+  const { lat, lng } = e.detail as { lat: number, lng: number };
+  mapCenter.value = { lat, lng };
+}) as EventListener;
+
+const markerDeleteHandler = ((e: CustomEvent) => {
+  const { index } = e.detail as { index: number };
+  if (index > -1) {
+    removeLocation(index);
+  }
+}) as EventListener;
+
+const markerSaveHandler = ((e: CustomEvent) => {
+  const { lat, lng } = e.detail as { lat: number, lng: number };
+  selectedLocation.value = { lat, lng };
+  saveLocation();
+}) as EventListener;
+
+const poiSaveHandler = ((e: CustomEvent) => {
+  try {
+    const poiData = JSON.parse(decodeURIComponent(e.detail.poi))
+    savePoiLocation(poiData)
+  } catch (error) {
+    console.error('解析POI数据失败:', error)
+  }
+}) as EventListener;
+
 // 在组件挂载时尝试获取用户位置
 onMounted(async () => {
   // 注册全局事件处理函数，用于信息窗口按钮
@@ -1321,6 +1511,9 @@ onMounted(async () => {
   window.handleMarkerCenter = (lat, lng) => {
     console.log('定位到坐标:', lat, lng);
     mapCenter.value = { lat, lng };
+
+    // 添加视图调整
+    mapZoom.value = 16; // 设置更高的缩放级别
   };
 
   window.handleMarkerDelete = (index) => {
@@ -1331,7 +1524,7 @@ onMounted(async () => {
   window.handleMarkerSave = (lat, lng) => {
     console.log('保存位置:', lat, lng);
     selectedLocation.value = { lat, lng };
-    saveLocation();
+    showNewMarkerDialog.value = true;
   };
 
   window.handlePoiSave = (poiStr) => {
@@ -1344,44 +1537,12 @@ onMounted(async () => {
     }
   };
 
-  // 监听标记编辑事件
-  window.addEventListener('marker-edit', ((e: CustomEvent) => {
-    const { index } = e.detail as { index: number };
-    if (index > -1) {
-      editMarker(index);
-    }
-  }) as EventListener);
-
-  // 监听标记定位事件
-  window.addEventListener('marker-center', ((e: CustomEvent) => {
-    const { lat, lng } = e.detail as { lat: number, lng: number };
-    mapCenter.value = { lat, lng };
-  }) as EventListener);
-
-  // 监听标记删除事件
-  window.addEventListener('marker-delete', ((e: CustomEvent) => {
-    const { index } = e.detail as { index: number };
-    if (index > -1) {
-      removeLocation(index);
-    }
-  }) as EventListener);
-
-  // 监听标记保存事件
-  window.addEventListener('marker-save', ((e: CustomEvent) => {
-    const { lat, lng } = e.detail as { lat: number, lng: number };
-    selectedLocation.value = { lat, lng };
-    saveLocation();
-  }) as EventListener);
-
-  // 监听POI保存事件
-  window.addEventListener('poi-save', ((e: CustomEvent) => {
-    try {
-      const poiData = JSON.parse(decodeURIComponent(e.detail.poi))
-      savePoiLocation(poiData)
-    } catch (error) {
-      console.error('解析POI数据失败:', error)
-    }
-  }) as EventListener);
+  // 添加事件监听器
+  window.addEventListener('marker-edit', markerEditHandler);
+  window.addEventListener('marker-center', markerCenterHandler);
+  window.addEventListener('marker-delete', markerDeleteHandler);
+  window.addEventListener('marker-save', markerSaveHandler);
+  window.addEventListener('poi-save', poiSaveHandler);
 
   // 尝试获取用户位置
   try {
@@ -1522,7 +1683,6 @@ onMounted(async () => {
       if (data.status === 0) {
         // 处理数据...
         poiSearchResults.value = data.data.map((item) => {
-
           // 构建符合PoiItem类型的对象
           return {
             id: item.id || `poi_${Date.now()}_${Math.random()}`,
@@ -1540,34 +1700,109 @@ onMounted(async () => {
               district: ''
             }
           }
-        });
+        })
 
-        poiTotalCount.value = data.count || poiSearchResults.value.length;
+        poiTotalCount.value = data.count
+        ElMessage.success(`搜索到 ${data.count} 个结果`)
 
-        // 在地图上显示结果
-        showPoiMarkersOnMap(poiSearchResults.value);
-
-        // 绘制搜索半径圆
+        // 绘制搜索范围圆
         if (poiSearchResults.value.length > 0) {
-          const center = isUsingUserLocation.value && userCurrentLocation.value
-            ? userCurrentLocation.value
-            : mapCenter.value;
-          drawSearchRadiusCircle(center, poiSearchRadius.value);
-        }
+          drawSearchRadiusCircle(center, poiSearchRadius.value)
 
-        const locationSource = isUsingUserLocation.value ? '您的当前位置' : '地图中心'
-        ElMessage.success(`在${locationSource}周围找到 ${data.count || poiSearchResults.value.length} 个位置`);
+          // 确保圆形覆盖物在短暂延迟后再次尝试更新
+          setTimeout(() => {
+            if (polygonRef.value && typeof polygonRef.value.refresh === 'function') {
+              polygonRef.value.refresh();
+              console.log('强制刷新圆形覆盖物');
+            }
+          }, 300);
+
+          // 绘制POI标记
+          showPoiMarkersOnMap(poiSearchResults.value)
+
+          // 添加视图自动调整逻辑
+          adjustMapView(center, poiSearchRadius.value, poiSearchResults.value)
+        }
       } else {
-        poiSearchResults.value = [];
-        ElMessage.error(data.message || '搜索失败')
+        ElMessage.error(`搜索失败: ${data.message}`)
       }
 
       // 清理回调函数
+      setTimeout(() => {
       delete window[callbackName]
+      }, 500)
     }
 
-    // 添加脚本到文档
     document.body.appendChild(script)
+  }
+
+  // 添加新的视图调整函数
+  const adjustMapView = (center, radius, results) => {
+    // 如果没有结果，只展示搜索范围圆
+    if (!results || results.length === 0) {
+      mapCenter.value = center
+
+      // 根据半径设置缩放级别
+      if (radius <= 500) {
+        mapZoom.value = 15  // 小范围搜索，设置更高缩放级别
+      } else if (radius <= 1000) {
+        mapZoom.value = 14  // 中等范围
+      } else {
+        mapZoom.value = 13  // 大范围
+      }
+
+      return
+    }
+
+    // 如果有结果，计算包含所有结果的视图范围
+    let minLat = center.lat
+    let maxLat = center.lat
+    let minLng = center.lng
+    let maxLng = center.lng
+
+    // 确保搜索范围圆在视图内
+    // 计算圆在地图上的近似经纬度范围
+    const radiusInDegrees = radius / 111000  // 1度约等于111km
+    minLat = Math.min(minLat, center.lat - radiusInDegrees)
+    maxLat = Math.max(maxLat, center.lat + radiusInDegrees)
+    // 经度需要根据纬度调整
+    const lngOffset = radiusInDegrees / Math.cos(center.lat * Math.PI / 180)
+    minLng = Math.min(minLng, center.lng - lngOffset)
+    maxLng = Math.max(maxLng, center.lng + lngOffset)
+
+    // 考虑所有POI位置
+    results.forEach(poi => {
+      if (poi.location) {
+        minLat = Math.min(minLat, poi.location.lat)
+        maxLat = Math.max(maxLat, poi.location.lat)
+        minLng = Math.min(minLng, poi.location.lng)
+        maxLng = Math.max(maxLng, poi.location.lng)
+      }
+    })
+
+    // 设置地图中心到范围的中心点
+    mapCenter.value = {
+      lat: (minLat + maxLat) / 2,
+      lng: (minLng + maxLng) / 2
+    }
+
+    // 设置适当的缩放级别
+    // 这是一个简化的计算方法
+    const latDiff = maxLat - minLat
+    const lngDiff = maxLng - minLng
+    const maxDiff = Math.max(latDiff, lngDiff)
+
+    if (maxDiff < 0.01) {
+      mapZoom.value = 16  // 非常小的区域
+    } else if (maxDiff < 0.05) {
+      mapZoom.value = 14  // 小区域
+    } else if (maxDiff < 0.1) {
+      mapZoom.value = 13  // 中等区域
+    } else {
+      mapZoom.value = 12  // 大区域
+    }
+
+    console.log(`调整地图视图 - 中心: ${mapCenter.value.lat}, ${mapCenter.value.lng} 缩放级别: ${mapZoom.value}`)
   }
 
   // 查询关键词提示，修改为使用当前位置或地图中心
@@ -1692,25 +1927,41 @@ onMounted(async () => {
         return
       }
 
+      // 获取腾讯地图实例，用于坐标转换
+      const map = mapRef.value.map
+
       // 生成圆形的点集合
       const points: { lat: number; lng: number }[] = []
       const lat = center.lat
       const lng = center.lng
-      const R = 6371000 // 地球半径（米）
-      const d = radius / R  // 半径转弧度
+
+      // 计算合适的点数来保证圆形平滑
+      const segments = 36
+
+      // 将米转换为度的近似公式
+      // 1度纬度约等于111.32km
+      const radiusLat = radius / 111320  // 半径（度纬度）
+
+      // 根据纬度调整经度转换比例
+      const radiusLng = radiusLat / Math.cos(lat * Math.PI / 180)
 
       // 生成圆形的点坐标
-      for (let i = 0; i <= 36; i++) {
-        const angle = Math.PI * 2 * (i / 36)
-        const dx = d * Math.cos(angle)
-        const dy = d * Math.sin(angle)
-        const dlat = dy
-        const dlng = dx / Math.cos(lat * Math.PI / 180)
+      for (let i = 0; i <= segments; i++) {
+        const angle = Math.PI * 2 * (i / segments)
+        const dx = Math.cos(angle) * radiusLng
+        const dy = Math.sin(angle) * radiusLat
 
         points.push({
-          lat: lat + dlat * 180 / Math.PI,
-          lng: lng + dlng * 180 / Math.PI
+          lat: lat + dy,
+          lng: lng + dx
         })
+      }
+
+      // 确保首尾相连
+      if (points.length > 0 &&
+          (points[0].lat !== points[points.length - 1].lat ||
+           points[0].lng !== points[points.length - 1].lng)) {
+        points.push({...points[0]})
       }
 
       // 创建圆形几何数据
@@ -1723,7 +1974,18 @@ onMounted(async () => {
         }
       }]
 
-      console.log(`已绘制半径 ${radius}m 的搜索范围圆，中心点: ${center.lat}, ${center.lng}`)
+      console.log(`已绘制半径 ${radius}m 的搜索范围圆，中心点: ${center.lat}, ${center.lng}, 点数: ${points.length}`)
+
+      // 如果多边形组件已初始化，手动触发更新
+      if (mapRef.value && mapRef.value.getMapInstance) {
+        setTimeout(() => {
+          console.log('尝试刷新圆形覆盖物');
+          const polygonInstance = mapRef.value.getMapInstance().getOverlayById('search_polygon');
+          if (polygonInstance && polygonInstance.updateGeometries) {
+            polygonInstance.updateGeometries(circleGeometries.value);
+          }
+        }, 100);
+      }
     } catch (error) {
       console.error('绘制搜索范围圆失败:', error)
     }
@@ -1758,7 +2020,16 @@ onMounted(async () => {
 
   // 显示POI信息窗口
   const showPoiInfoWindow = (poi) => {
-    // 确保全局方法存在
+    // 确保全局方法注册 - 这是关键修复，防止全局函数丢失
+    if (!window.handleMarkerCenter || !window.handlePoiSave) {
+      window.handleMarkerCenter = (lat, lng) => {
+        console.log('定位到坐标:', lat, lng);
+        mapCenter.value = { lat, lng };
+
+        // 添加视图调整
+        mapZoom.value = 16; // 设置更高的缩放级别
+      };
+
     window.handlePoiSave = (poiStr) => {
       try {
         const poiData = JSON.parse(decodeURIComponent(poiStr));
@@ -1767,6 +2038,7 @@ onMounted(async () => {
         console.error('解析POI数据失败:', error);
       }
     };
+    }
 
     const content = `
       <div class="info-window-content">
@@ -1823,17 +2095,24 @@ onMounted(async () => {
 
   // 快速搜索
   const quickSearch = (keyword) => {
-    poiSearchKeyword.value = keyword
-    searchNearbyPoi(keyword)
-}
+    // 设置标签页到搜索
+    activeTab.value = 'search';
 
+    // 设置搜索关键词
+    poiSearchKeyword.value = keyword;
+
+    // 执行搜索
+    searchNearbyPoi(keyword);
+  }
+
+  // 处理标记点击事件
 const handleMarkerClick = (evt) => {
   // 打印信息，便于调试
   console.log('标记点击:', evt);
 
   // 设置标记点击标志和时间戳
-  isMarkerClick.value = true
-  lastMarkerClickTime.value = Date.now()
+    isMarkerClick.value = true;
+    lastMarkerClickTime.value = Date.now();
 
   // 不要尝试使用DOM事件方法
   // 腾讯地图API有自己的事件处理机制
@@ -1851,2043 +2130,39 @@ const handleMarkerClick = (evt) => {
       evt.geometry.properties.id
     );
   }
-}
+  };
 
 // 组件卸载时清除全局事件监听
 onUnmounted(() => {
-  // 清除全局事件处理函数 - 使用类型断言解决类型问题
+    // 清除全局事件处理函数
   if ('handleMarkerEdit' in window) (window as any).handleMarkerEdit = null;
   if ('handleMarkerCenter' in window) (window as any).handleMarkerCenter = null;
   if ('handleMarkerDelete' in window) (window as any).handleMarkerDelete = null;
   if ('handleMarkerSave' in window) (window as any).handleMarkerSave = null;
   if ('handlePoiSave' in window) (window as any).handlePoiSave = null;
 
-  // 移除事件监听器
-  window.removeEventListener('marker-edit', () => {});
-  window.removeEventListener('marker-center', () => {});
-  window.removeEventListener('marker-delete', () => {});
-  window.removeEventListener('marker-save', () => {});
-  window.removeEventListener('poi-save', () => {});
+    // 移除事件监听器 - 使用之前定义的相同引用
+    window.removeEventListener('marker-edit', markerEditHandler);
+    window.removeEventListener('marker-center', markerCenterHandler);
+    window.removeEventListener('marker-delete', markerDeleteHandler);
+    window.removeEventListener('marker-save', markerSaveHandler);
+    window.removeEventListener('poi-save', poiSaveHandler);
 });
+
+// 添加处理多边形初始化的方法
+const handlePolygonInit = (polygon) => {
+  console.log('圆形覆盖物初始化:', polygon);
+  // 确保正确渲染多边形
+  if (polygon && polygon.updateGeometries && circleGeometries.value.length > 0) {
+    setTimeout(() => {
+      polygon.updateGeometries(circleGeometries.value);
+    }, 200);
+  }
+}
 
 </script>
 
-<style scoped>
-/* 全局样式变量 */
-:root {
-  --el-color-primary: #326dee;
-  --el-color-success: #57bc7c;
-  --el-color-warning: #e6a23c;
-  --el-color-danger: #f56c6c;
-  --el-color-info: #909399;
-
-  --primary-gradient: linear-gradient(135deg, #326dee 0%, #5b8af7 100%);
-  --success-gradient: linear-gradient(135deg, #57bc7c 0%, #7ed695 100%);
-  --map-gradient: linear-gradient(180deg, rgba(50, 109, 238, 0.08) 0%, rgba(50, 109, 238, 0) 100%);
-
-  --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  --hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  --element-radius: 10px;
-  --transition-bezier: cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* 新增颜色变量 */
-  --text-primary: #303133;
-  --text-regular: #606266;
-  --text-secondary: #909399;
-  --border-color: #dcdfe6;
-  --background-color: #f5f7fa;
-  --hover-color: #ecf5ff;
-}
-
-/* 全局样式 */
-.map-explorer {
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--el-color-primary);
-  font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
-  color: #303133;
-  overflow: hidden;
-}
-
-/* 顶部导航 */
-.explorer-header {
-  height: 64px;
-  background: var(--primary-gradient);
-  box-shadow: 0 2px 12px rgba(50, 109, 238, 0.15);
-  z-index: 20;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-  padding: 0 24px;
-  max-width: 1600px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.header-brand {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.brand-logo {
-  font-size: 1.8rem;
-  line-height: 1;
-  background: #fff;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.brand-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0;
-  color: white;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-  letter-spacing: 0.5px;
-}
-
-.header-actions {
-  display: flex;
-  gap: 12px;
-}
-
-.action-btn {
-  background-color: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s var(--transition-bezier);
-  width: 40px;
-  height: 40px;
-}
-
-.action-btn:hover {
-  transform: translateY(-3px);
-  background-color: rgba(255, 255, 255, 0.35);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* 主内容区域 */
-.explorer-content {
-  flex: 1;
-  display: flex;
-  position: relative;
-  overflow: hidden;
-  background-color: #f5f7fa;
-}
-
-/* 侧边栏 */
-.sidebar-panel {
-  width: 440px;
-  height: 100%;
-  position: relative;
-  transition: all 0.35s var(--transition-bezier);
-  z-index: 10;
-  display: flex;
-}
-
-.sidebar-collapsed {
-  width: 0;
-}
-
-.sidebar-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: white;
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  position: relative;
-}
-
-.sidebar-header {
-  padding: 16px;
-  border-bottom: 1px solid rgba(220, 223, 230, 0.5);
-  background: linear-gradient(to right, var(--el-color-primary-light-9), white);
-}
-
-.sidebar-header .search-input {
-  width: 100%;
-}
-
-.sidebar-header :deep(.el-input__wrapper) {
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(220, 223, 230, 0.5) inset;
-  border-radius: 12px;
-  padding: 4px 14px;
-  transition: all 0.3s var(--transition-bezier);
-}
-
-.sidebar-header :deep(.el-input__wrapper:hover) {
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.12), 0 0 0 1px var(--el-color-primary-light-7) inset;
-}
-
-.sidebar-header :deep(.el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 1.5px var(--el-color-primary), 0 4px 16px rgba(50, 109, 238, 0.1);
-}
-
-.sidebar-header :deep(.el-input__prefix-inner .el-icon) {
-  color: var(--el-color-primary);
-  font-size: 16px;
-}
-
-/* 侧边栏主体内容 */
-.sidebar-body {
-  flex: 1;
-  overflow: hidden;
-  padding: 12px 0;
-  background-color: var(--background-color);
-}
-
-.sidebar-footer {
-  padding: 18px 20px;
-  border-top: 1px solid #ebeef5;
-  background: white;
-}
-
-.save-view-btn {
-  width: 100%;
-  height: 44px;
-  background: var(--primary-gradient);
-  border: none;
-  color: white;
-  font-weight: 500;
-  font-size: 15px;
-  letter-spacing: 0.5px;
-  border-radius: 8px;
-}
-
-.save-view-btn:hover {
-  opacity: 0.92;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(50, 109, 238, 0.25);
-}
-
-.sidebar-toggle {
-  position: absolute;
-  right: -22px;
-  top: 18px;
-  z-index: 15;
-}
-
-.toggle-btn {
-  background-color: white;
-  box-shadow: 3px 0 12px rgba(0, 0, 0, 0.15);
-  border: none;
-  color: #326dee;
-  transition: all 0.3s ease;
-  width: 44px;
-  height: 44px;
-}
-
-.toggle-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.2);
-}
-
-/* 搜索输入框 */
-.search-input {
-  width: 100%;
-}
-
-:deep(.el-input__wrapper) {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  border-radius: var(--element-radius);
-  padding: 4px 14px;
-  transition: box-shadow 0.3s ease;
-}
-
-:deep(.el-input__wrapper:hover) {
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-}
-
-:deep(.el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 1.5px var(--el-color-primary);
-}
-
-/* 折叠面板 */
-.explorer-collapse {
-  border: none;
-}
-
-:deep(.el-collapse-item__header) {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-primary);
-  height: 58px;
-  border: none;
-  padding: 0 16px;
-  background-color: white;
-  margin: 0 10px 8px;
-  border-radius: 12px;
-  transition: all 0.25s var(--transition-bezier);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-}
-
-:deep(.el-collapse-item__header:hover) {
-  background-color: var(--hover-color);
-  color: var(--el-color-primary);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-}
-
-:deep(.el-collapse-item__arrow) {
-  color: var(--text-secondary);
-  font-size: 16px;
-  transition: transform 0.3s var(--transition-bezier);
-}
-
-:deep(.el-collapse-item__header:hover .el-collapse-item__arrow) {
-  color: var(--el-color-primary);
-}
-
-:deep(.el-collapse-item__wrap) {
-  border: none;
-  background-color: transparent;
-}
-
-:deep(.el-collapse-item__content) {
-  padding: 5px 16px 20px;
-}
-
-/* 位置筛选容器 */
-.filter-container {
-  margin-bottom: 20px;
-  padding: 0 2px;
-}
-
-.filter-input {
-  margin-bottom: 16px;
-}
-
-.filter-input :deep(.el-input__wrapper) {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(220, 223, 230, 0.5) inset;
-  border-radius: 10px;
-}
-
-.filter-input :deep(.el-input__prefix-inner .el-icon) {
-  color: var(--text-secondary);
-}
-
-/* 标签样式优化 */
-.filter-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.tag-chip {
-  font-size: 14px;
-  padding: 6px 14px;
-  border-radius: 10px;
-  background-color: white;
-  color: var(--text-regular);
-  cursor: pointer;
-  transition: all 0.25s var(--transition-bezier);
-  user-select: none;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-}
-
-.tag-chip:hover {
-  background-color: var(--hover-color);
-  color: var(--el-color-primary);
-  border-color: var(--el-color-primary-light-7);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-}
-
-.tag-chip.active {
-  background-color: var(--el-color-primary);
-  color: white;
-  border-color: var(--el-color-primary);
-  box-shadow: 0 4px 10px rgba(50, 109, 238, 0.2);
-}
-
-/* 位置列表样式优化 */
-.location-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 16px;
-  max-height: 450px;
-  overflow-y: auto;
-  padding: 0 2px 8px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(144, 147, 153, 0.3) transparent;
-}
-
-.location-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.location-list::-webkit-scrollbar-thumb {
-  background: rgba(144, 147, 153, 0.3);
-  border-radius: 3px;
-}
-
-.location-list::-webkit-scrollbar-thumb:hover {
-  background: rgba(144, 147, 153, 0.5);
-}
-
-.location-item {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 14px;
-  padding: 16px;
-  background-color: white;
-  border-radius: var(--element-radius);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s var(--transition-bezier);
-  cursor: pointer;
-  position: relative;
-  border: 1px solid transparent;
-  overflow: hidden;
-}
-
-.location-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 4px;
-  background-color: transparent;
-  transition: all 0.25s ease;
-}
-
-.location-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  border-color: var(--el-color-primary-light-7);
-}
-
-.location-item:hover::before {
-  background-color: var(--el-color-primary);
-}
-
-.location-item.active {
-  background-color: var(--hover-color);
-  border-color: var(--el-color-primary-light-5);
-}
-
-.location-item.active::before {
-  background-color: var(--el-color-primary);
-}
-
-/* 位置图标优化 */
-.location-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  background: var(--el-color-danger);
-  border-radius: 10px;
-  color: white;
-  box-shadow: 0 3px 8px rgba(50, 109, 238, 0.15);
-  transition: all 0.3s var(--transition-bezier);
-}
-
-.location-item:hover .location-icon {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(50, 109, 238, 0.25);
-}
-
-.location-icon .el-icon {
-  font-size: 20px;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
-}
-
-/* 位置信息样式 */
-.location-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 0;
-}
-
-.location-name {
-  font-weight: 600;
-  font-size: 15px;
-  margin-bottom: 6px;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.location-coords {
-  font-size: 13px;
-  color: var(--text-secondary);
-  font-family: monospace;
-}
-
-/* 位置操作按钮 */
-.location-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.3s var(--transition-bezier);
-  transform: translateX(10px);
-}
-
-.location-item:hover .location-actions {
-  visibility: visible;
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.location-actions .el-button {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.25s var(--transition-bezier);
-}
-
-.location-actions .el-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-.location-actions .el-button.el-button--primary {
-  background: var(--el-color-primary);
-}
-
-.location-actions .el-button.el-button--warning {
-  background: var(--el-color-warning);
-}
-
-.location-actions .el-button.el-button--danger {
-  background: var(--el-color-danger);
-}
-
-.location-actions .el-icon {
-  color: white;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
-}
-
-/* 统计信息 */
-.stats-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 8px;
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin-top: 10px;
-  border-top: 1px dashed rgba(220, 223, 230, 0.6);
-}
-
-/* 底部按钮区域 */
-.sidebar-footer {
-  padding: 16px;
-  border-top: 1px solid rgba(220, 223, 230, 0.5);
-  background: linear-gradient(to left, var(--el-color-primary-light-9), white);
-}
-
-.save-view-btn {
-  width: 100%;
-  height: 44px;
-  background: var(--primary-gradient);
-  border: none;
-  color: white;
-  font-weight: 500;
-  font-size: 15px;
-  letter-spacing: 0.5px;
-  border-radius: 10px;
-  transition: all 0.3s var(--transition-bezier);
-  box-shadow: 0 4px 12px rgba(50, 109, 238, 0.2);
-}
-
-.save-view-btn:hover {
-  opacity: 0.95;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(50, 109, 238, 0.3);
-}
-
-.save-view-btn .el-icon {
-  color: white;
-  font-size: 16px;
-  margin-right: 6px;
-}
-
-/* 侧边栏切换按钮 */
-.sidebar-toggle {
-  position: absolute;
-  right: -22px;
-  top: 20px;
-  z-index: 15;
-}
-
-.toggle-btn {
-  background-color: white;
-  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.15);
-  border: none;
-  color: var(--el-color-primary);
-  transition: all 0.3s var(--transition-bezier);
-  width: 44px;
-  height: 44px;
-}
-
-.toggle-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 5px 0 20px rgba(0, 0, 0, 0.2);
-}
-
-.toggle-btn .el-icon {
-  font-size: 18px;
-  color: var(--el-color-primary);
-}
-
-/* 补充样式 - 确保radio按钮和滑块在侧边栏中正确显示 */
-.style-selector {
-  width: 100%;
-  margin-top: 10px;
-}
-
-:deep(.el-radio-button__inner) {
-  box-shadow: none !important;
-  color: var(--text-regular);
-  font-weight: 500;
-}
-
-:deep(.el-radio-button__original-radio:checked + .el-radio-button__inner) {
-  background-color: var(--el-color-primary);
-  color: white;
-  box-shadow: -1px 0 0 0 var(--el-color-primary) !important;
-}
-
-.zoom-slider {
-  margin: 20px 0 10px;
-}
-
-:deep(.el-empty__description) {
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-/* 地图容器 */
-.map-container {
-  position: relative;
-  flex: 1;
-  height: 100%;
-  background-color: #eee;
-  overflow: hidden;
-  pointer-events: auto;
-}
-
-.map-instance {
-  width: 100%;
-  height: 100%;
-  pointer-events: auto;
-}
-
-/* 地图控件 */
-.map-controls {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  z-index: 5;
-}
-
-.zoom-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  background-color: rgba(255, 255, 255, 0.95);
-  padding: 8px;
-  border-radius: 16px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(5px);
-}
-
-.control-btn {
-  width: 44px;
-  height: 44px;
-  border: none;
-  transition: all 0.25s var(--transition-bezier);
-  color: var(--el-color-primary);
-  background-color: transparent;
-}
-
-.control-btn:hover {
-  transform: scale(1.1);
-  background-color: #e9f2ff;
-}
-
-.location-btn {
-  width: 58px;
-  height: 58px;
-  background: var(--primary-gradient);
-  color: white;
-  border: none;
-  box-shadow: 0 4px 16px rgba(50, 109, 238, 0.35);
-  transition: all 0.3s var(--transition-bezier);
-  border-radius: 50%;
-}
-
-.location-btn:hover {
-  transform: scale(1.15);
-  box-shadow: 0 6px 25px rgba(50, 109, 238, 0.5);
-}
-
-/* 信息卡片 */
-.info-card {
-  position: absolute;
-  right: 30px;
-  top: 30px;
-  width: 320px;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-  border: none;
-  overflow: hidden;
-  z-index: 1000; /* 提高z-index确保在地图层之上 */
-  backdrop-filter: blur(8px);
-  background-color: rgba(255, 255, 255, 0.98);
-  pointer-events: all; /* 确保元素可以接收所有事件 */
-}
-
-/* 文本溢出处理 */
-.card-header-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 250px;
-}
-
-.coordinates {
-  background-color: var(--background-color);
-  padding: 14px;
-  border-radius: 10px;
-  margin-bottom: 24px;
-  font-family: monospace;
-  font-size: 0.95rem;
-  border-left: 3px solid var(--el-color-primary);
-  word-break: break-all; /* 处理坐标过长的情况 */
-  line-height: 1.5;
-}
-
-/* 美化卡片头部 */
-:deep(.el-card__header) {
-  padding: 16px 20px;
-  border-bottom: 1px solid rgba(220, 223, 230, 0.4);
-  background: var(--primary-gradient);
-  color: white;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* 列表项文本溢出处理 */
-.location-name, .poi-title {
-  font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 6px;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-.location-address, .poi-address {
-  font-size: 13px;
-  color: var(--text-secondary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  line-height: 1.4;
-}
-
-/* 美化地图控件与交互元素 */
-.map-controls {
-  position: absolute;
-  top: 110px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 5;
-}
-
-.map-control-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(4px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: all 0.25s var(--transition-bezier);
-}
-
-.map-control-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  background-color: white;
-  color: var(--el-color-primary);
-}
-
-/* 美化侧边栏与主界面布局 */
-.map-page {
-  display: flex;
-  height: 100%;
-  background: var(--background-color);
-  position: relative;
-  overflow: hidden;
-}
-
-.sidebar {
-  flex: none;
-  width: 350px;
-  min-width: 350px; /* 确保最小宽度 */
-  height: 100%;
-  background-color: white;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s var(--transition-bezier);
-  z-index: 10;
-}
-
-.sidebar-header {
-  padding: 20px;
-  background: var(--primary-gradient);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.sidebar-title {
-  font-size: 18px;
-  font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.toggle-btn {
-  background-color: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(4px);
-  border: none;
-  color: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.25s var(--transition-bezier);
-}
-
-.toggle-btn:hover {
-  background-color: rgba(255, 255, 255, 0.25);
-  transform: translateX(2px);
-}
-
-.sidebar-collapsed {
-  width: 60px;
-  min-width: 60px;
-}
-
-.sidebar-collapsed .toggle-btn:hover {
-  transform: translateX(-2px);
-}
-
-.sidebar-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-}
-
-.map-container {
-  position: relative;
-  flex: 1;
-  height: 100%;
-  background-color: #eee;
-  overflow: hidden;
-  pointer-events: auto;
-}
-
-/* 美化信息窗口 */
-:deep(.info-window-content) {
-  padding: 12px;
-  max-width: 320px;
-  font-family: 'Inter var';
-}
-
-:deep(.info-window-content h3) {
-  color: var(--el-color-primary);
-  margin-top: 0;
-  margin-bottom: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  border-bottom: 2px solid var(--hover-color);
-  padding-bottom: 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-:deep(.info-window-content p) {
-  margin: 8px 0;
-  color: var(--text-regular);
-  font-family: 'Inter var';
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-:deep(.info-coordinates) {
-  background-color: var(--background-color);
-  padding: 10px 12px;
-  border-radius: 6px;
-  border-left: 3px solid var(--text-secondary);
-  margin: 14px 0;
-  font-family: monospace;
-  word-break: break-all;
-  font-size: 13px;
-}
-
-:deep(.info-actions) {
-  display: flex;
-  gap: 10px;
-  margin-top: 16px;
-}
-
-:deep(.info-button) {
-  flex: 1;
-  padding: 8px 12px;
-  border-radius: 6px;
-  background: var(--hover-color);
-  color: var(--el-color-primary);
-  border: 1px solid var(--el-color-primary-light-7);
-  cursor: pointer;
-  font-size: 13px;
-  text-align: center;
-  transition: all 0.25s var(--transition-bezier);
-}
-
-:deep(.info-button:hover) {
-  background: var(--el-color-primary-light-8);
-  color: var(--el-color-primary-dark-2);
-  transform: translateY(-2px);
-}
-
-/* 美化按钮样式 */
-.primary-btn {
-  background: var(--primary-gradient);
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.25s var(--transition-bezier);
-  font-weight: 500;
-}
-
-.primary-btn:hover {
-  box-shadow: 0 4px 15px rgba(50, 109, 238, 0.25);
-  transform: translateY(-2px);
-}
-
-/* 优化搜索区域 */
-.search-form {
-  padding: 24px;
-  border-radius: 16px;
-  background-color: white;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-  margin-bottom: 24px;
-  border: 1px solid rgba(220, 223, 230, 0.4);
-  position: relative;
-  transition: all 0.3s var(--transition-bezier);
-  overflow: hidden;
-}
-
-.search-form::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(to right, var(--el-color-success), var(--el-color-warning));
-}
-
-/* 搜索输入框美化 */
-.search-input {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-:deep(.el-input__wrapper) {
-  border-radius: 12px;
-  padding: 4px 14px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(220, 223, 230, 0.5) inset;
-  transition: all 0.3s var(--transition-bezier);
-}
-
-:deep(.el-input__wrapper:hover) {
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1), 0 0 0 1px var(--el-color-primary-light-8) inset;
-}
-
-:deep(.el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 1.5px var(--el-color-primary), 0 4px 16px rgba(50, 109, 238, 0.1);
-}
-
-:deep(.el-input__inner) {
-  font-size: 15px;
-  color: var(--text-primary);
-  padding: 10px 0;
-}
-
-:deep(.el-input__inner::placeholder) {
-  color: var(--text-secondary);
-}
-
-.search-button {
-  background: var(--el-color-primary);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.25s var(--transition-bezier);
-}
-
-.search-button:hover {
-  background: var(--el-color-primary-dark-2);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(50, 109, 238, 0.2);
-}
-
-.search-button:active {
-  transform: translateY(1px);
-}
-
-/* 位置切换按钮美化 */
-.location-toggle {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
-}
-
-.toggle-button {
-  font-size: 14px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-  transition: all 0.25s var(--transition-bezier);
-  padding: 10px 16px;
-  border-radius: 10px;
-  border: none;
-}
-
-.toggle-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-}
-
-.toggle-button.el-button--primary {
-  background: var(--primary-gradient);
-}
-
-.toggle-button.el-button--default {
-  background: white;
-  border: 1px solid var(--border-color);
-}
-
-/* 搜索选项区域美化 */
-.search-options {
-  background-color: var(--background-color);
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(220, 223, 230, 0.4);
-  position: relative;
-}
-
-.option-label {
-  font-size: 15px;
-  color: var(--text-primary);
-  display: block;
-  margin-bottom: 14px;
-  font-weight: 600;
-}
-
-.radius-control {
-  margin-bottom: 24px;
-}
-
-/* 滑块美化 */
-:deep(.el-slider__runway) {
-  margin: 18px 0;
-  height: 6px;
-  background-color: rgba(220, 223, 230, 0.4);
-}
-
-:deep(.el-slider__bar) {
-  background: linear-gradient(to right, var(--el-color-success), var(--el-color-warning));
-  height: 6px;
-}
-
-:deep(.el-slider__button) {
-  width: 20px;
-  height: 20px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-  border: 3px solid white;
-}
-
-:deep(.el-slider__button:hover) {
-  transform: scale(1.1);
-}
-
-:deep(.el-slider__marks-text) {
-  margin-top: 8px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-/* 搜索过滤器美化 */
-.search-filters {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.category-select {
-  width: 160px;
-}
-
-:deep(.el-select .el-input__wrapper) {
-  padding: 2px 12px;
-  border-radius: 10px;
-}
-
-:deep(.el-select-dropdown__item) {
-  padding: 10px 14px;
-  font-size: 14px;
-}
-
-:deep(.el-select-dropdown__item.selected) {
-  color: var(--el-color-primary);
-  font-weight: 600;
-}
-
-:deep(.el-switch) {
-  --el-switch-on-color: var(--el-color-success);
-}
-
-:deep(.auto-extend-switch .el-switch__label) {
-  font-size: 13px;
-  color: var(--text-secondary);
-}
-
-:deep(.auto-extend-switch .el-switch__label.is-active) {
-  color: var(--el-color-success);
-}
-
-/* 自动完成建议项美化 */
-:deep(.el-autocomplete-suggestion) {
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(220, 223, 230, 0.3);
-  overflow: hidden;
-  padding: 8px;
-}
-
-:deep(.el-scrollbar__view) {
-  padding: 6px;
-}
-
-.suggestion-item {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 14px;
-  padding: 12px;
-  border-radius: 10px;
-  transition: all 0.25s var(--transition-bezier);
-  cursor: pointer;
-}
-
-.suggestion-item:hover {
-  background-color: var(--hover-color);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-}
-
-.suggestion-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--el-color-primary);
-  width: 40px;
-  height: 40px;
-  background-color: var(--hover-color);
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(50, 109, 238, 0.1);
-  transition: all 0.25s var(--transition-bezier);
-}
-
-.suggestion-item:hover .suggestion-icon {
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(50, 109, 238, 0.15);
-}
-
-.suggestion-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.suggestion-title {
-  font-weight: 600;
-  margin-bottom: 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--text-primary);
-}
-
-.suggestion-address {
-  font-size: 13px;
-  color: var(--text-secondary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 250px;
-}
-
-.suggestion-distance {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--el-color-success);
-  white-space: nowrap;
-  padding: 4px 10px;
-  background-color: rgba(87, 188, 124, 0.1);
-  border-radius: 12px;
-  align-self: center;
-}
-
-/* 移动端适配 */
-@media (max-width: 768px) {
-  .search-form {
-    padding: 18px;
-  margin-bottom: 16px;
-  }
-
-  .search-options {
-    padding: 16px;
-  }
-
-  .search-filters {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .category-select {
-    width: 100%;
-  }
-
-  .suggestion-item {
-    padding: 10px;
-    gap: 10px;
-  }
-
-  .suggestion-icon {
-    width: 32px;
-    height: 32px;
-  }
-
-  .suggestion-address {
-    max-width: 180px;
-  }
-}
-
-/* 搜索结果区域全新设计 */
-.search-results {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  margin-bottom: 24px;
-  position: relative;
-  border: 1px solid rgba(220, 223, 230, 0.3);
-}
-
-/* 结果标题栏 */
-.results-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  background: linear-gradient(to right, rgba(50, 109, 238, 0.05), rgba(50, 109, 238, 0.1));
-  border-bottom: 1px solid rgba(220, 223, 230, 0.5);
-}
-
-.results-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 600;
-  font-size: 16px;
-  color: var(--text-primary);
-}
-
-.results-title .el-icon {
-  color: var(--el-color-primary);
-  background: rgba(50, 109, 238, 0.1);
-  padding: 8px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.results-title span {
-  position: relative;
-}
-
-.results-title span::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 40px;
-  height: 3px;
-  background: var(--el-color-primary);
-  border-radius: 2px;
-}
-
-/* 结果列表 */
-.results-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  max-height: 640px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(144, 147, 153, 0.3) transparent;
-  padding: 2px;
-}
-
-.results-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.results-list::-webkit-scrollbar-thumb {
-  background: rgba(144, 147, 153, 0.3);
-  border-radius: 3px;
-  transition: background 0.3s;
-}
-
-.results-list::-webkit-scrollbar-thumb:hover {
-  background: rgba(144, 147, 153, 0.5);
-}
-
-/* POI项目卡片 */
-.poi-item {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 16px;
-  padding: 18px;
-  background-color: white;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
-  transition: all 0.25s var(--transition-bezier);
-  cursor: pointer;
-  position: relative;
-  /* overflow: hidden; */
-}
-
-.poi-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 4px;
-  background-color: transparent;
-  transition: all 0.25s ease;
-}
-
-.poi-item:hover {
-  background-color: rgba(240, 249, 242, 0.5);
-}
-
-.poi-item:hover::before {
-  background-color: var(--el-color-success);
-}
-
-.poi-item.active {
-  background-color: rgba(240, 249, 242, 0.7);
-}
-
-.poi-item.active::before {
-  background-color: var(--el-color-success);
-}
-
-/* POI图标区域 */
-.poi-icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.poi-icon .el-icon {
-  width: 46px;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--success-gradient);
-  border-radius: 12px;
-  color: white;
-  box-shadow: 0 3px 10px rgba(87, 188, 124, 0.2);
-  transition: all 0.3s var(--transition-bezier);
-}
-
-.poi-distance {
-  font-size: 12px;
-  font-weight: 600;
-  color: white;
-  background-color: var(--el-color-success);
-  padding: 4px 10px;
-  border-radius: 12px;
-  white-space: nowrap;
-  box-shadow: 0 2px 6px rgba(87, 188, 124, 0.15);
-  transition: all 0.3s var(--transition-bezier);
-}
-
-.poi-item:hover .poi-icon .el-icon {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(87, 188, 124, 0.3);
-}
-
-/* POI信息区域 */
-.poi-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 0;
-}
-
-.poi-title {
-  font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 8px;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.poi-address {
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin-bottom: 8px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  line-height: 1.5;
-}
-
-.poi-category {
-  font-size: 13px;
-  color: var(--text-secondary);
-  background-color: var(--background-color);
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 6px;
-  max-width: fit-content;
-}
-
-/* POI操作按钮 */
-.poi-actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  opacity: 0;
-  transform: translateX(10px);
-  transition: all 0.3s var(--transition-bezier);
-}
-
-.poi-item:hover .poi-actions {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.poi-actions .el-button {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.25s var(--transition-bezier);
-}
-
-.poi-actions .el-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-.poi-actions .el-button--primary {
-  background: var(--primary-gradient);
-}
-
-.poi-actions .el-button--success {
-  background: var(--success-gradient);
-}
-
-/* 分页控件 */
-.results-pagination {
-  padding: 16px;
-  border-top: 1px solid rgba(220, 223, 230, 0.3);
-  display: flex;
-  justify-content: center;
-  background-color: rgba(245, 247, 250, 0.5);
-}
-
-:deep(.el-pagination) {
-  --el-pagination-button-bg-color: white;
-  --el-pagination-hover-color: var(--el-color-primary);
-}
-
-:deep(.el-pagination .el-pager li.is-active) {
-  background: var(--el-color-primary);
-  color: white;
-  font-weight: 600;
-}
-
-:deep(.el-pagination .btn-prev),
-:deep(.el-pagination .btn-next) {
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 4px;
-  padding: 0 8px;
-  transition: all 0.2s ease;
-}
-
-:deep(.el-pagination .btn-prev:hover),
-:deep(.el-pagination .btn-next:hover) {
-  background-color: var(--el-color-primary-light-9);
-}
-
-/* 无结果状态 */
-.empty-results {
-  padding: 40px 20px;
-  text-align: center;
-  color: var(--text-secondary);
-}
-
-/* 加载中状态 */
-.results-loading {
-  padding: 30px 0;
-  text-align: center;
-}
-
-/* 平板和移动端适配 */
-@media (max-width: 768px) {
-  .poi-item {
-    grid-template-columns: auto 1fr;
-    gap: 12px;
-    padding: 14px;
-  }
-
-  .poi-icon {
-    grid-row: span 3;
-  }
-
-  .poi-actions {
-    grid-column: 2;
-    opacity: 1;
-    transform: none;
-  margin-top: 8px;
-}
-
-  .results-list {
-    max-height: 480px;
-  }
-}
-
-
-
-
-/* 快速搜索区域全新设计 */
-.quick-search {
-  margin-top: 24px;
-  margin-bottom: 24px;
-  background: white;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(220, 223, 230, 0.3);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s var(--transition-bezier);
-}
-
-.quick-search::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(to right, var(--el-color-primary), var(--el-color-success));
-}
-
-.quick-search-label {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.quick-search-label::before {
-  content: '🔍';
-  font-size: 20px;
-  margin-right: 8px;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
-  animation: float 3s infinite ease-in-out;
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-3px); }
-  100% { transform: translateY(0px); }
-}
-
-.quick-search-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-
-.search-tag {
-  padding: 12px 16px;
-  background-color: var(--background-color);
-  color: var(--text-regular);
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.25s var(--transition-bezier);
-  border: 1px solid transparent;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  user-select: none;
-  transform-origin: center bottom;
-}
-
-.search-tag::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 5px;
-  height: 5px;
-  background: rgba(255, 255, 255, 0.7);
-  opacity: 0;
-  border-radius: 100%;
-  transform: scale(1) translate(-50%, -50%);
-  transform-origin: center;
-}
-
-.search-tag:active::after {
-  animation: ripple 0.6s ease-out;
-}
-
-@keyframes ripple {
-  0% {
-    transform: scale(0) translate(-50%, -50%);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(40) translate(-50%, -50%);
-    opacity: 0;
-  }
-}
-
-.search-tag:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-}
-
-.search-tag.active {
-  transform: translateY(-2px);
-  background: var(--el-color-primary);
-  color: white;
-  box-shadow: 0 4px 12px rgba(50, 109, 238, 0.25);
-  font-weight: 600;
-}
-
-/* 标签图标和颜色自定义 */
-.search-tag[data-keyword="餐厅"] { padding-left: 38px; position: relative; }
-.search-tag[data-keyword="餐厅"]::before { content: '🍽️'; position: absolute; left: 14px; }
-.search-tag[data-keyword="餐厅"]:hover { background-color: rgba(245, 108, 108, 0.1); border-color: #F56C6C; color: #F56C6C; }
-.search-tag[data-keyword="餐厅"].active { background-color: #F56C6C; }
-
-.search-tag[data-keyword="超市"] { padding-left: 38px; position: relative; }
-.search-tag[data-keyword="超市"]::before { content: '🛒'; position: absolute; left: 14px; }
-.search-tag[data-keyword="超市"]:hover { background-color: rgba(230, 162, 60, 0.1); border-color: #E6A23C; color: #E6A23C; }
-.search-tag[data-keyword="超市"].active { background-color: #E6A23C; }
-
-.search-tag[data-keyword="酒店"] { padding-left: 38px; position: relative; }
-.search-tag[data-keyword="酒店"]::before { content: '🏨'; position: absolute; left: 14px; }
-.search-tag[data-keyword="酒店"]:hover { background-color: rgba(64, 158, 255, 0.1); border-color: #409EFF; color: #409EFF; }
-.search-tag[data-keyword="酒店"].active { background-color: #409EFF; }
-
-.search-tag[data-keyword="医院"] { padding-left: 38px; position: relative; }
-.search-tag[data-keyword="医院"]::before { content: '🏥'; position: absolute; left: 14px; }
-.search-tag[data-keyword="医院"]:hover { background-color: rgba(245, 108, 108, 0.1); border-color: #F56C6C; color: #F56C6C; }
-.search-tag[data-keyword="医院"].active { background-color: #F56C6C; }
-
-.search-tag[data-keyword="咖啡"] { padding-left: 38px; position: relative; }
-.search-tag[data-keyword="咖啡"]::before { content: '☕'; position: absolute; left: 14px; }
-.search-tag[data-keyword="咖啡"]:hover { background-color: rgba(139, 87, 42, 0.1); border-color: #8B572A; color: #8B572A; }
-.search-tag[data-keyword="咖啡"].active { background-color: #8B572A; }
-
-.search-tag[data-keyword="地铁"] { padding-left: 38px; position: relative; }
-.search-tag[data-keyword="地铁"]::before { content: '🚇'; position: absolute; left: 14px; }
-.search-tag[data-keyword="地铁"]:hover { background-color: rgba(103, 112, 230, 0.1); border-color: #6770E6; color: #6770E6; }
-.search-tag[data-keyword="地铁"].active { background-color: #6770E6; }
-
-.search-tag[data-keyword="公园"] { padding-left: 38px; position: relative; }
-.search-tag[data-keyword="公园"]::before { content: '🌳'; position: absolute; left: 14px; }
-.search-tag[data-keyword="公园"]:hover { background-color: rgba(103, 194, 58, 0.1); border-color: #67C23A; color: #67C23A; }
-.search-tag[data-keyword="公园"].active { background-color: #67C23A; }
-
-.search-tag[data-keyword="银行"] { padding-left: 38px; position: relative; }
-.search-tag[data-keyword="银行"]::before { content: '🏦'; position: absolute; left: 14px; }
-.search-tag[data-keyword="银行"]:hover { background-color: rgba(199, 21, 133, 0.1); border-color: #C71585; color: #C71585; }
-.search-tag[data-keyword="银行"].active { background-color: #C71585; }
-
-.search-tag[data-keyword="健身房"] { padding-left: 38px; position: relative; }
-.search-tag[data-keyword="健身房"]::before { content: '💪'; position: absolute; left: 14px; }
-.search-tag[data-keyword="健身房"]:hover { background-color: rgba(255, 152, 0, 0.1); border-color: #FF9800; color: #FF9800; }
-.search-tag[data-keyword="健身房"].active { background-color: #FF9800; }
-
-/* 移动端适配 */
-@media (max-width: 768px) {
-  .quick-search {
-    padding: 18px;
-    margin-top: 16px;
-    margin-bottom: 16px;
-  border-radius: 12px;
-  }
-
-  .quick-search-label {
-  margin-bottom: 16px;
-}
-
-  .quick-search-tags {
-    gap: 10px;
-  }
-
-  .search-tag {
-    padding: 10px 10px 10px 34px;
-    font-size: 13px;
-    border-radius: 10px;
-  }
-
-  .search-tag[data-keyword]::before {
-    left: 10px;
-  }
-}
-
-/* 移动端适配 */
-@media (max-width: 768px) {
-  .sidebar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    z-index: 100;
-    transform: translateX(0);
-    width: 300px;
-    min-width: 300px;
-  }
-
-  .sidebar-collapsed {
-    transform: translateX(-100%);
-    width: 0;
-    min-width: 0;
-  }
-
-.toggle-btn {
-    position: absolute;
-    right: -40px;
-    top: 20px;
-  background-color: white;
-    color: var(--el-color-primary);
-    border-radius: 0 6px 6px 0;
-    box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .info-card {
-    width: 90%;
-    max-width: 320px;
-    right: 5%;
-    top: 20px;
-  }
-
-  .map-controls {
-    right: 10px;
-  }
-
-  .search-form {
-    padding: 18px;
-    margin-bottom: 16px;
-  }
-
-  .search-options {
-    padding: 16px;
-  }
-
-  .search-filters {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .category-select {
-    width: 100%;
-  }
-
-  .suggestion-item {
-    padding: 10px;
-    gap: 10px;
-  }
-
-  .suggestion-icon {
-    width: 32px;
-    height: 32px;
-  }
-
-  .suggestion-address {
-    max-width: 180px;
-  }
-}
-
-/* 分类筛选器样式优化 */
-.category-select {
-  width: 160px;
-}
-
-:deep(.el-select .el-input__wrapper) {
-  padding: 2px 12px;
-  border-radius: 10px;
-}
-
-:deep(.el-select__placeholder) {
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-:deep(.el-select .el-input__inner) {
-  color: var(--text-primary);
-  font-weight: 500;
-}
-
-:deep(.el-select-dropdown) {
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(220, 223, 230, 0.3);
-  padding: 8px;
-}
-
-:deep(.el-select-dropdown__item) {
-  padding: 10px 14px;
-  font-size: 14px;
-  color: var(--text-regular);
-  border-radius: 8px;
-  margin: 2px 0;
-  transition: all 0.2s var(--transition-bezier);
-}
-
-:deep(.el-select-dropdown__item:hover) {
-  background-color: var(--hover-color);
-  color: var(--el-color-primary);
-}
-
-:deep(.el-select-dropdown__item.selected) {
-  background-color: rgba(50, 109, 238, 0.1);
-  color: var(--el-color-primary);
-  font-weight: 600;
-}
-
-/* 扩展范围开关样式 */
-:deep(.el-switch) {
-  --el-switch-on-color: var(--el-color-success);
-}
-
-:deep(.el-switch__label) {
-  color: var(--text-regular);
-  font-weight: 500;
-  font-size: 13px;
-}
-
-:deep(.el-switch__label.is-active) {
-  color: var(--el-color-success);
-}
-
-:deep(.auto-extend-switch) {
-  margin-top: 4px;
-}
-
-/* 全局图标颜色修复 */
-:deep(.el-icon) {
-  color: var(--text-regular);
-}
-
-:deep(.el-button .el-icon) {
-  color: inherit;
-}
-
-/* 确保地图控件上的图标颜色可见 */
-.map-controls .el-button .el-icon {
-  color: var(--text-primary);
-  font-size: 18px;
-}
-
-.map-controls .el-button.is-plain:hover .el-icon {
-  color: var(--el-color-primary);
-}
-
-.sidebar-header :deep(.el-input__prefix-inner .el-icon) {
-  color: var(--el-color-primary);
-  font-size: 16px;
-}
-
-.sidebar-toggle .el-icon {
-  color: var(--el-color-primary);
-  font-size: 18px;
-}
-
-.location-icon .el-icon {
-  font-size: 20px;
-  color: white;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
-}
-
-.search-input :deep(.el-input__prefix-inner .el-icon) {
-  color: var(--el-color-primary);
-}
-
-.search-options .el-icon,
-.filter-controls .el-icon {
-  color: var(--text-secondary);
-  font-size: 16px;
-}
-
-.card-actions .el-icon {
-  color: white;
-}
-
-/* 对话框样式优化，使其不遮挡地图点击 */
-.marker-dialog {
-  position: absolute !important;
-  right: 20px;
-  top: 80px;
-  margin: 0 !important;
-}
-
-.marker-dialog :deep(.el-dialog__header) {
-  padding: 16px;
-  margin-right: 0;
-  border-bottom: 1px solid var(--border-color);
-  background: linear-gradient(to right, var(--el-color-primary-light-8), var(--el-color-primary-light-9));
-}
-
-.marker-dialog :deep(.el-dialog__headerbtn) {
-  top: 16px;
-}
-
-.marker-dialog :deep(.el-dialog__title) {
-  font-weight: 600;
-  font-size: 16px;
-  color: var(--text-primary);
-}
-
-.marker-dialog :deep(.el-dialog__body) {
-  padding: 20px;
-}
-
-.marker-dialog :deep(.el-overlay) {
-  background-color: transparent;
-  pointer-events: none;
-}
-
-.marker-dialog :deep(.el-dialog) {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
-  overflow: hidden;
-  pointer-events: auto;
-}
-
-.marker-dialog :deep(.el-form-item__label) {
-  font-weight: 500;
-  padding-bottom: 6px;
-}
-
-.coord-display {
-  font-family: monospace;
-  background-color: var(--el-fill-color-light);
-  padding: 10px;
-  border-radius: 6px;
-  display: flex;
-  justify-content: space-between;
-  color: var(--text-secondary);
-}
-
-.dialog-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  padding-top: 10px;
-}
+<style>
+@import "../../assets/styles/map-explorer.css";
 </style>
 

@@ -1,0 +1,198 @@
+<div class="layui-container" style="width: 100%">
+  <form class="layui-form">
+    <div class="layui-row layui-row-border2">
+      <div class="layui-col-xs12">
+        <div class="layui-card-body">
+          <table class="table-list-height" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td valign="center" colspan="2"> 标准制（修）定 </td>
+                <td colspan="5"><input name="biaozhunz" title="制定" data-title="标准" data-select="1" type="radio" value="制定" lay-verify="onlyradio" /><input name="biaozhunz" title="修定" data-title="标准" data-select="1" type="radio" value="修定" lay-verify="onlyradio" /></td>
+              </tr>
+              <tr class="zwh2025">
+                <td style="min-height: 20px;height: auto;" valign="center" colspan="2">申报途径 <p style="min-height: 20px;height: auto;">
+                    （单位、专委会）
+                  </p>
+                </td>
+                <td valign="center" colspan="5"><input id="danweiradio1" name="e12312ewad" title="单位" data-title="申报途径" data-select="1" type="radio" value="单位" lay-verify="onlyradio" /><input id="danweiradio2" name="e12312ewad" title="专委会" data-title="申报途径" data-select="1" type="radio" value="专委会" lay-verify="onlyradio" /></td>
+              </tr>
+              <tr id="danweiradioinput1" class="sbdw2025" style="display: none;">
+                <td valign="center" colspan="2">申报单位</td>
+                <td valign="center" colspan="5"><input name="1z3vhmwlk8n" class="layui-input" type="text" autocomplete="off" data-title="申报单位" data-select="1" /></td>
+              </tr>
+              <tr id="danweiradioinput2" class="sbzwh2025" style="display: none;">
+                <td valign="center" colspan="2">申报专委会</td>
+                <td valign="center" colspan="5"><select name="shenbaozhuanwei" lay-verify="errormessage" data-title="申报专委会" data-select="1"></select></td>
+              </tr>
+              <tr>
+                <td valign="center" colspan="2">标准名称</td>
+                <td valign="center" colspan="5"><input name="xiangmumingcheng" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" data-title="标准名称" data-select="1" value="{$title}" data-istitle="1" /></td>
+              </tr>
+              <tr>
+                <td valign="center" colspan="2"> 标准范畴 </td>
+                <td colspan="5">
+                  <div class="layui-form-item layui-eq-width layui-item-middle">
+                    <div class="layui-input-block" style="margin-left: 0;">
+                      <input name="biaozhunfanc" title="护理服务" data-title="标准范畴" data-select="1" type="radio" value="护理服务" lay-verify="onlyradio" /><input name="biaozhunfanc" title="护理技术" data-title="标准范畴" data-select="1" type="radio" value="护理技术" lay-verify="onlyradio" /><input name="biaozhunfanc" title="护理管理" data-title="标准范畴" data-select="1" type="radio" value="护理管理" lay-verify="onlyradio" /><input name="biaozhunfanc" title="其他" data-title="标准范畴" data-select="1" type="radio" value="其他" lay-verify="onlyradio" />
+                    </div>
+                  </div>
+                  <div class="syleibie" style="display: none;">
+                    <input name="biaozhunfancqita" class="layui-input" data-title="标准范畴其他" data-select="1" type="text" placeholder="请输入标准范畴" />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td valign="center" colspan="2" rowspan="2">
+                  <p>
+                    第一起草
+                  </p>
+                  <p>
+                    单位
+                  </p>
+                </td>
+                <td valign="center">单位名称</td>
+                <td valign="center" colspan="4"><input name="danweimingcheng" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" data-title="单位名称" data-select="1" /></td>
+              </tr>
+              <tr>
+                <td valign="center">通信地址</td>
+                <td valign="center" colspan="2"><input name="tongxundizhi" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" data-title="通信地址" data-select="1" /></td>
+                <td valign="center">邮编</td>
+                <td valign="center" colspan="2"><input name="youbian" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" data-title="邮编" data-select="1" /></td>
+              </tr>
+              <tr>
+                <td valign="center" rowspan="5">
+                  <p>
+                    第
+                  </p>
+                  <p>
+                    一
+                  </p>
+                  <p>
+                    起
+                  </p>
+                  <p>
+                    草
+                  </p>
+                  <p>
+                    人
+                  </p>
+                </td>
+                <td valign="center">姓名</td>
+                <td valign="center">{$username}</td>
+                <td valign="center">性别</td>
+                <td valign="center"><input name="291v3n7mnc8" title="男" data-title="性别" data-select="1" type="radio" value="男" lay-verify="onlyradio" /><input name="291v3n7mnc8" title="女" data-title="性别" data-select="1" type="radio" value="女" lay-verify="onlyradio" /></td>
+                <td width="80" valign="center">出生年月</td>
+                <td valign="center"><input name="rl2ze0vlqo" class="magicalcoder-laydate layui-input" type="text" autocomplete="off" lay-verify="magicalCoderVerify" data-title="出生年月" data-select="1" /></td>
+              </tr>
+              <tr>
+                <td valign="center">学历</td>
+                <td valign="center"><input name="14vm32xhr39" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" data-title="学历" data-select="1" /></td>
+                <td valign="center">职务</td>
+                <td valign="center"><input name="gzzhiwucc" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" data-title="职务" data-select="1" /></td>
+                <td valign="center">职称</td>
+                <td valign="center"><input name="ufvhsxypyy" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" data-title="职称" data-select="1" /></td>
+              </tr>
+              <tr>
+                <td width="80" valign="center">手机号</td>
+                <td valign="center">{$mobile}</td>
+                <td valign="center">传真</td>
+                <td valign="center"><input name="26e58x2aqmd" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" data-title="传真" data-select="1" /></td>
+                <td valign="center">电子信箱</td>
+                <td valign="center"><input name="wq1xtr8fp19y0" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage|email" data-title="电子信箱" data-select="1" /></td>
+              </tr>
+              <tr>
+                <td valign="center" colspan="2">工作单位</td>
+                <td valign="center" colspan="4"><input name="9ykwqpl5mg" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" data-title="工作单位" data-select="1" /></td>
+              </tr>
+              <tr>
+                <td valign="center" colspan="2">标准化相关学习、工作经历等</td>
+                <td valign="center" colspan="4"><input name="xuexigongzuo" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" data-title="标准化相关学习工作经历" data-select="1" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="layui-row">
+      <div class="layui-col-xs12">
+        <div class="layui-card">
+          <div class="layui-card-header"> 参与单位(至少3家) </div>
+          <div class="layui-card-body">
+            <table class="table-list">
+              <thead>
+                <tr>
+                  <th>参与单位</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input name="CYDW_0" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" />
+                    <div class="span-reduce"><i class="layui-icon layui-icon-close"></i></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table><span class="layui-span"><i class="layui-icon layui-icon-add-circle-fine"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-row">
+      <div class="layui-col-xs12">
+        <div class="layui-card">
+          <div class="layui-card-header"> 首批团体标准执行单位 </div>
+          <div class="layui-card-body">
+            <table class="table-list">
+              <thead>
+                <tr>
+                  <th>首批团体标准执行单位</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input name="SPZX_0" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" />
+                    <div class="span-reduce"><i class="layui-icon layui-icon-close"></i></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table><span class="layui-span"><i class="layui-icon layui-icon-add-circle-fine"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-row">
+      <div class="layui-col-xs12">
+        <div class="layui-card">
+          <div class="layui-card-header"> 参加人员 </div>
+          <div class="layui-card-body">
+            <table class="table-list">
+              <thead>
+                <tr>
+                  <th width="90">姓名</th>
+                  <th width="100">出生年月</th>
+                  <th width="100">学位</th>
+                  <th width="100">职称</th>
+                  <th width="130">工作单位</th>
+                  <th width="100">职务</th>
+                  <th width="111">标准化相关工作、学习经历</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input name="CYRY_0" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" /></td>
+                  <td><input name="CYRY_1" class="magicalcoder-laydate layui-input" type="text" autocomplete="off" lay-verify="magicalCoderVerify|errormessage" /></td>
+                  <td><input name="CYRY_2" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" /></td>
+                  <td><input name="CYRY_3" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" /></td>
+                  <td><input name="CYRY_4" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" /></td>
+                  <td><input name="CYRY_5" class="layui-input" type="text" autocomplete="off" lay-verify="errormessage" /></td>
+                  <td><input name="CYRY_6" class="layui-input" type="text" autocomplete="off" />
+                    <div class="span-reduce"><i class="layui-icon layui-icon-close"></i></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table><span class="layui-span"><i class="layui-icon layui-icon-add-circle-fine"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

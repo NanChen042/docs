@@ -56,15 +56,15 @@ const config: GameConfigs = {
 const puzzleArea = {
   x: 0,
   y: 0,
-  width: 600,
-  height: 600
+  width: 300,
+  height: 300
 }
 
 const operationArea = {
-  x: 620,
+  x: 300,
   y: 0,
-  width: 340,
-  height: 600
+  width: 300,
+  height: 300
 }
 
 // 响应式状态
@@ -80,13 +80,13 @@ const gameStarted = ref(false)
 // 创建图片对象
 const img = new Image()
 img.crossOrigin = "Anonymous"
-img.src = "https://picsum.photos/600"
+img.src = "https://picsum.photos/300"
 
 // 随机生成操作区内的位置
 const randomPosition = (): Point => {
   return {
-    x: operationArea.x + Math.random() * (operationArea.width - 200),
-    y: Math.random() * (operationArea.height - 200)
+    x: operationArea.x + Math.random() * (operationArea.width - 100),
+    y: Math.random() * (operationArea.height - 100)
   }
 }
 
