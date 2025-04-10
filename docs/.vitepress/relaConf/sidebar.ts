@@ -19,6 +19,10 @@ export const sidebar: DefaultTheme.Sidebar = {
           text: 'AI系列——03、Vista AI 情景模拟类游戏开发指南',
           link: '/column/AI/AI系列——03、Vista AI 情景模拟类游戏开发指南.md'
         },
+        {
+          text: 'AI系列——04、AIVista Image Studio 是怎么做出来的：用 AI 画画的工具台背后的小故事',
+          link: '/column/AI/Kolors_AI_Studio.md'
+        },
 
 
       ]
