@@ -23,6 +23,14 @@ export const sidebar: DefaultTheme.Sidebar = {
           text: 'AI系列——04、AIVista Image Studio 是怎么做出来的：用 AI 画画的工具台背后的小故事',
           link: '/column/AI/Kolors_AI_Studio.md'
         },
+        {
+          text: 'AI系列——05、AI提示词优化功能指南',
+          link: '/column/AI/prompt-optimization-guide.md'
+        },
+        {
+          text: 'AI系列——06、AI联网搜索增强功能使用指南',
+          link: '/column/AI/web-search-enhancement-guide.md'
+        },
 
 
       ]

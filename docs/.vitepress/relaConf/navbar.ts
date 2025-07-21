@@ -1,7 +1,7 @@
 import { DefaultTheme } from 'vitepress';
 export const nav: DefaultTheme.NavItem[] = [
   {
-    text: '👁️ VISTAAI',
+    text: '👁️ AIVista',
     link: 'https://nanchen042.github.io/magicforge/'
   },
   {

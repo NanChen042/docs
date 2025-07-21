@@ -81,6 +81,13 @@ export const NAV_DATA = [
         desc: 'Axios 是一个基于 promise 网络请求库，作用于node.js 和浏览器中。 它是 isomorphic 的(即同一套代码可以运行在浏览器和node.js中)。在服务端它使用原生 node.js http 模块, 而在客户端 (浏览端) 则使用 XMLHttpRequests。',
         link: 'https://www.axios-http.cn/',
       },
+      {
+        icon: 'https://www.tailwindcss.cn/favicons/apple-touch-icon.png?v=3',
+        title: 'TailwindCSS',
+        desc: '只需书写 HTML 代码，无需书写 CSS，即可快速构建美观的网站。',
+        link: 'https://www.tailwindcss.cn/',
+      },
+
     ]
   },
   {
@@ -312,7 +319,7 @@ export const NAV_DATA = [
         link: 'https://www.iconfont.cn/'
       },
       {
-        icon: 'https://navnav.co/assets/logo-7d2e3e19995a6030c546114a9d5133d0c30ca2c8025e47c40b68d67347dbfa07.png',
+        icon: '',
         title: 'NavNav +',
         desc: '各种样式库集合',
         link: 'https://navnav.co/'
@@ -328,6 +335,18 @@ export const NAV_DATA = [
         title: 'Open-Source UI',
         desc: '超级小众按钮样式！！创建、共享和使用CSS或Tailwind制作的漂亮的自定义元素。',
         link: 'https://uiverse.io/'
+      },
+      {
+        icon: 'https://img.daisyui.com/images/daisyui/daisyui-logo-192.png',
+        title: 'daisyUI',
+        desc: 'daisyUI 是 CSS 类名的集合。这些类名是对 Tailwind CSS 实用类的高级抽象。想象一下，你使用 Tailwind CSS 时会拥有超能力！。',
+        link: 'https://daisyui.com/components/mockup-window/'
+      },
+      {
+        icon: 'https://asset.iamxk.com/wp-content/uploads/2017/05/usability-gov.png!o',
+        title: 'unDraw官网',
+        desc: '免费的开源插画资源。',
+        link: 'https://www.iamxk.com/undraw-website',
       },
     ]
   },
@@ -345,6 +364,30 @@ export const NAV_DATA = [
         title: 'Chatgpt',
         desc: '有什么可以帮忙的？',
         link: 'https://chatgpt.com/'
+      },
+      {
+        icon: 'https://www.aiprompter.cc/images/icons/icon48.png',
+        title: 'AI咖 - AI提示词管理平台',
+        desc: 'AI咖提供专业的AI提示词管理系统，帮助您高效管理、创建、编辑和分享ChatGPT、Claude等大模型提示词。提升AI对话效率，实现智能创作与提示词管理。',
+        link: 'https://www.aiprompter.cc/'
+      },
+      {
+        icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgNjAgNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgYXJpYS1sYWJlbD0iMjFzdCBsb2dvIC0gUmlnaHQtY2xpY2sgdG8gb3BlbiBicmFuZCBhc3NldHMgbWVudSI+PHBhdGggZD0iTTAgMjBDMCA4Ljk1NDMxIDguOTU0MzEgMCAyMCAwQzMxLjA0NTcgMCA0MCA4Ljk1NDMxIDQwIDIwQzQwIDMxLjA0NTcgMzEuNSAzNS41IDIwIDQwSDQwQzQwIDUxLjA0NTcgMzEuMDQ1NyA2MCAyMCA2MEM4Ljk1NDMxIDYwIDAgNTEuMDQ1NyAwIDQwQzAgMjguOTU0MyA5LjUgMjIgMjAgMjBIMFoiIGZpbGw9IndoaXRlIj48L3BhdGg+PHBhdGggZD0iTTQwIDYwQzUxLjczMjQgNTUuMDk3NyA2MCA0My41MTE3IDYwIDMwQzYwIDE2LjQ4ODMgNTEuNzMyNCA0LjkwMjM0IDQwIDBWNjBaIiBmaWxsPSJ3aGl0ZSI+PC9wYXRoPjwvc3ZnPg==',
+        title: '21st',
+        desc: 'UI 组件、React 组件、Tailwind 组件、组件库、设计块、UI 块、组件市场、可重复使用的组件、代码片段、模块化 UI、更快构建、开发者工具包、前端样板、复制粘贴组件、插入式组件、快速原型设计、Web UI 工具包、组件共享、即插即用代码、开发者生产力工具、AI UI 构建器、面向开发者的 AI、AI 生成的组件、ChatGPT UI 构建器、提示到 UI、从文本编写代码、AI 设计到代码、使用 AI 生成 UI、GPT 代码示例、面向前端开发者的 AI、设计系统组件、面向开发者的 UI 设计、Figma 到代码、前端代码模板、开发者友好型设计、全栈组件、产品设计代码、低代码组件、设计工程师工具、前端组件中心、在线发布代码、组件货币化、开发者组合平台、公开构建、共享代码、UI 组件市场、开源组件、开发者社区平台、代码市场、前端灵感、Vibe 编码工具、vibe 编码、vibe coder、lovable ai、bolt.new、replit 代理、v0、v0 模板、AI 代码生成、基于提示的编码、自然语言编程、AI 辅助开发、语音驱动编码、AI 结对程序员、无代码 AI 解决方案、AI 编码助手、使用 AI 快速进行原型设计',
+        link: 'https://21st.dev/home'
+      },
+      {
+        icon: 'https://www.gstatic.com/aistudio/ai_studio_favicon_32x32.png',
+        title: 'Google AI Studio',
+        desc: 'Google AI Studio is the fastest way to start building with Gemini, our next generation family of multimodal generative AI models.',
+        link: 'https://aistudio.google.com/prompts/new_chat'
+      },
+      {
+        icon: 'https://www.gstatic.com/monospace/250314/macos-icon-512.png',
+        title: 'Firebase Studio',
+        desc: '使用 AI 制作应用程序原型',
+        link: 'https://studio.firebase.google.com/'
       },
     ]
   },
@@ -366,5 +409,3 @@ export const NAV_DATA = [
     ]
   },
 ]
-
-/*  */

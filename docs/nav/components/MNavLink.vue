@@ -1,3 +1,4 @@
+
 <script setup lang="ts">
 import { computed,  } from "vue";
 import { NavLink } from "./type";
@@ -31,7 +32,12 @@ const svg = computed(() => {
 <template>
   <!-- trigger="click" -->
   <client-only>
-    <el-tooltip :content="desc?desc:'待更新'" effect="customized">
+    <el-tooltip effect="customized" placement="top">
+      <template #content>
+        <div style="max-width: 300px; white-space: normal; line-height: 1.4; color: #fff;">
+          {{ desc ? desc : '待更新' }}
+        </div>
+      </template>
       <a class="m-nav-link" :href="link" target="_blank">
         <article class="box">
           <div class="box-header">
@@ -45,7 +51,7 @@ const svg = computed(() => {
             <!-- <h6 v-if="title" class="title">{{ title }}</h6> -->
             <h5 v-if="title" :id="formatTitle" class="title">{{ title }}</h5>
           </div>
-          <p v-if="desc" class="desc">{{ desc }}</p>
+          <p v-if="desc" class="desc">{{ desc }} </p>
         </article>
       </a>
     </el-tooltip>
@@ -110,6 +116,7 @@ const svg = computed(() => {
     :deep(svg) {
       width: 24px;
       fill: currentColor;
+      color: white; /* 设置 SVG 为白色 */
     }
     :deep(img) {
       border-radius: 4px;
@@ -161,3 +168,4 @@ const svg = computed(() => {
   }
 }
 </style>
+

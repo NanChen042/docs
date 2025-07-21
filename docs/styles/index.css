@@ -1,0 +1,104 @@
+/* 全局样式 */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* 地图信息窗口样式 */
+.info-window-content {
+  padding: 8px;
+  max-width: 250px;
+}
+
+.info-window-content h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #303133;
+}
+
+.info-window-content p {
+  margin: 0 0 5px 0;
+  font-size: 13px;
+  color: #606266;
+}
+
+.info-coordinates {
+  font-family: monospace;
+  color: #909399;
+  font-size: 12px;
+}
+
+.info-window-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.info-window-actions button {
+  background-color: #f2f6fc;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #606266;
+}
+
+.info-window-actions button:hover {
+  background-color: #ecf5ff;
+  color: #409eff;
+}
+
+.info-action-icon {
+  margin-right: 4px;
+  font-size: 14px;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f5f7fa;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c0c4cc;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #909399;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .info-window-content {
+    max-width: 200px;
+    padding: 6px;
+  }
+
+  .info-window-content h3 {
+    font-size: 14px;
+  }
+
+  .info-window-content p {
+    font-size: 12px;
+  }
+
+  .info-window-actions button {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}
