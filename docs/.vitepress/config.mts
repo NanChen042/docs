@@ -32,15 +32,7 @@ export default defineConfig({
     noExternal: ['canvas-confetti']
   },
 
-  // 配置 Vite 选项
-  vite: {
-    define: {
-      global: 'globalThis',
-    },
-    ssr: {
-      noExternal: ['canvas-confetti']
-    }
-  },
+
   head: [
     ['link', { rel: 'icon', href: '/docs/bitbug_favicon.ico' }],
     // Simple Analytics script
@@ -100,6 +92,12 @@ export default defineConfig({
 
   // 添加Vite配置，设置代理解决腾讯地图API跨域问题
   vite: {
+    define: {
+      global: 'globalThis',
+    },
+    ssr: {
+      noExternal: ['canvas-confetti']
+    },
     css: {
       postcss: './docs/.vitepress/postcss.config.js'
     },
