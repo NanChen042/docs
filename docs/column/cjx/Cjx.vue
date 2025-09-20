@@ -13,8 +13,8 @@ const analyser = ref<AnalyserNode | null>(null);
 const dataArray = ref<Uint8Array | null>(null);
 const animationId = ref<number | null>(null);
 
-// 音频文件路径 - 您可以将音频文件放在 public 文件夹中
-const audioSrc = "./assets/致陈佳欣的一封信/Connie Talbot - Count On Me_H.mp3"; // 请将您的音频文件放在 docs/public/audio/ 目录下
+// 音频文件路径 - 音频文件放在 public 文件夹中
+const audioSrc = "/docs/audio/Connie Talbot - Count On Me_H.mp3"; // 背景音乐
 const isLoading = ref(false);
 const hasError = ref(false);
 const errorMessage = ref("");
@@ -437,7 +437,7 @@ function drawReadyText(ctx: CanvasRenderingContext2D, centerX: number, centerY: 
       <div class="flex-1 flex flex-col gap-2">
         <!-- 音频标题 -->
         <div class="text-sm text-black ">
-          <span v-if="!hasError">Connie Talbot - Count On Me_H.mp3</span>
+          <span v-if="!hasError">Connie Talbot - Count On Me_H</span>
           <span v-else class="text-red-500">{{ errorMessage }}</span>
         </div>
 

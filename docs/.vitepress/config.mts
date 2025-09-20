@@ -105,7 +105,18 @@ export default defineConfig({
       // 解决代码包体积过大警告
       chunkSizeWarningLimit: 1500
     },
+    // 开发服务器优化
     server: {
+      fs: {
+        // 排除大文件，提高开发服务器性能
+        deny: [
+          '**/assets/**/*.mp4',
+          '**/assets/**/*.mp3',
+          '**/assets/**/*.m4a',
+          '**/assets/**/*.avi',
+          '**/assets/**/*.mov'
+        ]
+      },
       proxy: {
         '/api/map': {
           target: 'https://apis.map.qq.com',
@@ -113,6 +124,10 @@ export default defineConfig({
           rewrite: (path) => path.replace(/^\/api\/map/, '')
         }
       }
+    },
+    // 优化依赖预构建
+    optimizeDeps: {
+      exclude: ['canvas-confetti']
     }
   }
 })

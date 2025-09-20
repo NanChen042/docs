@@ -28,7 +28,7 @@ export const nav: DefaultTheme.NavItem[] = [
         link: '/column/Growing/' // 表示docs/column/Growing/index.md
       },
       {
-        text: '致陈佳欣的一封信',
+        text: '❤致陈佳欣的一封信',
         link: '/column/cjx/'
       }
     ]

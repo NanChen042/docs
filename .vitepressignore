@@ -20,6 +20,24 @@ tmp/
 
 # 光标文件（已在 public 目录中，无需重复处理）
 **/*.cur
+
+# 大媒体文件（提高开发服务器性能）
+# 视频文件
+**/*.mp4
+**/*.avi
+**/*.mov
+**/*.wmv
+**/*.flv
+
+# 音频文件 (开发时排除，生产环境使用 public 目录)
+docs/column/cjx/assets/**/*.mp3
+docs/column/cjx/assets/**/*.m4a
+docs/column/cjx/assets/**/*.wav
+
+# 大图片文件
+docs/column/cjx/assets/**/*.jpg
+docs/column/cjx/assets/**/*.jpeg
+docs/column/cjx/assets/**/*.png
 **/*.ani
 
 # 大型媒体文件（如果不需要在构建中处理）
