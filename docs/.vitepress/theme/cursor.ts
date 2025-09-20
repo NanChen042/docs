@@ -1,4 +1,4 @@
-type CursorType = 'auto' | 'pointer' | 'text' | 'wait' | 'move' | 'not-allowed' | 'grab' | 'grabbing' | 'zoom-in' | 'vertical-text' | 'cell' | 'copy' | 'progress';
+/* type CursorType = 'auto' | 'pointer' | 'text' | 'wait' | 'move' | 'not-allowed' | 'grab' | 'grabbing' | 'zoom-in' | 'vertical-text' | 'cell' | 'copy' | 'progress';
 
 interface CursorMapping {
   [key: string]: string;
@@ -6,21 +6,21 @@ interface CursorMapping {
 
 type CleanupFunction = () => void;
 
-// 光标映射配置
+// 光标映射配置 - 修复构建时路径解析问题
 const cursorMap: CursorMapping = {
   'auto': '/docs/SimplifyCoffee/cursor.cur',
   'pointer': '/docs/SimplifyCoffee/cursor2.cur',
   'text': '/docs/SimplifyCoffee/cursor3.cur',
-  'progress': '/docs/SimplifyCoffee/03_working_in_background.cur',
-  'not-allowed': '/docs/SimplifyCoffee/06_busy_select.cur',
-  'move': '/docs/SimplifyCoffee/08_move_select.cur',
-  'wait': '/docs/SimplifyCoffee/11_wait_select.cur',
-  'zoom-in': '/docs/SimplifyCoffee/12_zoom_select.cur',
-  'grab': '/docs/SimplifyCoffee/13_grab_select.cur',
-  'grabbing': '/docs/SimplifyCoffee/14_grabbing_select.cur',
-  'vertical-text': '/docs/SimplifyCoffee/15_vertical_text_select.cur',
-  'cell': '/docs/SimplifyCoffee/16_cell_select.cur',
-  'copy': '/docs/SimplifyCoffee/17_copy_select.cur'
+  'progress': '/docs/SimplifyCoffee/03_working_in_background.ani',
+  'not-allowed': '/docs/SimplifyCoffee/08_unavailable.cur',
+  'move': '/docs/SimplifyCoffee/13_move.cur',
+  'wait': '/docs/SimplifyCoffee/03_working_in_background.ani',
+  'zoom-in': '/docs/SimplifyCoffee/cursor.cur',
+  'grab': '/docs/SimplifyCoffee/cursor2.cur',
+  'grabbing': '/docs/SimplifyCoffee/cursor3.cur',
+  'vertical-text': '/docs/SimplifyCoffee/09_vertical_resize.cur',
+  'cell': '/docs/SimplifyCoffee/cursor.cur',
+  'copy': '/docs/SimplifyCoffee/cursor2.cur'
 };
 
 // 获取计算样式中的cursor属性
@@ -86,3 +86,4 @@ export const initCustomCursor = (): CleanupFunction | void => {
     document.removeEventListener('mousemove', handleMouseMove as any);
   };
 };
+ */

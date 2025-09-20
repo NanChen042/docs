@@ -24,7 +24,11 @@ const readingPlayerPlaying = ref(false);
 
 onMounted(() => {
   initAudio();
+  setupCanvas();
   drawDefaultVisualization();
+
+  // 监听窗口大小变化
+  window.addEventListener('resize', handleResize);
 });
 
 onUnmounted(() => {
@@ -34,7 +38,43 @@ onUnmounted(() => {
   if (audioContext.value) {
     audioContext.value.close();
   }
+
+  // 移除事件监听器
+  window.removeEventListener('resize', handleResize);
 });
+
+// 处理窗口大小变化
+function handleResize() {
+  setupCanvas();
+  drawDefaultVisualization();
+}
+
+// 设置Canvas分辨率
+function setupCanvas() {
+  if (!canvasRef.value) return;
+
+  const canvas = canvasRef.value;
+  const container = canvas.parentElement;
+  if (!container) return;
+
+  // 获取容器的实际尺寸
+  const rect = container.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+
+  // 设置Canvas的实际分辨率
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+
+  // 缩放Canvas上下文以匹配设备像素比
+  const ctx = canvas.getContext('2d');
+  if (ctx) {
+    ctx.scale(dpr, dpr);
+  }
+
+  // 设置Canvas的显示尺寸
+  canvas.style.width = rect.width + 'px';
+  canvas.style.height = rect.height + 'px';
+}
 
 function initAudio() {
   if (audioRef.value) {
@@ -158,17 +198,20 @@ function startVisualization() {
     const frequencyData = new Uint8Array(analyser.value.frequencyBinCount);
     analyser.value.getByteFrequencyData(frequencyData);
 
+    // 获取显示尺寸
+    const rect = canvas.getBoundingClientRect();
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const barWidth = canvas.width / frequencyData.length * 2.5;
+    const barWidth = rect.width / frequencyData.length * 2.5;
     let barHeight;
     let x = 0;
 
     for (let i = 0; i < frequencyData.length; i++) {
-      barHeight = (frequencyData[i] / 255) * canvas.height;
+      barHeight = (frequencyData[i] / 255) * rect.height;
 
       ctx.fillStyle = `rgb(0, 0, 0)`;
-      ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+      ctx.fillRect(x, rect.height - barHeight, barWidth, barHeight);
 
       x += barWidth + 1;
     }
@@ -204,11 +247,13 @@ function drawDefaultVisualization() {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
+  // 获取显示尺寸（而不是Canvas的实际分辨率）
+  const rect = canvas.getBoundingClientRect();
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
+
   // 清空画布
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  const centerX = canvas.width / 2;
-  const centerY = canvas.height / 2;
 
   // 绘制音符图案
   drawMusicNotes(ctx, centerX, centerY);
@@ -310,40 +355,50 @@ function drawSmallNote(ctx: CanvasRenderingContext2D, x: number, y: number, scal
 
 // 绘制Ready状态文字
 function drawReadyText(ctx: CanvasRenderingContext2D, centerX: number, centerY: number) {
+  // 根据Canvas尺寸动态调整字体大小
+  const canvas = canvasRef.value;
+  if (!canvas) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const fontSize = Math.max(12, Math.min(16, rect.width / 30)); // 动态字体大小
+
   // 设置文字样式
-  ctx.font = 'bold 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  ctx.font = `bold ${fontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
   ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
   // 绘制Ready文字 - 位置调整到底部中央
-  ctx.fillText('♪ Ready to Play ♪', centerX, centerY + 25);
+  ctx.fillText('♪ Ready to Play ♪', centerX, centerY + 20);
 
   // 绘制装饰性的音乐线条
   ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
   ctx.lineWidth = 1;
 
+  const lineWidth = Math.min(120, rect.width * 0.3);
+
   // 上方装饰线
   ctx.setLineDash([2, 4]);
   ctx.beginPath();
-  ctx.moveTo(centerX - 120, centerY - 25);
-  ctx.lineTo(centerX + 120, centerY - 25);
+  ctx.moveTo(centerX - lineWidth, centerY - 20);
+  ctx.lineTo(centerX + lineWidth, centerY - 20);
   ctx.stroke();
 
   // 下方装饰线
   ctx.beginPath();
-  ctx.moveTo(centerX - 120, centerY + 35);
-  ctx.lineTo(centerX + 120, centerY + 35);
+  ctx.moveTo(centerX - lineWidth, centerY + 30);
+  ctx.lineTo(centerX + lineWidth, centerY + 30);
   ctx.stroke();
 
   ctx.setLineDash([]); // 重置虚线
 
   // 添加一些小装饰点
   ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+  const dotSpacing = Math.min(30, lineWidth / 4);
   for (let i = 0; i < 5; i++) {
-    const dotX = centerX - 60 + i * 30;
+    const dotX = centerX - (dotSpacing * 2) + i * dotSpacing;
     ctx.beginPath();
-    ctx.arc(dotX, centerY + 35, 1, 0, 2 * Math.PI);
+    ctx.arc(dotX, centerY + 30, 1, 0, 2 * Math.PI);
     ctx.fill();
   }
 }
@@ -360,7 +415,7 @@ function drawReadyText(ctx: CanvasRenderingContext2D, centerX: number, centerY: 
     ></audio>
 
     <!-- 音频播放器界面 -->
-    <div class="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-200 shadow-sm w-[420px]">
+    <div class="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-200 shadow-sm w-full">
       <!-- 播放按钮 -->
       <button
         @click="togglePlay"
@@ -381,7 +436,7 @@ function drawReadyText(ctx: CanvasRenderingContext2D, centerX: number, centerY: 
       <!-- 中间内容 -->
       <div class="flex-1 flex flex-col gap-2">
         <!-- 音频标题 -->
-        <div class="text-sm text-black truncate">
+        <div class="text-sm text-black ">
           <span v-if="!hasError">Connie Talbot - Count On Me_H.mp3</span>
           <span v-else class="text-red-500">{{ errorMessage }}</span>
         </div>
@@ -424,11 +479,9 @@ function drawReadyText(ctx: CanvasRenderingContext2D, centerX: number, centerY: 
     </div>
 
     <!-- 音频可视化画布 -->
-    <div class="w-[420px] h-20 bg-gradient-to-r from-gray-50 via-white to-gray-50 rounded-lg border border-gray-200 overflow-hidden shadow-inner relative">
+    <div class="w-full h-20 bg-gradient-to-r from-gray-50 via-white to-gray-50 rounded-lg border border-gray-200 overflow-hidden shadow-inner relative">
       <canvas
         ref="canvasRef"
-        width="420"
-        height="80"
         class="w-full h-full"
       ></canvas>
       <!-- 状态指示器 -->

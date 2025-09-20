@@ -1,0 +1,38 @@
+# VitePress 构建忽略文件
+# 忽略不必要的文件和目录，减少构建警告
+
+# 开发工具文件
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# 编辑器配置
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 临时文件
+temp/
+tmp/
+.temp/
+
+# 光标文件（已在 public 目录中，无需重复处理）
+**/*.cur
+**/*.ani
+
+# 大型媒体文件（如果不需要在构建中处理）
+**/*.mp4
+**/*.avi
+**/*.mov
+**/*.wmv
+
+# 备份文件
+*.bak
+*.backup
+*~
+
+# 系统文件
+.DS_Store
+desktop.ini
