@@ -7,9 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
+    "docs:build:optimized": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192 --max-semi-space-size=512\" vitepress build docs",
+    "docs:build:safe": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192 --max-semi-space-size=512\" vitepress build docs --mode production",
     "docs:preview": "vitepress preview docs",
-    "predeploy": "vitepress build docs",
-    "deploy": "gh-pages -d docs/.vitepress/dist -r https://github.com/NanChen042/docs.git -b gh-pages"
+    "predeploy": "pnpm run docs:build:safe",
+    "deploy": "gh-pages -d docs/.vitepress/dist -r https://github.com/NanChen042/docs.git -b gh-pages",
+    "deploy:retry": "pnpm run predeploy && pnpm run deploy",
+    "media:exclude": "node scripts/manage-media.js exclude",
+    "media:include": "node scripts/manage-media.js include",
+    "commit:code": "pnpm run media:exclude && echo '✅ 现在可以提交代码了: git add . && git commit -m \"feat: 初始化项目结构和代码\"'",
+    "commit:media": "pnpm run media:include && echo '✅ 现在可以提交媒体文件了: git add . && git commit -m \"feat: 添加项目媒体文件\"'"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +24,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.21",
     "canvas-confetti": "^1.9.3",
+    "cross-env": "^10.0.0",
     "gh-pages": "^6.3.0",
     "less": "^4.4.0",
     "postcss": "^8.5.3",

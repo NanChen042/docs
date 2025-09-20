@@ -8,6 +8,24 @@ export default defineConfig({
   title: "personal-blog😶‍🌫️",
 
   description: "A VitePress Site",
+
+  // 配置 markdown 选项，解决语法高亮警告
+  markdown: {
+    theme: {
+      light: 'github-light',
+      dark: 'github-dark'
+    },
+    lineNumbers: true,
+    // 添加语言别名，解决 env 语言警告
+    languages: [
+      {
+        id: 'env',
+        scopeName: 'source.env',
+        aliases: ['dotenv', 'environment'],
+        path: './env.tmLanguage.json'
+      }
+    ]
+  },
   head: [
     ['link', { rel: 'icon', href: '/docs/bitbug_favicon.ico' }],
     // Simple Analytics script
@@ -69,6 +87,10 @@ export default defineConfig({
   vite: {
     css: {
       postcss: './docs/.vitepress/postcss.config.js'
+    },
+    build: {
+      // 解决代码包体积过大警告
+      chunkSizeWarningLimit: 1500
     },
     server: {
       proxy: {

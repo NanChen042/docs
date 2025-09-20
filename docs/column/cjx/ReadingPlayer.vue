@@ -17,7 +17,7 @@ const audioRef = ref<HTMLAudioElement | null>(null);
 const isExpanded = ref(false);
 
 // 音频文件路径 - 阅读文章的录音
-const readingAudioSrc = "/audio/reading-article.mp3"; // 请将阅读录音文件放在此路径
+const readingAudioSrc = "./assets/致陈佳欣的一封信/男生给女生的深情信件.m4a"; // 请将阅读录音文件放在此路径
 
 // 定义事件，用于与主播放器通信
 const emit = defineEmits<{
@@ -161,7 +161,7 @@ function seekTo(event: MouseEvent) {
         <div class="flex items-center justify-between mb-3">
           <div class="flex items-center gap-2">
             <div class="w-2 h-2 rounded-full bg-green-500"></div>
-            <span class="text-sm font-medium text-gray-700">阅读文章</span>
+            <span class="text-sm font-medium text-gray-700">听我朗读（这太抽象了）</span>
           </div>
           <button 
             @click="isExpanded = false"
