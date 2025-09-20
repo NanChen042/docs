@@ -35,7 +35,7 @@ features:
     details: 小厂程序猿，国内某不知名互联网厂搬砖。
 
   - icon: 👩🎨
-    title: 学习语言
+    title: 我接触过的内容
     details: HarmonyOS4.0、Typescript、JavaScript、HTML、CSS、Vue、WebGL
   - icon: 🧩
     title: 青年成功之道

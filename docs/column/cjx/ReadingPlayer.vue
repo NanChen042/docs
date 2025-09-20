@@ -17,7 +17,7 @@ const audioRef = ref<HTMLAudioElement | null>(null);
 const isExpanded = ref(false);
 
 // 音频文件路径 - 阅读文章的录音
-const readingAudioSrc = "./assets/致陈佳欣的一封信/男生给女生的深情信件.m4a"; // 请将阅读录音文件放在此路径
+const readingAudioSrc = "/docs/audio/男生给女生的深情信件.m4a"; // 阅读录音文件
 
 // 定义事件，用于与主播放器通信
 const emit = defineEmits<{
