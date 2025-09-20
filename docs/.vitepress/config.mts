@@ -26,6 +26,21 @@ export default defineConfig({
       }
     ]
   },
+
+  // 配置 SSR 选项，避免浏览器 API 错误
+  ssr: {
+    noExternal: ['canvas-confetti']
+  },
+
+  // 配置 Vite 选项
+  vite: {
+    define: {
+      global: 'globalThis',
+    },
+    ssr: {
+      noExternal: ['canvas-confetti']
+    }
+  },
   head: [
     ['link', { rel: 'icon', href: '/docs/bitbug_favicon.ico' }],
     // Simple Analytics script
