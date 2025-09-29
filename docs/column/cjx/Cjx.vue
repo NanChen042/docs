@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import ReadingPlayer from "./ReadingPlayer.vue";
 
 const isPlaying = ref(false);
@@ -13,8 +13,78 @@ const analyser = ref<AnalyserNode | null>(null);
 const dataArray = ref<Uint8Array | null>(null);
 const animationId = ref<number | null>(null);
 
-// 音频文件路径 - 音频文件放在 public 文件夹中
-const audioSrc = "/docs/audio/Connie Talbot - Count On Me_H.mp3"; // 背景音乐
+// 音频播放列表
+interface AudioTrack {
+  id: number;
+  title: string;
+  artist: string;
+  src: string;
+}
+
+const audioTracks = ref<AudioTrack[]>([
+  {
+    id: 1,
+    title: "恋人",
+    artist: "李荣浩 - 恋人 (伴奏)",
+    src: "/docs/audio/李荣浩 - 恋人 (伴奏)_L.mp3"
+  },
+  {
+    id: 2,
+    title: "Count On Me",
+    artist: "Connie Talbot",
+    src: "/docs/audio/Connie Talbot - Count On Me_H.mp3"
+  },
+
+  {
+    id: 3,
+    title: "해리안 윤소안",
+    artist: "해리안 윤소안 _ Andreas Carlsson",
+    src: "/docs/audio/해리안 윤소안.mp3"
+  },
+  {
+    id: 4,
+    title: "Standing Egg - 오 잠깐",
+    artist: "Standing Egg - 오 잠깐",
+    src: "/docs/audio/Standing Egg - 오 잠깐_H.mp3"
+  },
+  {
+    id: 5,
+    title: "温柔",
+    artist: "逗逗一米八 - 温柔 (吉他女声)",
+    src: "/docs/audio/逗逗一米八 - 温柔 (吉他女声)_L.mp3"
+  },
+  {
+    id: 6,
+    title: "流沙",
+    artist: "赵乃吉 - 流沙",
+    src: "/docs/audio/赵乃吉 - 流沙_H.mp3"
+  },
+  {
+    id: 7,
+    title: "角虫王态度 - 신비로운 걸 (神秘的girl) (神秘的girl) (翻自 VROMANCE)",
+    artist: "角虫王态度 - 신비로운 걸 (神秘的girl) (神秘的girl) (翻自 VROMANCE)",
+    src: "/docs/audio/角虫王态度 - 신비로운 걸 (神秘的girl) (神秘的girl) (翻自 VROMANCE)_L.mp3"
+  },
+  {
+    id: 8,
+    title: "青花瓷",
+    artist: "5音 - 青花瓷 (钢琴版)",
+    src: "/docs/audio/5音 - 青花瓷 (钢琴版)_L.mp3"
+  },
+  {
+    id: 9,
+    title: "花海",
+    artist: "柳轻颂 - 花海 (钢琴版_改编版原唱_ 周杰伦)",
+    src: "/docs/audio/柳轻颂 - 花海 (钢琴版_改编版原唱_ 周杰伦)_L.mp3"
+  }
+
+  
+  // 可以在这里添加更多音频文件
+]);
+
+const currentTrackIndex = ref(0);
+const currentTrack = ref(audioTracks.value[0]);
+const audioSrc = ref(currentTrack.value.src);
 const isLoading = ref(false);
 const hasError = ref(false);
 const errorMessage = ref("");
@@ -22,13 +92,23 @@ const errorMessage = ref("");
 // 阅读播放器状态管理
 const readingPlayerPlaying = ref(false);
 
+// 移动端滑动切换
+const touchStartX = ref(0);
+const touchEndX = ref(0);
+
+// 跑马灯动画重置
+const marqueeKey = ref(0);
+
+
 onMounted(() => {
   initAudio();
   setupCanvas();
   drawDefaultVisualization();
 
-  // 监听窗口大小变化
-  window.addEventListener('resize', handleResize);
+  // 监听窗口大小变化（仅在客户端）
+  if (typeof window !== 'undefined') {
+    window.addEventListener('resize', handleResize);
+  }
 });
 
 onUnmounted(() => {
@@ -39,8 +119,10 @@ onUnmounted(() => {
     audioContext.value.close();
   }
 
-  // 移除事件监听器
-  window.removeEventListener('resize', handleResize);
+  // 移除事件监听器（仅在客户端）
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('resize', handleResize);
+  }
 });
 
 // 处理窗口大小变化
@@ -48,6 +130,7 @@ function handleResize() {
   setupCanvas();
   drawDefaultVisualization();
 }
+
 
 // 设置Canvas分辨率
 function setupCanvas() {
@@ -59,7 +142,7 @@ function setupCanvas() {
 
   // 获取容器的实际尺寸
   const rect = container.getBoundingClientRect();
-  const dpr = window.devicePixelRatio || 1;
+  const dpr = (typeof window !== 'undefined' ? window.devicePixelRatio : 1) || 1;
 
   // 设置Canvas的实际分辨率
   canvas.width = rect.width * dpr;
@@ -78,16 +161,19 @@ function setupCanvas() {
 
 function initAudio() {
   if (audioRef.value) {
-    // 加载开始
+    // 设置音频源
+    audioRef.value.src = audioSrc.value;
+
+    // 加载开始 - 对于本地音频文件，通常加载很快，不显示加载状态
     audioRef.value.addEventListener('loadstart', () => {
-      isLoading.value = true;
       hasError.value = false;
+      // 移除 isLoading.value = true; 避免频繁显示加载状态
     });
 
     // 加载完成
     audioRef.value.addEventListener('loadedmetadata', () => {
       duration.value = audioRef.value?.duration || 0;
-      isLoading.value = false;
+      isLoading.value = false; // 确保加载状态重置
     });
 
     // 时间更新
@@ -105,6 +191,8 @@ function initAudio() {
       currentTime.value = 0;
       // 恢复默认可视化效果
       drawDefaultVisualization();
+      // 自动播放下一首
+      nextTrack(true); // 传递 true 表示自动播放
     });
 
     // 错误处理
@@ -169,7 +257,9 @@ async function initAudioContext() {
   if (!audioRef.value) return;
 
   try {
-    audioContext.value = new (window.AudioContext || (window as any).webkitAudioContext)();
+    if (typeof window !== 'undefined') {
+      audioContext.value = new (window.AudioContext || (window as any).webkitAudioContext)();
+    }
     const source = audioContext.value.createMediaElementSource(audioRef.value);
     analyser.value = audioContext.value.createAnalyser();
 
@@ -353,6 +443,98 @@ function drawSmallNote(ctx: CanvasRenderingContext2D, x: number, y: number, scal
   ctx.fillRect(x + 2 * size, y - 8 * size, 1 * size, 10 * size);
 }
 
+// 切换到指定曲目
+function switchToTrack(index: number, autoPlay = false) {
+  if (index < 0 || index >= audioTracks.value.length) return;
+
+  const wasPlaying = isPlaying.value || autoPlay;
+
+  // 停止当前播放
+  if (audioRef.value) {
+    audioRef.value.pause();
+    isPlaying.value = false;
+    if (animationId.value) {
+      cancelAnimationFrame(animationId.value);
+    }
+  }
+
+  // 更新当前曲目
+  currentTrackIndex.value = index;
+  currentTrack.value = audioTracks.value[index];
+  audioSrc.value = currentTrack.value.src;
+  
+  // 重置跑马灯动画
+  marqueeKey.value += 1;
+
+  // 重置播放状态
+  progress.value = 0;
+  currentTime.value = 0;
+  duration.value = 0;
+  hasError.value = false;
+
+  // 更新音频源
+  if (audioRef.value) {
+    audioRef.value.src = audioSrc.value;
+    audioRef.value.load();
+  }
+
+  // 如果之前在播放，切换后继续播放
+  if (wasPlaying) {
+    // 延迟一下等待加载
+    setTimeout(() => {
+      togglePlay();
+    }, 100);
+  } else {
+    drawDefaultVisualization();
+  }
+
+}
+
+// 下一首
+function nextTrack(autoPlay = false) {
+  const nextIndex = (currentTrackIndex.value + 1) % audioTracks.value.length;
+  switchToTrack(nextIndex, autoPlay);
+}
+
+// 上一首
+function previousTrack() {
+  const prevIndex = currentTrackIndex.value === 0
+    ? audioTracks.value.length - 1
+    : currentTrackIndex.value - 1;
+  switchToTrack(prevIndex);
+}
+
+// 处理下拉框选择
+function handleTrackChange(newIndex: number) {
+  // Element Plus会直接传递新的值
+  switchToTrack(newIndex);
+}
+
+// 处理触摸滑动切换歌曲
+function handleTouchStart(event: TouchEvent) {
+  touchStartX.value = event.changedTouches[0].screenX;
+}
+
+function handleTouchEnd(event: TouchEvent) {
+  touchEndX.value = event.changedTouches[0].screenX;
+  handleSwipeGesture();
+}
+
+function handleSwipeGesture() {
+  const swipeThreshold = 50; // 最小滑动距离
+  const diff = touchStartX.value - touchEndX.value;
+
+  if (Math.abs(diff) > swipeThreshold) {
+    if (diff > 0) {
+      // 向左滑动 - 下一首
+      nextTrack();
+    } else {
+      // 向右滑动 - 上一首  
+      previousTrack();
+    }
+  }
+}
+
 // 绘制Ready状态文字
 function drawReadyText(ctx: CanvasRenderingContext2D, centerX: number, centerY: number) {
   // 根据Canvas尺寸动态调整字体大小
@@ -405,110 +587,593 @@ function drawReadyText(ctx: CanvasRenderingContext2D, centerX: number, centerY: 
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 items-center">
+  <div class="audio-player-container">
     <!-- 隐藏的音频元素 -->
-    <audio
-      ref="audioRef"
-      :src="audioSrc"
-      preload="metadata"
-      crossorigin="anonymous"
-    ></audio>
+    <audio ref="audioRef" :src="audioSrc" preload="metadata" crossorigin="anonymous"></audio>
 
     <!-- 音频播放器界面 -->
-    <div class="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-200 shadow-sm w-full">
-      <!-- 播放按钮 -->
-      <button
-        @click="togglePlay"
-        class="w-12 h-12 rounded-full flex items-center justify-center bg-black text-white shadow-md hover:bg-neutral-800 active:scale-95 transition"
-      >
-        <!-- 播放 -->
-        <span
-          v-if="!isPlaying"
-          class="w-0 h-0 border-l-[12px] border-l-white border-t-[7px] border-t-transparent border-b-[7px] border-b-transparent ml-1"
-        ></span>
-        <!-- 暂停 -->
-        <span v-else class="flex gap-[3px]">
-          <span class="w-[3px] h-5 bg-white rounded-sm"></span>
-          <span class="w-[3px] h-5 bg-white rounded-sm"></span>
-        </span>
-      </button>
+    <div class="audio-player" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
+      <!-- 第一行：音频信息和时间 -->
+      <div class="audio-info-row">
+        <div class="audio-info">
+          <!-- 音频标题 -->
+          <div class="audio-title">
+            <div v-if="!hasError" class="marquee-container">
+              <div class="marquee-content" :key="marqueeKey" :class="{ 'playing': isPlaying }">
+                {{ currentTrack.artist }} - {{ currentTrack.title }}
+              </div>
+            </div>
+            <span v-else class="error-text">{{ errorMessage }}</span>
+          </div>
 
-      <!-- 中间内容 -->
-      <div class="flex-1 flex flex-col gap-2">
-        <!-- 音频标题 -->
-        <div class="text-sm text-black ">
-          <span v-if="!hasError">Connie Talbot - Count On Me_H</span>
-          <span v-else class="text-red-500">{{ errorMessage }}</span>
+          <!-- 进度条 -->
+          <div class="progress-container" @click="seekTo">
+            <div class="progress-bar" :class="{ 'error': hasError }" :style="{ width: progress + '%' }"></div>
+          </div>
         </div>
 
-        <!-- 进度条 -->
-        <div
-          class="w-full h-1 bg-gray-200 rounded-full overflow-hidden cursor-pointer"
-          @click="seekTo"
-        >
-          <div
-            class="h-1 transition-all"
-            :class="hasError ? 'bg-red-500' : 'bg-black'"
-            :style="{ width: progress + '%' }"
-          ></div>
-        </div>
-
-        <!-- 时间 -->
-        <div class="flex justify-between text-[11px] text-gray-600">
+        <!-- 时间显示 -->
+        <div class="time-display">
           <span v-if="!hasError">{{ formatTime(currentTime) }}</span>
           <span v-else>--:--</span>
+          <span>/</span>
           <span v-if="!hasError">{{ formatTime(duration) }}</span>
           <span v-else>--:--</span>
         </div>
-
-        <!-- 加载状态 -->
-        <div v-if="isLoading" class="text-xs text-gray-500">
-          正在加载音频文件...
-        </div>
       </div>
 
-      <!-- 声波动画 -->
-      <div class="flex items-end gap-[3px] h-8 w-10">
-        <span
-          v-for="i in 5"
-          :key="i"
-          class="w-[3px] bg-black rounded-sm"
-          :class="isPlaying ? `animate-wave-${i}` : ''"
-        ></span>
+      <!-- 第二行：播放控制按钮 -->
+      <div class="control-row">
+        <div class="play-controls">
+          <!-- 上一首按钮 -->
+          <button @click="previousTrack" class="control-button prev-button">
+            <svg class="control-icon" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
+            </svg>
+          </button>
+
+          <!-- 播放/暂停按钮 -->
+          <button @click="togglePlay" class="play-button">
+            <!-- 播放 -->
+            <span v-if="!isPlaying" class="play-icon"></span>
+            <!-- 暂停 -->
+            <span v-else class="pause-icon">
+              <span class="pause-bar"></span>
+              <span class="pause-bar"></span>
+            </span>
+          </button>
+
+          <!-- 下一首按钮 -->
+          <button @click="nextTrack" class="control-button next-button">
+            <svg class="control-icon" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M16 18h2V6h-2v12zM6 6v12l8.5-6z" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- 声波动画 -->
+        <div class="wave-animation">
+          <span v-for="i in 5" :key="i" class="wave-bar" :class="isPlaying ? `animate-wave-${i}` : ''"></span>
+        </div>
+
+        <!-- 滑动提示 -->
+        <div class="swipe-hint">
+          💡 左右滑动切换音乐
+        </div>
+
+         <!-- 移除加载状态显示，本地音频加载很快不需要显示 -->
       </div>
     </div>
 
     <!-- 音频可视化画布 -->
-    <div class="w-full h-20 bg-gradient-to-r from-gray-50 via-white to-gray-50 rounded-lg border border-gray-200 overflow-hidden shadow-inner relative">
-      <canvas
-        ref="canvasRef"
-        class="w-full h-full"
-      ></canvas>
+    <div class="visualization-container">
+      <canvas ref="canvasRef" class="visualization-canvas"></canvas>
       <!-- 状态指示器 -->
-      <div
-        v-if="!isPlaying && !hasError"
-        class="absolute top-1 right-2 text-xs text-gray-400 font-medium"
-      >
-        {{ isLoading ? '加载中...' : '待播放' }}
+      <div v-if="!isPlaying && !hasError" class="status-indicator">
+        待播放
       </div>
     </div>
 
     <!-- 阅读文章悬浮播放器 -->
-    <ReadingPlayer
-      :main-player-playing="isPlaying"
-      @playing-state-changed="handleReadingPlayerStateChange"
-    />
+    <ReadingPlayer :main-player-playing="isPlaying" @playing-state-changed="handleReadingPlayerStateChange" />
   </div>
 </template>
 
-<style scoped>
-@keyframes wave {
-  0%, 100% { height: 20%; }
-  50% { height: 100%; }
+<style lang="scss" scoped>
+// ========== 变量定义 ==========
+$primary-black: #000000;
+$white: #ffffff;
+$gray-50: #f9fafb;
+$gray-200: #e5e7eb;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+$gray-600: #4b5563;
+$neutral-800: #262626;
+$red-500: #ef4444;
+
+// ========== 主容器 ==========
+.audio-player-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
 }
-.animate-wave-1 { animation: wave 1s ease-in-out infinite; }
-.animate-wave-2 { animation: wave 1s ease-in-out infinite .2s; }
-.animate-wave-3 { animation: wave 1s ease-in-out infinite .4s; }
-.animate-wave-4 { animation: wave 1s ease-in-out infinite .6s; }
-.animate-wave-5 { animation: wave 1s ease-in-out infinite .8s; }
+
+// ========== 音频播放器 ==========
+.audio-player {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: $white;
+  border: 1px solid $gray-200;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+// ========== 第一行：音频信息 ==========
+.audio-info-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0; // 防止flex子元素溢出
+}
+
+.audio-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-width: 0; // 允许缩小
+  overflow: hidden; // 防止内容溢出
+}
+
+// ========== 第二行：控制按钮 ==========
+.control-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+// ========== 播放控制区域 ==========
+.play-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+// ========== 控制按钮样式 ==========
+.control-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $gray-200;
+  color: $primary-black;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: $gray-400;
+    color: $white;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.control-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+// ========== 主播放按钮 ==========
+.play-button {
+  width: 2.25rem; // 从3rem缩小到2.25rem
+  height: 2.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $primary-black;
+  color: $white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0; // 防止被压缩
+
+  &:hover {
+    background: $neutral-800;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.play-icon {
+  width: 0;
+  height: 0;
+  border-left: 8px solid $white; // 从12px缩小到8px
+  border-top: 5px solid transparent; // 从7px缩小到5px
+  border-bottom: 5px solid transparent;
+  margin-left: 0.125rem; // 从0.25rem缩小到0.125rem
+}
+
+.pause-icon {
+  display: flex;
+  gap: 2px; // 从3px缩小到2px
+
+  .pause-bar {
+    width: 2px; // 从3px缩小到2px
+    height: 0.875rem; // 从1.25rem缩小到0.875rem
+    background: $white;
+    border-radius: 0.125rem;
+  }
+}
+
+// ========== 音频内容区域 ==========
+.audio-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem; // 从0.5rem缩小到0.375rem
+}
+
+.audio-title {
+  font-size: 0.875rem;
+  color: $primary-black;
+  font-weight: 500;
+  width: 100%;
+
+  .error-text {
+    color: $red-500;
+  }
+}
+
+// ========== 跑马灯效果 ==========
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.marquee-content {
+  display: inline-block;
+  white-space: nowrap;
+  transform: translateX(0%); // 默认位置在左侧
+  
+  // 只有播放时才启动动画
+  &.playing {
+    animation: marquee 15s linear infinite;
+    
+    &:hover {
+      animation-play-state: paused; // 鼠标悬停时暂停
+    }
+  }
+  
+  // 暂停时停在当前位置，不动画
+  &:not(.playing) {
+    animation: none;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+
+// ========== 进度条 ==========
+.progress-container {
+  width: 100%;
+  height: 0.25rem; // 恢复正常高度
+  background: $gray-200;
+  border-radius: 9999px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.progress-bar {
+  height: 0.25rem; // 恢复正常高度
+  background: $primary-black;
+  transition: all 0.3s ease;
+
+  &.error {
+    background: $red-500;
+  }
+}
+
+// ========== 信息区域 ==========
+.info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+// ========== 歌曲选择器 ==========
+.track-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem; // 从0.5rem缩小到0.375rem
+  font-size: 0.6875rem; // 从0.75rem缩小到0.6875rem
+}
+
+.selector-label {
+  color: $gray-600;
+  white-space: nowrap;
+}
+
+// Element Plus Select 自定义样式
+.track-select {
+  flex: 1;
+
+  :deep(.el-select) {
+    width: 100%;
+  }
+
+  :deep(.el-input__wrapper) {
+    border: 1px solid $gray-200;
+    border-radius: 0.375rem;
+    box-shadow: none;
+    background: $white;
+
+    &:hover {
+      border-color: $gray-400;
+    }
+
+    &.is-focus {
+      border-color: $primary-black;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  :deep(.el-input__inner) {
+    color: $primary-black;
+    font-size: 0.75rem;
+    height: auto;
+    line-height: 1.5;
+  }
+
+  :deep(.el-input__suffix) {
+    color: $gray-500;
+  }
+
+  :deep(.el-select__caret) {
+    color: $gray-500;
+
+    &.is-reverse {
+      transform: rotateZ(180deg);
+    }
+  }
+}
+
+// 下拉面板样式 - 使用更强的选择器优先级
+.track-select {
+  :deep(.el-select-dropdown) {
+    background-color: $white !important;
+    border: 1px solid $gray-200 !important;
+    border-radius: 0.375rem !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  :deep(.el-select-dropdown .el-scrollbar__view) {
+    background-color: $white !important;
+  }
+
+  :deep(.el-select-dropdown__item) {
+    font-size: 0.75rem !important;
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    padding: 8px 12px !important;
+    line-height: 1.5 !important;
+
+    &:hover,
+    &.hover {
+      background-color: #f9fafb !important;
+      color: #000000 !important;
+    }
+
+    &.selected,
+    &.is-selected {
+      background-color: #000000 !important;
+      color: #ffffff !important;
+      font-weight: 500 !important;
+    }
+
+    // 确保所有内部元素的文字颜色
+    * {
+      color: inherit !important;
+    }
+  }
+}
+
+// 全局Element Plus下拉框样式强制覆盖
+.el-select-dropdown {
+  background: #ffffff !important;
+
+  .el-select-dropdown__item {
+    color: #000000 !important;
+    background: #ffffff !important;
+
+    &:hover {
+      background: #f9fafb !important;
+      color: #000000 !important;
+    }
+
+    &.selected {
+      background: #000000 !important;
+      color: #ffffff !important;
+    }
+  }
+}
+
+// ========== 时间显示 ==========
+.time-display {
+  font-size: 0.75rem; // 恢复正常大小
+  color: $gray-600;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums; // 等宽数字
+  min-width: 5rem; // 给时间显示一个最小宽度
+  text-align: right; // 右对齐
+  flex-shrink: 0; // 防止被压缩
+}
+
+// ========== 滑动提示 ==========
+.swipe-hint {
+  font-size: 0.6875rem;
+  color: $gray-400;
+  text-align: center;
+  padding: 0.25rem 0.5rem;
+  background: rgba($gray-50, 0.8);
+  border-radius: 0.375rem;
+  border: 1px solid rgba($gray-200, 0.5);
+  margin: 0.25rem 0;
+  white-space: nowrap;
+}
+
+// ========== 加载状态样式已移除 ==========
+
+
+// ========== 声波动画 ==========
+.wave-animation {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 2rem;
+  width: 2.5rem;
+}
+
+.wave-bar {
+  width: 3px;
+  background: $primary-black;
+  border-radius: 0.125rem;
+  height: 20%;
+}
+
+// ========== 可视化容器 ==========
+.visualization-container {
+  width: 100%;
+  height: 4rem; // 从2.5rem增加到4rem，确保文字清晰可见
+  background: linear-gradient(to right, $gray-50, $white, $gray-50);
+  border-radius: 0.5rem; // 恢复到0.5rem
+  border: 1px solid $gray-200;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+.visualization-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.status-indicator {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.5rem;
+  font-size: 0.75rem;
+  color: $gray-400;
+  font-weight: 500;
+}
+
+// ========== 动画定义 ==========
+@keyframes wave {
+
+  0%,
+  100% {
+    height: 20%;
+  }
+
+  50% {
+    height: 100%;
+  }
+}
+
+
+.animate-wave-1 {
+  animation: wave 1s ease-in-out infinite;
+}
+
+.animate-wave-2 {
+  animation: wave 1s ease-in-out infinite 0.2s;
+}
+
+.animate-wave-3 {
+  animation: wave 1s ease-in-out infinite 0.4s;
+}
+
+.animate-wave-4 {
+  animation: wave 1s ease-in-out infinite 0.6s;
+}
+
+.animate-wave-5 {
+  animation: wave 1s ease-in-out infinite 0.8s;
+}
+
+// ========== 移动端响应式设计 ==========
+@media (max-width: 768px) {
+  .audio-player {
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .audio-info-row {
+    gap: 0.75rem;
+  }
+
+  .audio-info {
+    gap: 0.25rem;
+  }
+
+  .control-row {
+    gap: 0.75rem;
+  }
+
+  .play-controls {
+    gap: 0.75rem;
+  }
+
+  .control-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .play-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .time-display {
+    font-size: 0.6875rem;
+  }
+
+  .wave-animation {
+    width: 2rem; // 移动端缩小声波动画
+  }
+
+  .visualization-container {
+    height: 3.5rem; // 移动端也相应增加高度
+  }
+
+  .swipe-hint {
+    font-size: 0.625rem;
+    background: rgba($gray-50, 0.9);
+    border: 1px solid rgba($gray-200, 0.8);
+    margin: 0.375rem 0;
+  }
+}
 </style>

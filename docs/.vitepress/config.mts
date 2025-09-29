@@ -98,12 +98,11 @@ export default defineConfig({
     ssr: {
       noExternal: ['canvas-confetti']
     },
-    css: {
-      postcss: './docs/.vitepress/postcss.config.js'
-    },
+
     build: {
       // 解决代码包体积过大警告
-      chunkSizeWarningLimit: 1500
+      chunkSizeWarningLimit: 1500,
+
     },
     // 开发服务器优化
     server: {
@@ -127,7 +126,11 @@ export default defineConfig({
     },
     // 优化依赖预构建
     optimizeDeps: {
-      exclude: ['canvas-confetti']
+      exclude: ['canvas-confetti'],
+      include: [
+        'element-plus',
+        '@element-plus/icons-vue'
+      ]
     }
   }
 })

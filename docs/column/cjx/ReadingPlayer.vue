@@ -143,69 +143,60 @@ function seekTo(event: MouseEvent) {
   ></audio>
 
   <!-- 悬浮按钮容器 -->
-  <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+  <div class="floating-container">
     <!-- 展开的控制面板 -->
     <Transition
-      enter-active-class="transition-all duration-300 ease-out"
-      enter-from-class="opacity-0 transform translate-y-4 scale-95"
-      enter-to-class="opacity-100 transform translate-y-0 scale-100"
-      leave-active-class="transition-all duration-200 ease-in"
-      leave-from-class="opacity-100 transform translate-y-0 scale-100"
-      leave-to-class="opacity-0 transform translate-y-4 scale-95"
+      enter-active-class="panel-enter-active"
+      enter-from-class="panel-enter-from"
+      enter-to-class="panel-enter-to"
+      leave-active-class="panel-leave-active"
+      leave-from-class="panel-leave-from"
+      leave-to-class="panel-leave-to"
     >
-      <div 
-        v-if="isExpanded" 
-        class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 w-80 sm:w-96"
-      >
+      <div v-if="isExpanded" class="control-panel">
         <!-- 标题 -->
-        <div class="flex items-center justify-between mb-3">
-          <div class="flex items-center gap-2">
-            <div class="w-2 h-2 rounded-full bg-green-500"></div>
-            <span class="text-sm font-medium text-gray-700">听我朗读（这太抽象了）</span>
+        <div class="panel-header">
+          <div class="title-section">
+            <div class="status-dot"></div>
+            <span class="title-text">听我朗读（这太抽象了）</span>
           </div>
-          <button 
-            @click="isExpanded = false"
-            class="text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button @click="isExpanded = false" class="close-button">
+            <svg class="close-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
           </button>
         </div>
 
         <!-- 播放控制 -->
-        <div class="flex items-center gap-3 mb-3">
+        <div class="play-controls">
           <button
             @click="togglePlay"
             :disabled="isLoading || hasError"
-            class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-500 text-white shadow-md hover:bg-blue-600 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            class="control-button"
           >
             <!-- 播放图标 -->
-            <svg v-if="!isPlaying" class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+            <svg v-if="!isPlaying" class="play-svg" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z"/>
             </svg>
             <!-- 暂停图标 -->
-            <svg v-else class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <svg v-else class="pause-svg" fill="currentColor" viewBox="0 0 24 24">
               <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
             </svg>
           </button>
 
           <!-- 进度信息 -->
-          <div class="flex-1">
-            <div class="text-xs text-gray-600 mb-1">
-              <span v-if="hasError" class="text-red-500">{{ errorMessage }}</span>
+          <div class="progress-section">
+            <div class="time-info">
+              <span v-if="hasError" class="error-text">{{ errorMessage }}</span>
               <span v-else-if="isLoading">加载中...</span>
               <span v-else>{{ formatTime(currentTime) }} / {{ formatTime(duration) }}</span>
             </div>
-            
+
             <!-- 进度条 -->
-            <div 
-              class="w-full h-1 bg-gray-200 rounded-full overflow-hidden cursor-pointer"
-              @click="seekTo"
-            >
+            <div class="progress-track" @click="seekTo">
               <div
-                class="h-1 transition-all"
-                :class="hasError ? 'bg-red-500' : 'bg-blue-500'"
+                class="progress-fill"
+                :class="{ 'error': hasError }"
                 :style="{ width: progress + '%' }"
               ></div>
             </div>
@@ -213,7 +204,7 @@ function seekTo(event: MouseEvent) {
         </div>
 
         <!-- 状态提示 -->
-        <div class="text-xs text-gray-500">
+        <div class="status-text">
           <span v-if="isPlaying">正在播放阅读内容</span>
           <span v-else-if="hasError">播放出错</span>
           <span v-else-if="isLoading">准备中...</span>
@@ -225,38 +216,303 @@ function seekTo(event: MouseEvent) {
     <!-- 主悬浮按钮 -->
     <button
       @click="isExpanded = !isExpanded"
-      class="w-14 h-14 rounded-full bg-blue-500 text-white shadow-lg hover:bg-blue-600 active:scale-95 transition-all flex items-center justify-center group"
-      :class="{ 'bg-blue-600': isExpanded }"
+      class="main-button"
+      :class="{ 'expanded': isExpanded }"
     >
       <!-- 阅读图标 -->
-      <svg v-if="!isExpanded" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg v-if="!isExpanded" class="read-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C20.168 18.477 18.582 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
       </svg>
       <!-- 关闭图标 -->
-      <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg v-else class="collapse-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
       </svg>
-      
+
       <!-- 播放状态指示器 -->
-      <div 
-        v-if="isPlaying" 
-        class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center"
-      >
-        <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+      <div v-if="isPlaying" class="playing-indicator">
+        <div class="pulse-dot"></div>
       </div>
     </button>
   </div>
 </template>
 
-<style scoped>
-/* 手机端适配 */
+<style lang="scss" scoped>
+// ========== 变量定义 ==========
+$blue-500: #3b82f6;
+$blue-600: #2563eb;
+$green-500: #10b981;
+$white: #ffffff;
+$gray-200: #e5e7eb;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+$gray-600: #4b5563;
+$gray-700: #374151;
+$red-500: #ef4444;
+
+// ========== 悬浮容器 ==========
+.floating-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+// ========== 过渡动画 ==========
+.panel-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.panel-enter-from {
+  opacity: 0;
+  transform: translateY(1rem) scale(0.95);
+}
+
+.panel-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.panel-leave-active {
+  transition: all 0.2s ease-in;
+}
+
+.panel-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.panel-leave-to {
+  opacity: 0;
+  transform: translateY(1rem) scale(0.95);
+}
+
+// ========== 控制面板 ==========
+.control-panel {
+  background: $white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid $gray-200;
+  padding: 1rem;
+  width: 20rem;
+
+  @media (min-width: 640px) {
+    width: 24rem;
+  }
+}
+
+// ========== 面板头部 ==========
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.title-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: $green-500;
+}
+
+.title-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $gray-700;
+}
+
+.close-button {
+  color: $gray-400;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $gray-600;
+  }
+}
+
+.close-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+// ========== 播放控制 ==========
+.play-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.control-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $blue-500;
+  color: $white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: $blue-600;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.play-svg {
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0.125rem;
+}
+
+.pause-svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+// ========== 进度区域 ==========
+.progress-section {
+  flex: 1;
+}
+
+.time-info {
+  font-size: 0.75rem;
+  color: $gray-600;
+  margin-bottom: 0.25rem;
+
+  .error-text {
+    color: $red-500;
+  }
+}
+
+.progress-track {
+  width: 100%;
+  height: 0.25rem;
+  background: $gray-200;
+  border-radius: 9999px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.progress-fill {
+  height: 0.25rem;
+  background: $blue-500;
+  transition: all 0.3s ease;
+
+  &.error {
+    background: $red-500;
+  }
+}
+
+// ========== 状态文本 ==========
+.status-text {
+  font-size: 0.75rem;
+  color: $gray-500;
+}
+
+// ========== 主按钮 ==========
+.main-button {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: $blue-500;
+  color: $white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  &:hover {
+    background: $blue-600;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &.expanded {
+    background: $blue-600;
+  }
+}
+
+.read-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.collapse-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+// ========== 播放指示器 ==========
+.playing-indicator {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  width: 1rem;
+  height: 1rem;
+  background: $green-500;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pulse-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: $white;
+  border-radius: 50%;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// ========== 响应式设计 ==========
 @media (max-width: 640px) {
-  .fixed {
+  .floating-container {
     bottom: 1rem;
     right: 1rem;
   }
-  
-  .w-80 {
+
+  .control-panel {
     width: calc(100vw - 3rem);
     max-width: 20rem;
   }
