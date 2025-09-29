@@ -12,7 +12,7 @@
     "docs:build:safe": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192 --max-semi-space-size=512\" vitepress build docs --mode production",
     "docs:preview": "vitepress preview docs",
     "predeploy": "pnpm run docs:build:safe",
-    "deploy": "gh-pages -d docs/.vitepress/dist -r https://github.com/NanChen042/docs.git -b gh-pages",
+    "deploy": "gh-pages -d docs/.vitepress/dist -r git@github.com:NanChen042/docs.git -b gh-pages",
     "deploy:retry": "pnpm run predeploy && pnpm run deploy",
     "media:exclude": "node scripts/manage-media.js exclude",
     "media:include": "node scripts/manage-media.js include",

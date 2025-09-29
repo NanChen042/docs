@@ -26,56 +26,56 @@ const audioTracks = ref<AudioTrack[]>([
     id: 1,
     title: "恋人",
     artist: "李荣浩 - 恋人 (伴奏)",
-    src: "/docs/audio/李荣浩 - 恋人 (伴奏)_L.mp3"
+    src: "./assets/audio/李荣浩 - 恋人 (伴奏)_L.mp3"
   },
   {
     id: 2,
     title: "Count On Me",
     artist: "Connie Talbot",
-    src: "/docs/audio/Connie Talbot - Count On Me_H.mp3"
+    src: "./assets/audio/Connie Talbot - Count On Me_H.mp3"
   },
 
   {
     id: 3,
     title: "해리안 윤소안",
     artist: "해리안 윤소안 _ Andreas Carlsson",
-    src: "/docs/audio/해리안 윤소안.mp3"
+    src: "./assets/audio/해리안 윤소안.mp3"
   },
   {
     id: 4,
     title: "Standing Egg - 오 잠깐",
     artist: "Standing Egg - 오 잠깐",
-    src: "/docs/audio/Standing Egg - 오 잠깐_H.mp3"
+    src: "./assets/audio/Standing Egg - 오 잠깐_H.mp3"
   },
   {
     id: 5,
     title: "温柔",
     artist: "逗逗一米八 - 温柔 (吉他女声)",
-    src: "/docs/audio/逗逗一米八 - 温柔 (吉他女声)_L.mp3"
+    src: "./assets/audio/逗逗一米八 - 温柔 (吉他女声)_L.mp3"
   },
   {
     id: 6,
     title: "流沙",
     artist: "赵乃吉 - 流沙",
-    src: "/docs/audio/赵乃吉 - 流沙_H.mp3"
+    src: "./assets/audio/赵乃吉 - 流沙_H.mp3"
   },
   {
     id: 7,
     title: "角虫王态度 - 신비로운 걸 (神秘的girl) (神秘的girl) (翻自 VROMANCE)",
     artist: "角虫王态度 - 신비로운 걸 (神秘的girl) (神秘的girl) (翻自 VROMANCE)",
-    src: "/docs/audio/角虫王态度 - 신비로운 걸 (神秘的girl) (神秘的girl) (翻自 VROMANCE)_L.mp3"
+    src: "./assets/audio/角虫王态度 - 신비로운 걸 (神秘的girl) (神秘的girl) (翻自 VROMANCE)_L.mp3"
   },
   {
     id: 8,
     title: "青花瓷",
     artist: "5音 - 青花瓷 (钢琴版)",
-    src: "/docs/audio/5音 - 青花瓷 (钢琴版)_L.mp3"
+    src: "./assets/audio/5音 - 青花瓷 (钢琴版)_L.mp3"
   },
   {
     id: 9,
     title: "花海",
     artist: "柳轻颂 - 花海 (钢琴版_改编版原唱_ 周杰伦)",
-    src: "/docs/audio/柳轻颂 - 花海 (钢琴版_改编版原唱_ 周杰伦)_L.mp3"
+    src: "./assets/audio/柳轻颂 - 花海 (钢琴版_改编版原唱_ 周杰伦)_L.mp3"
   }
 
   
