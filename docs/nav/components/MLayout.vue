@@ -43,4 +43,6 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 <template>
   <Layout v-bind="$attrs" />
+  <!-- 全局图片预览组件 -->
+  <ImagePreview />
 </template>

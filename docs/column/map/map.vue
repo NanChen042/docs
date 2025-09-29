@@ -1,31 +1,30 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+  <div class="lottie-showcase">
     <!-- Header -->
-    <header class="glass-card border-0 border-b border-slate-200 border-opacity-50 sticky top-0 z-1">
-      <div class="max-w-1400 mx-auto px-6 py-4">
-        <div class="flex items-center justify-between">
-          <div>
-            <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+    <header class="header">
+      <div class="header-container">
+        <div class="header-content">
+          <div class="header-left">
+            <h1 class="title">
               Lottie Showcase
             </h1>
-            <p class="text-slate-600 mt-1">现代化动画展示库</p>
+            <p class="subtitle">现代化动画展示库</p>
           </div>
-          <div class="flex items-center gap-4">
-            <div class="relative">
-              <svg class="text-slate-400 w-4 h-4 absolute  left-3 top-1/2 -translate-y-1/2  z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="header-right">
+            <div class="search-container">
+              <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-
-              <input v-model="searchTerm" placeholder="搜索动画..." class="pl-10 w-64 glass-card border-slate-200 border-opacity-50 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20" />
+              <input v-model="searchTerm" placeholder="搜索动画..." class="search-input" />
             </div>
-            <div class="flex items-center gap-2">
-              <button :class="['glass-hover px-3 py-2 rounded-lg text-sm font-medium transition-all', viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-white bg-opacity-50 text-slate-600 border border-slate-200 border-opacity-50']" @click="viewMode = 'grid'">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="view-controls">
+              <button :class="['view-btn', { active: viewMode === 'grid' }]" @click="viewMode = 'grid'">
+                <svg class="view-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
                 </svg>
               </button>
-              <button :class="['glass-hover px-3 py-2 rounded-lg text-sm font-medium transition-all', viewMode === 'list' ? 'bg-blue-600 text-white' : 'bg-white bg-opacity-50 text-slate-600 border border-slate-200 border-opacity-50']" @click="viewMode = 'list'">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <button :class="['view-btn', { active: viewMode === 'list' }]" @click="viewMode = 'list'">
+                <svg class="view-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
                 </svg>
               </button>
@@ -35,143 +34,130 @@
       </div>
     </header>
 
-    <div class="max-w-1400 mx-auto px-6 py-8">
+    <div class="main-container">
       <!-- Filters -->
-      <div class="mb-8">
-        <div class="flex items-center gap-2 mb-4">
-          <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="filters-section">
+        <div class="filters-header">
+          <svg class="filter-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
           </svg>
-          <span class="font-medium text-slate-700">分类</span>
+          <span class="filter-label">分类</span>
         </div>
-        <div class="flex flex-wrap gap-2">
-          <button v-for="category in categories" :key="category" :class="['glass-hover rounded-full px-4 py-2 text-sm font-medium transition-all', selectedCategory === category ? 'bg-blue-600 text-white shadow-lg shadow-blue-600 shadow-opacity-25' : 'bg-white bg-opacity-50 text-slate-600 border border-slate-200 border-opacity-50']" @click="selectedCategory = category">
+        <div class="category-buttons">
+          <button v-for="category in categories" :key="category" :class="['category-btn', { active: selectedCategory === category }]" @click="selectedCategory = category">
             {{ category }}
           </button>
         </div>
       </div>
 
       <!-- Animation Grid -->
-      <div :class="[
-        'grid gap-6',
-        viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' : 'grid-cols-1'
-      ]">
-        <div v-for="animation in filteredAnimations" :key="animation.id" class="glass-card glass-hover border-slate-200 border-opacity-50 overflow-hidden cursor-pointer group rounded-xl" @click="selectedAnimation = animation" @mouseenter="playAnimation(animation.id)" @mouseleave="pauseAnimation(animation.id)">
-          <div class="relative">
-            <div class="w-full h-48 flex items-center justify-center relative z-10">
-              <DotLottieVue :ref="el => setAnimationRef(el, animation.id)" :src="animation.src" :autoplay="false" :loop="animation.loop" class="w-32 h-32" />
+      <div :class="['animations-grid', { 'grid-view': viewMode === 'grid', 'list-view': viewMode === 'list' }]">
+        <div v-for="animation in filteredAnimations" :key="animation.id" class="animation-card" @click="selectedAnimation = animation" @mouseenter="playAnimation(animation.id)" @mouseleave="pauseAnimation(animation.id)">
+          <div class="animation-preview">
+            <div class="animation-container">
+              <DotLottieVue :ref="el => setAnimationRef(el, animation.id)" :src="animation.src" :autoplay="false" :loop="animation.loop" class="animation-player" />
             </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: linear-gradient(to top, rgba(0,0,0,0.6), transparent, transparent);" />
-            <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="flex items-center gap-2">
-                <button class="glass-card px-3 py-2 rounded-lg text-slate-600 hover:bg-white hover:bg-opacity-20 transition-all" @click.stop="resetAnimation(animation.id)" title="重置动画">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="animation-overlay">
+              <div class="animation-controls">
+                <button class="control-btn reset-btn" @click.stop="resetAnimation(animation.id)" title="重置动画">
+                  <svg class="control-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                   </svg>
                 </button>
-                <div class="glass-card px-3 py-2 rounded-lg text-slate-600 text-xs">
+                <div class="control-tip">
                   悬停播放
                 </div>
               </div>
             </div>
           </div>
-          <div class="p-4 relative z-10">
-            <div class="flex items-start justify-between mb-2">
-              <h3 class="font-semibold text-lg text-slate-800">{{ animation.title }}</h3>
-              <span class="text-xs font-medium flex items-center justify-center px-[20px] py-1 rounded-xl bg-slate-100 text-slate-700 border border-slate-300 shadow-sm hover:bg-slate-200 transition-colors duration-200">
+          <div class="animation-info">
+            <div class="info-header">
+              <h3 class="animation-title">{{ animation.title }}</h3>
+              <span class="animation-category">
                 {{ animation.category }}
               </span>
-
-
             </div>
-            <p class="text-slate-600 text-sm mb-3">{{ animation.description }}</p>
-            <div class="flex flex-wrap gap-2 mb-3">
-              <span v-for="tag in animation.tags.slice(0, 3)" :key="tag" class="text-xs font-medium  py-1 rounded-full
-           bg-gradient-to-r from-blue-50 to-blue-100
-           text-blue-700 border border-blue-200 shadow-sm
-           hover:from-blue-100 hover:to-blue-200 hover:shadow-md
-           transition-all duration-200 cursor-default px-2">
+            <p class="animation-description">{{ animation.description }}</p>
+            <div class="animation-tags">
+              <span v-for="tag in animation.tags.slice(0, 3)" :key="tag" class="tag">
                 {{ tag }}
               </span>
             </div>
-
-            <div class="flex items-center justify-between text-sm text-slate-500">
-              <span>{{ animation.author }}</span>
-              <span>{{ animation.downloads.toLocaleString() }} 下载</span>
+            <div class="animation-meta">
+              <span class="author">{{ animation.author }}</span>
+              <span class="downloads">{{ animation.downloads.toLocaleString() }} 下载</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- No Results -->
-      <div v-if="filteredAnimations.length === 0" class="text-center py-12">
-        <div class="text-slate-400 mb-4">
-          <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div v-if="filteredAnimations.length === 0" class="no-results">
+        <div class="no-results-content">
+          <svg class="no-results-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
           </svg>
-          <p class="text-lg">未找到动画</p>
-          <p class="text-sm">请尝试调整搜索条件</p>
+          <p class="no-results-title">未找到动画</p>
+          <p class="no-results-subtitle">请尝试调整搜索条件</p>
         </div>
       </div>
     </div>
 
     <!-- Detail Modal -->
-    <div v-if="selectedAnimation" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" @click="selectedAnimation = null">
-      <div class="glass-card border-slate-200 border-opacity-50 max-w-4xl w-full rounded-2xl overflow-hidden" @click.stop>
-        <div class="p-6 border-b border-slate-200 border-opacity-50">
-          <div class="flex items-center justify-between">
-            <h2 class="text-2xl font-bold text-slate-800">{{ selectedAnimation.title }}</h2>
-            <button class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors" @click="selectedAnimation = null">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-              </svg>
-            </button>
-          </div>
+    <div v-if="selectedAnimation" class="modal-overlay" @click="selectedAnimation = null">
+      <div class="modal-content" @click.stop>
+        <div class="modal-header">
+          <h2 class="modal-title">{{ selectedAnimation.title }}</h2>
+          <button class="modal-close" @click="selectedAnimation = null">
+            <svg class="close-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
         </div>
-        <div class="grid md:grid-cols-2 gap-6 p-6">
-          <div class="space-y-4">
-            <div class="relative rounded-lg overflow-hidden aspect-square flex items-center justify-center">
-              <DotLottieVue :src="selectedAnimation.src" :autoplay="true" :loop="true" class="w-64 h-64" />
+        <div class="modal-body">
+          <div class="modal-left">
+            <div class="modal-animation">
+              <DotLottieVue :src="selectedAnimation.src" :autoplay="true" :loop="true" class="modal-player" />
             </div>
-            <div class="flex items-center gap-2">
-              <button class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+            <div class="modal-actions">
+              <button class="action-btn primary">
                 下载
               </button>
-              <button class="px-4 py-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
+              <button class="action-btn secondary">
                 收藏
               </button>
             </div>
           </div>
-          <div class="space-y-4">
-            <div>
-              <h4 class="font-semibold mb-2 text-slate-800">描述</h4>
-              <p class="text-slate-600">{{ selectedAnimation.description }}</p>
+          <div class="modal-right">
+            <div class="modal-section">
+              <h4 class="section-title">描述</h4>
+              <p class="section-content">{{ selectedAnimation.description }}</p>
             </div>
-            <div>
-              <h4 class="font-semibold mb-2 text-slate-800">详细信息</h4>
-              <div class="space-y-2 text-sm">
-                <div class="flex justify-between">
-                  <span class="text-slate-500">作者:</span>
-                  <span class="text-slate-700">{{ selectedAnimation.author }}</span>
+            <div class="modal-section">
+              <h4 class="section-title">详细信息</h4>
+              <div class="detail-list">
+                <div class="detail-item">
+                  <span class="detail-label">作者:</span>
+                  <span class="detail-value">{{ selectedAnimation.author }}</span>
                 </div>
-                <div class="flex justify-between">
-                  <span class="text-slate-500">时长:</span>
-                  <span class="text-slate-700">{{ selectedAnimation.duration }}秒</span>
+                <div class="detail-item">
+                  <span class="detail-label">时长:</span>
+                  <span class="detail-value">{{ selectedAnimation.duration }}秒</span>
                 </div>
-                <div class="flex justify-between">
-                  <span class="text-slate-500">下载数:</span>
-                  <span class="text-slate-700">{{ selectedAnimation.downloads.toLocaleString() }}</span>
+                <div class="detail-item">
+                  <span class="detail-label">下载数:</span>
+                  <span class="detail-value">{{ selectedAnimation.downloads.toLocaleString() }}</span>
                 </div>
-                <div class="flex justify-between">
-                  <span class="text-slate-500">分类:</span>
-                  <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-full">{{ selectedAnimation.category }}</span>
+                <div class="detail-item">
+                  <span class="detail-label">分类:</span>
+                  <span class="detail-category">{{ selectedAnimation.category }}</span>
                 </div>
               </div>
             </div>
-            <div>
-              <h4 class="font-semibold mb-2 text-slate-800">标签</h4>
-              <div class="flex flex-wrap gap-2">
-                <span v-for="tag in selectedAnimation.tags" :key="tag" class="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-full border border-blue-200">
+            <div class="modal-section">
+              <h4 class="section-title">标签</h4>
+              <div class="modal-tags">
+                <span v-for="tag in selectedAnimation.tags" :key="tag" class="modal-tag">
                   {{ tag }}
                 </span>
               </div>
@@ -425,53 +411,650 @@ const pauseAnimation = (id: string) => {
   isPlaying.value[id] = false;
 };
 </script>
-<style scoped>
-/* 自定义玻璃效果 - 保留特殊的玻璃卡片效果 */
-.glass-card {
-  background: rgba(255, 255, 255, 0.8);
+<style lang="scss" scoped>
+// ========== 变量定义 ==========
+$primary-blue: #2563eb;
+$primary-blue-hover: #1d4ed8;
+$primary-blue-light: #3b82f6;
+$slate-50: #f8fafc;
+$slate-100: #f1f5f9;
+$slate-200: #e2e8f0;
+$slate-300: #cbd5e1;
+$slate-400: #94a3b8;
+$slate-500: #64748b;
+$slate-600: #475569;
+$slate-700: #334155;
+$slate-800: #1e293b;
+$blue-50: #eff6ff;
+$blue-100: #dbeafe;
+$blue-200: #bfdbfe;
+$blue-600: #2563eb;
+$blue-700: #1d4ed8;
+$purple-50: #faf5ff;
+$purple-600: #9333ea;
+
+$glass-bg: rgba(255, 255, 255, 0.8);
+$glass-border: rgba(255, 255, 255, 0.2);
+$glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 16px rgba(0, 0, 0, 0.05);
+
+// ========== 主容器 ==========
+.lottie-showcase {
+  min-height: 100vh;
+  background: linear-gradient(135deg, $slate-50 0%, $blue-50 50%, $purple-50 100%);
+}
+
+// ========== 头部样式 ==========
+.header {
+  background: $glass-bg;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.1),
-    0 2px 16px rgba(0, 0, 0, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  position: relative;
-}
-
-.glass-card::before {
-  content: '';
-  position: absolute;
+  border: 1px solid $glass-border;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid rgba($slate-200, 0.5);
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.2) 0%,
-      rgba(255, 255, 255, 0.05) 50%,
-      rgba(255, 255, 255, 0.1) 100%);
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: -1;
+  z-index: 10;
+  box-shadow: $glass-shadow;
 }
 
-.glass-hover:hover {
-  transform: translateY(-4px) scale(1.02);
-  background: rgba(255, 255, 255, 0.9);
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.15),
-    0 8px 32px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
 }
 
-.glass-hover:hover::before {
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.3) 0%,
-      rgba(255, 255, 255, 0.1) 50%,
-      rgba(255, 255, 255, 0.2) 100%);
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
+.header-left {
+  .title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    background: linear-gradient(to right, $blue-600, $purple-600);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin: 0;
+  }
 
+  .subtitle {
+    color: $slate-600;
+    margin: 0.25rem 0 0 0;
+    font-size: 0.875rem;
+  }
+}
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+// ========== 搜索框 ==========
+.search-container {
+  position: relative;
+
+  .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 1rem;
+    color: $slate-400;
+    z-index: 10;
+  }
+
+  .search-input {
+    padding-left: 2.5rem;
+    width: 16rem;
+    background: $glass-bg;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba($slate-200, 0.5);
+    border-radius: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 0.75rem;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba($primary-blue, 0.2);
+      border-color: $primary-blue;
+    }
+
+    &::placeholder {
+      color: $slate-400;
+    }
+  }
+}
+
+// ========== 视图控制按钮 ==========
+.view-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.view-btn {
+  background: $glass-bg;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba($slate-200, 0.5);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $slate-600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  .view-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &.active {
+    background: $primary-blue;
+    color: white;
+    border-color: $primary-blue;
+  }
+}
+
+// ========== 主内容区域 ==========
+.main-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 2rem;
+}
+
+// ========== 过滤器区域 ==========
+.filters-section {
+  margin-bottom: 2rem;
+}
+
+.filters-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  .filter-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: $slate-500;
+  }
+
+  .filter-label {
+    font-weight: 500;
+    color: $slate-700;
+  }
+}
+
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.category-btn {
+  background: $glass-bg;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba($slate-200, 0.5);
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $slate-600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &.active {
+    background: $primary-blue;
+    color: white;
+    box-shadow: 0 10px 15px -3px rgba($primary-blue, 0.25);
+  }
+}
+
+// ========== 动画网格 ==========
+.animations-grid {
+  display: grid;
+  gap: 1.5rem;
+
+  &.grid-view {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @media (min-width: 1280px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  &.list-view {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ========== 动画卡片 ==========
+.animation-card {
+  background: $glass-bg;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid $glass-border;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: $glass-shadow;
+
+  &:hover {
+    transform: translateY(-4px) scale(1.02);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+    .animation-overlay {
+      opacity: 1;
+    }
+  }
+}
+
+// ========== 动画预览区域 ==========
+.animation-preview {
+  position: relative;
+  height: 12rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.animation-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+}
+
+.animation-player {
+  width: 8rem;
+  height: 8rem;
+}
+
+.animation-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.animation-controls {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.control-btn {
+  background: $glass-bg;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid $glass-border;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: $slate-600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .control-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.control-tip {
+  background: $glass-bg;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid $glass-border;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: $slate-600;
+  font-size: 0.75rem;
+}
+
+// ========== 动画信息区域 ==========
+.animation-info {
+  padding: 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.info-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.animation-title {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: $slate-800;
+  margin: 0;
+}
+
+.animation-category {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 1.25rem;
+  border-radius: 0.75rem;
+  background: $slate-100;
+  color: $slate-700;
+  border: 1px solid $slate-300;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: $slate-200;
+  }
+}
+
+.animation-description {
+  color: $slate-600;
+  font-size: 0.875rem;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.4;
+}
+
+.animation-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.tag {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(to right, $blue-50, $blue-100);
+  color: $blue-700;
+  border: 1px solid $blue-200;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: default;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: linear-gradient(to right, $blue-100, $blue-200);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.animation-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: $slate-500;
+
+  .author, .downloads {
+    margin: 0;
+  }
+}
+
+// ========== 无结果状态 ==========
+.no-results {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.no-results-content {
+  color: $slate-400;
+  margin-bottom: 1rem;
+}
+
+.no-results-icon {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto 1rem;
+  opacity: 0.5;
+}
+
+.no-results-title {
+  font-size: 1.125rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.no-results-subtitle {
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+// ========== 模态框样式 ==========
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: $glass-bg;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid $glass-border;
+  max-width: 64rem;
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba($slate-200, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $slate-800;
+  margin: 0;
+}
+
+.modal-close {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: $slate-100;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: $slate-200;
+  }
+
+  .close-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.modal-body {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.5rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.modal-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-animation {
+  position: relative;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba($slate-100, 0.5);
+}
+
+.modal-player {
+  width: 16rem;
+  height: 16rem;
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+
+  &.primary {
+    background: $primary-blue;
+    color: white;
+
+    &:hover {
+      background: $primary-blue-hover;
+    }
+  }
+
+  &.secondary {
+    background: transparent;
+    color: $slate-700;
+    border: 1px solid $slate-200;
+
+    &:hover {
+      background: $slate-50;
+    }
+  }
+}
+
+.modal-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-section {
+  .section-title {
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: $slate-800;
+  }
+
+  .section-content {
+    color: $slate-600;
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+.detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-label {
+  color: $slate-500;
+}
+
+.detail-value {
+  color: $slate-700;
+}
+
+.detail-category {
+  font-size: 0.75rem;
+  background: $slate-100;
+  color: $slate-600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+}
+
+.modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.modal-tag {
+  font-size: 0.75rem;
+  background: $blue-50;
+  color: $blue-600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid $blue-200;
+}
 </style>

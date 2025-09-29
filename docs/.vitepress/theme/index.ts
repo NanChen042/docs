@@ -1,6 +1,6 @@
 import { h, watch } from 'vue'
 import DefaultTheme from "vitepress/theme";
-import "../../styles/tailwind.css";
+import "../../styles/main.scss";
 import "element-plus/dist/index.css";
 import { useData,EnhanceAppContext } from 'vitepress'
 import ElementPlus from 'element-plus'
@@ -18,6 +18,7 @@ import NightLight from '../../column/home/NightLight.vue'
 import Confetti from '../components/Confetti/Confetti.vue'
 import MNavLinks from '../../nav/components/MNavLinks.vue'
 import Cjx from '../../column/cjx/Cjx.vue'
+import ImagePreview from '../components/ImagePreview/ImagePreview.vue'
 import './custom.css';
 import './style/blur.css';
 import './style.css';
@@ -46,6 +47,7 @@ export default {
     app.component('NightLight', NightLight)
     app.component('Map', Map)
     app.component('Games', Games)
+    app.component('ImagePreview', ImagePreview)
     // app.component('Map4', Map4)
 
    // 全局注册基础组件
