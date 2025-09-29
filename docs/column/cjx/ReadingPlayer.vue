@@ -54,13 +54,13 @@ function initAudio() {
       isLoading.value = true;
       hasError.value = false;
     });
-    
+
     // 加载完成
     audioRef.value.addEventListener('loadedmetadata', () => {
       duration.value = audioRef.value?.duration || 0;
       isLoading.value = false;
     });
-    
+
     // 时间更新
     audioRef.value.addEventListener('timeupdate', () => {
       if (audioRef.value) {
@@ -68,7 +68,7 @@ function initAudio() {
         progress.value = (currentTime.value / duration.value) * 100;
       }
     });
-    
+
     // 播放结束
     audioRef.value.addEventListener('ended', () => {
       isPlaying.value = false;
@@ -76,7 +76,7 @@ function initAudio() {
       currentTime.value = 0;
       emit('playingStateChanged', false);
     });
-    
+
     // 错误处理
     audioRef.value.addEventListener('error', (e) => {
       hasError.value = true;
@@ -90,7 +90,7 @@ function initAudio() {
 
 async function togglePlay() {
   if (!audioRef.value) return;
-  
+
   try {
     if (isPlaying.value) {
       pauseReading();
@@ -123,42 +123,33 @@ function formatTime(seconds: number): string {
 
 function seekTo(event: MouseEvent) {
   if (!audioRef.value || !duration.value) return;
-  
+
   const rect = (event.target as HTMLElement).getBoundingClientRect();
   const clickX = event.clientX - rect.left;
   const width = rect.width;
   const seekTime = (clickX / width) * duration.value;
-  
+
   audioRef.value.currentTime = seekTime;
 }
 </script>
 
 <template>
   <!-- 隐藏的音频元素 -->
-  <audio 
-    ref="audioRef" 
-    :src="readingAudioSrc" 
-    preload="metadata"
-    crossorigin="anonymous"
-  ></audio>
+  <audio ref="audioRef" :src="readingAudioSrc" preload="metadata" crossorigin="anonymous"></audio>
 
   <!-- 悬浮按钮容器 -->
   <div class="floating-container">
     <!-- 展开的控制面板 -->
-    <Transition
-      enter-active-class="panel-enter-active"
-      enter-from-class="panel-enter-from"
-      enter-to-class="panel-enter-to"
-      leave-active-class="panel-leave-active"
-      leave-from-class="panel-leave-from"
-      leave-to-class="panel-leave-to"
-    >
+    <Transition enter-active-class="panel-enter-active" enter-from-class="panel-enter-from" enter-to-class="panel-enter-to" leave-active-class="panel-leave-active" leave-from-class="panel-leave-from" leave-to-class="panel-leave-to">
       <div v-if="isExpanded" class="control-panel">
         <!-- 标题 -->
         <div class="panel-header">
           <div class="title-section">
-            <div class="status-dot"></div>
-            <span class="title-text">听我朗读（这太抽象了）</span>
+            <div style="display: flex;align-items: center;gap: 0.5rem;">
+              <div class="status-dot"></div>
+              <h6>谁在说话？</h6>
+            </div>
+            <span class="title-text">（这辈子不要让我听到第二遍，因为我根本不知道当时哪里来的勇气说出来的）-.-</span>
           </div>
           <button @click="isExpanded = false" class="close-button">
             <svg class="close-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -169,18 +160,14 @@ function seekTo(event: MouseEvent) {
 
         <!-- 播放控制 -->
         <div class="play-controls">
-          <button
-            @click="togglePlay"
-            :disabled="isLoading || hasError"
-            class="control-button"
-          >
+          <button @click="togglePlay" :disabled="isLoading || hasError" class="control-button">
             <!-- 播放图标 -->
             <svg v-if="!isPlaying" class="play-svg" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z"/>
+              <path d="M8 5v14l11-7z" />
             </svg>
             <!-- 暂停图标 -->
             <svg v-else class="pause-svg" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
             </svg>
           </button>
 
@@ -194,11 +181,7 @@ function seekTo(event: MouseEvent) {
 
             <!-- 进度条 -->
             <div class="progress-track" @click="seekTo">
-              <div
-                class="progress-fill"
-                :class="{ 'error': hasError }"
-                :style="{ width: progress + '%' }"
-              ></div>
+              <div class="progress-fill" :class="{ 'error': hasError }" :style="{ width: progress + '%' }"></div>
             </div>
           </div>
         </div>
@@ -214,18 +197,14 @@ function seekTo(event: MouseEvent) {
     </Transition>
 
     <!-- 主悬浮按钮 -->
-    <button
-      @click="isExpanded = !isExpanded"
-      class="main-button"
-      :class="{ 'expanded': isExpanded }"
-    >
+    <button @click="isExpanded = !isExpanded" class="main-button" :class="{ 'expanded': isExpanded }">
       <!-- 阅读图标 -->
       <svg v-if="!isExpanded" class="read-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C20.168 18.477 18.582 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C20.168 18.477 18.582 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
       </svg>
       <!-- 关闭图标 -->
       <svg v-else class="collapse-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
       </svg>
 
       <!-- 播放状态指示器 -->
@@ -307,15 +286,16 @@ $red-500: #ef4444;
 // ========== 面板头部 ==========
 .panel-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 0.75rem;
 }
 
 .title-section {
   display: flex;
-  align-items: center;
+
   gap: 0.5rem;
+  flex-direction: column;
 }
 
 .status-dot {
@@ -326,9 +306,10 @@ $red-500: #ef4444;
 }
 
 .title-text {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
-  color: $gray-700;
+  flex: 1;
+  color: $gray-400;
 }
 
 .close-button {
@@ -497,9 +478,12 @@ $red-500: #ef4444;
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
