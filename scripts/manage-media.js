@@ -86,21 +86,51 @@ function includeMedia() {
   console.log('✅ 包含媒体文件...');
   
   let lines = readGitignore();
-  
-  // 移除媒体规则
-  const startIndex = lines.findIndex(line => line.includes('媒体文件'));
-  if (startIndex !== -1) {
-    let endIndex = lines.length;
-    for (let i = startIndex; i < lines.length; i++) {
-      if (lines[i].trim() === '' && i > startIndex + 5) {
-        endIndex = i;
+
+  // 1) 先尝试移除以注释标题标识的媒体规则块
+  const blockStartIndex = lines.findIndex(line => line.includes('媒体文件'));
+  if (blockStartIndex !== -1) {
+    let blockEndIndex = lines.length;
+    for (let i = blockStartIndex; i < lines.length; i++) {
+      if (lines[i].trim() === '' && i > blockStartIndex + 5) {
+        blockEndIndex = i;
         break;
       }
     }
-    lines.splice(startIndex - 1, endIndex - startIndex + 1);
+    // 安全边界
+    const safeStart = Math.max(0, blockStartIndex - 1);
+    lines.splice(safeStart, blockEndIndex - safeStart + 1);
   }
-  
-  writeGitignore(lines);
+
+  // 2) 再全量移除所有媒体相关规则（即使它们被重复添加在其他位置）
+  const MEDIA_PATTERNS = new Set(
+    MEDIA_RULES
+      .filter(Boolean)
+      .filter(line => !line.startsWith('#'))
+  );
+
+  lines = lines.filter(line => {
+    if (!line) return true;
+    if (line.startsWith('#')) return true;
+    // 精确匹配任一规则
+    if (MEDIA_PATTERNS.has(line.trim())) return false;
+    return true;
+  });
+
+  // 3) 去重连续的空行，保持文件整洁
+  const cleaned = [];
+  for (const line of lines) {
+    if (
+      cleaned.length > 0 &&
+      cleaned[cleaned.length - 1].trim() === '' &&
+      line.trim() === ''
+    ) {
+      continue;
+    }
+    cleaned.push(line);
+  }
+
+  writeGitignore(cleaned);
   console.log('✅ 媒体文件已包含');
 }
 
