@@ -31,6 +31,10 @@ export const sidebar: DefaultTheme.Sidebar = {
           text: 'AI系列——06、AI联网搜索增强功能使用指南',
           link: '/column/AI/web-search-enhancement-guide.md'
         },
+        {
+          text: 'AI系列——07、Atlas —— 一个 AI 增强的个人知识与生产力系统',
+          link: '/column/AI/Atlas.md'
+        },
 
 
       ]
