@@ -30,19 +30,26 @@ yarn-error.log*
 pnpm-debug.log*
 
 # 视频文件
+*.mp4
+*.avi
+*.mov
+*.mkv
 
 # 音频文件
+*.mp3
+*.m4a
+*.wav
+*.flac
+*.ogg
 
-# 图片文件 (保留小的图标，排除大的图片)
-
-# 保留小图标文件
+# 大图片和GIF
+docs/column/cjx/assets/audio/
+docs/column/cjx/assets/index/
+docs/column/AI/assets/
+docs/column/ThreeJS/img/
+docs/public/audio/
+docs/public/videos/
 
 # Temporary files
 *.tmp
-*.temp
-
-# 音频文件
-
-# 图片文件 (保留小的图标，排除大的图片)
-
-# 保留小图标文件
+*.temp
