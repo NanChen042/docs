@@ -8,6 +8,10 @@ export const sidebar: DefaultTheme.Sidebar = {
       text: 'AI 系列',
       items: [
         {
+          text: 'AI系列——skill和rules的区别',
+          link: '/column/AI/skill和rules的区别.md'
+        },
+        {
           text: 'AI系列——01、用cursor接入mcp协议并体验Magic生成AI网站',
           link: '/column/AI/AI系列——01、用cursor接入mcp协议并体验Magic生成AI网站.md'
         },
@@ -35,8 +39,6 @@ export const sidebar: DefaultTheme.Sidebar = {
           text: 'AI系列——07、Atlas —— 一个 AI 增强的个人知识与生产力系统',
           link: '/column/AI/Atlas.md'
         },
-
-
       ]
     },
     {

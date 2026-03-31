@@ -31,18 +31,18 @@ hero:
 # 按钮下方的描述
 features:
   - icon: 🤹♀️
-    title: 前端开发
-    details: 小厂程序猿，国内某不知名互联网厂搬砖。
-
+    title: 前端开发——沪上漂泊记
+    details: 2022：我能找到工作吗？<br>2023：我能活下来吗？<br>2024：我是不是废了？<br>2025：我要跑路<br>2026：AI是不是要干掉我？
+    link: /column/Travel/index
   - icon: 👩🎨
     title: 我接触过的内容
-    details: HarmonyOS4.0、Typescript、JavaScript、HTML、CSS、Vue、WebGL
+    details: HTML、CSS、JQuery、Ts、Uniapp、Vue、WebGL、HarmonyOS <br> 踩过无数坑 <br> 折腾过新技术
   - icon: 🧩
     title: 青年成功之道
-    details: 真正的成功不在于你得到了什么，而是在于你成为了什么样的人。
+    details: 真正的成功不在于你得到了什么，而是在于你成为了什么样的人。<br>不求尽胜，但拒久败。<br>步履虽缓，志不可停。
   - icon: 🧱
     title: 好用的让你根本停不下来的工具
-    details: 噢耶！这也太好用了吧！！
+    details: 噢耶！这也太好用了吧！！<br>效率起飞<br>摸鱼必备<br>生产力拉满
     link: /nav/index
 ---
 
