@@ -102,7 +102,7 @@ const line = new THREE.Line(geometry, material);
 // 闭合线条
 const line = new THREE.LineLoop(geometry, material); 
 ```
-![](img/Three05Img/LineLoop.png)
+![](img/Three05Img/lineloop.png)
 
 #### 非连续线条`LineSegments`
 ```js
