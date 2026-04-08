@@ -267,4 +267,4 @@ onMounted(() => {
 
 ```
 效果展示:
-![Alt text](assets/three01%E5%9C%BA%E6%99%AF%E6%90%AD%E5%BB%BA/03f88bcae1b48b1b443b8e6ae1861392_6f896519a7e04deb8499d0c18d60e9ec.gif)
+![Alt text](https://i-blog.csdnimg.cn/blog_migrate/03f88bcae1b48b1b443b8e6ae1861392.gif)
