@@ -62,7 +62,7 @@
   }
 ```
 
-![](./img/Three08Img/tutieshi_640x449_6s.gif)
+![](./img/Three08Img/tutieshi_640x449_6s.webp)
 
 
 ## 删除模型对象`.remove`

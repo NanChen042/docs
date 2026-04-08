@@ -47,7 +47,7 @@ struct if_son {
 ```
 
 效果：
-![Alt text](assets/HarmonyOS06/recording.gif)
+![Alt text](assets/HarmonyOS06/recording.webp)
 
 另外，@State 定义的变量归父组件所有。因此，当`子组件`实例被删除时，该变量不会被销毁。`子组件`通过`@Link装饰器`引用状态。状态必须从子级移动到其父级（或父级的父级），以避免在条件内容或重复内容被销毁时丢失状态。
 
@@ -112,7 +112,7 @@ struct CompA {
 - false true
 
 效果：
-![Alt text](assets/HarmonyOS06/recording-1.gif)
+![Alt text](assets/HarmonyOS06/recording-1.webp)
 
 ## ForEach
 
@@ -223,7 +223,7 @@ struct ForEachPage {
 ```
 
 效果：
-![Alt text](assets/HarmonyOS06/recording-2.gif)
+![Alt text](assets/HarmonyOS06/recording-2.webp)
 **如果渲染长列表的话需要使用`List`组件，不然数组数据多的情况下滚动会出现问题**。
 
 ## LazyForEach：数据懒加载

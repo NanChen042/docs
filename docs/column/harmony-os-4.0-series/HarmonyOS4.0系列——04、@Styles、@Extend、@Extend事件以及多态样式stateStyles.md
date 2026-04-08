@@ -159,7 +159,7 @@ struct ExtendFun {
 }
 ```
 效果：
-![](../harmony-os-4.0-series/assets/HarmonyOS4.0系列——04/tutieshi_260x510_5s.gif)
+![](../harmony-os-4.0-series/assets/HarmonyOS4.0系列——04/tutieshi_260x510_5s.webp)
 
 
 ## stateStyles:多态样式
@@ -205,5 +205,5 @@ struct Index {
 }
 
 ```
-![](../harmony-os-4.0-series/assets/HarmonyOS4.0系列——04/2.gif)
+![](../harmony-os-4.0-series/assets/HarmonyOS4.0系列——04/2.webp)
 

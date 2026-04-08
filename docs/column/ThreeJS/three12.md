@@ -46,7 +46,7 @@ mesh.material = new THREE.MeshPhysicalMaterial( {
     scene.add(torusKnot);
 ```
 效果：
-![](./img/Three12Img/10s.gif)
+![](./img/Three12Img/10s.webp)
 
 ## 折射率`.ior`
 非金属材料的折射率从1.0到2.333。默认值为1.5。
@@ -60,7 +60,7 @@ mesh.material = new THREE.MeshPhysicalMaterial( {
     const torusKnot = new THREE.Mesh(geometry, material);
     scene.add(torusKnot);
 ```
-![](img/Three12Img/tutieshi_480x446_7s.gif)
+![](img/Three12Img/tutieshi_480x446_7s.webp)
 
 ## 解析gltf材质
 一般默认使用标准网格材质`MeshStandardMaterial`，如果gltf有的材质具有`.clearcoat`、`.transmission`等属性，标准网格材质`MeshStandardMaterial`无法表达的时候，会用物理网格材质`MeshPhysicalMaterial`来解析gltf材质。

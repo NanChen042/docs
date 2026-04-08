@@ -25,7 +25,7 @@ function addBox() {
 ```
 
 效果：
-![](img/Three13Img/tutieshi_454x320_5s.gif)
+![](img/Three13Img/tutieshi_454x320_5s.webp)
 
 #### 两个几何体 Mesh 拉开距离
 

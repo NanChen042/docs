@@ -76,7 +76,7 @@ struct StateProp{
 ```
 
 效果：
-![Alt text](assets/HarmonyOS4.0%E7%B3%BB%E5%88%97%E2%80%94%E2%80%9405%E3%80%81%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/recording-1.gif)
+![Alt text](assets/HarmonyOS4.0%E7%B3%BB%E5%88%97%E2%80%94%E2%80%9405%E3%80%81%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/recording-1.webp)
 
 关于多个页面使用相同组件重名报错问题：
 可以自己定义一个规范：
@@ -185,7 +185,7 @@ struct Index_link {
 ```
 
 效果：
-![Alt text](assets/HarmonyOS4.0%E7%B3%BB%E5%88%97%E2%80%94%E2%80%9405%E3%80%81%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/recording-2.gif)
+![Alt text](assets/HarmonyOS4.0%E7%B3%BB%E5%88%97%E2%80%94%E2%80%9405%E3%80%81%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/recording-2.webp)
 
 
 ## 父孙组件传递 `@Provide`和 `@Consume`  与后代组件双向同步
@@ -246,7 +246,7 @@ struct Index_sun{
 
 ```
 
-![Alt text](assets/HarmonyOS4.0%E7%B3%BB%E5%88%97%E2%80%94%E2%80%9405%E3%80%81%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/recording-3.gif)
+![Alt text](assets/HarmonyOS4.0%E7%B3%BB%E5%88%97%E2%80%94%E2%80%9405%E3%80%81%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/recording-3.webp)
 
 其中`@Provide`装饰的变量是在祖先节点中，可以理解为被“提供”给后代的状态变量。`@Consume`装饰的变量是在后代组件中，去“消费（绑定）”祖先节点提供的变量。
 
@@ -309,7 +309,7 @@ struct Index {
 }
 
 ```
-![Alt text](assets/HarmonyOS4.0%E7%B3%BB%E5%88%97%E2%80%94%E2%80%9405%E3%80%81%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/recording-4.gif)
+![Alt text](assets/HarmonyOS4.0%E7%B3%BB%E5%88%97%E2%80%94%E2%80%9405%E3%80%81%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/recording-4.webp)
 当点击`次方`为文本时无法进行监听，这是因为num只是定义了双向绑定，没有设置状态监听
 
 这时需要将num 添加监听器
@@ -318,4 +318,4 @@ struct Index {
 ```
 
 效果：
-![Alt text](assets/HarmonyOS4.0%E7%B3%BB%E5%88%97%E2%80%94%E2%80%9405%E3%80%81%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/recording-5.gif)
+![Alt text](assets/HarmonyOS4.0%E7%B3%BB%E5%88%97%E2%80%94%E2%80%9405%E3%80%81%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/recording-5.webp)

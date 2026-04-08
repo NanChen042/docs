@@ -85,7 +85,7 @@ struct second {
 
 ```
 实际效果：
-![请添加图片描述](./assets/HarmonyOS4.0系列——02、汉化插件、声明式开发范式ArkTS和类web开发范式/900a9faff9254354a0c2b8962a9b9868.gif)
+![请添加图片描述](./assets/HarmonyOS4.0系列——02、汉化插件、声明式开发范式ArkTS和类web开发范式/900a9faff9254354a0c2b8962a9b9868.webp)
 
 ### 类web开发范式
 也就是所谓的前端开发方式。创建时使用`FA`模型，语言选择`JS`
@@ -157,4 +157,4 @@ export default {
 }
 
 ```
-效果：![请添加图片描述](./assets/HarmonyOS4.0系列——02、汉化插件、声明式开发范式ArkTS和类web开发范式/fb6fb67c648c421aafbbaa2bc0340e6b.gif)
+效果：![请添加图片描述](./assets/HarmonyOS4.0系列——02、汉化插件、声明式开发范式ArkTS和类web开发范式/fb6fb67c648c421aafbbaa2bc0340e6b.webp)

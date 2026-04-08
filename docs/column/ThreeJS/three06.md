@@ -103,7 +103,7 @@ function render() {
 ```
 
 效果如下：
-![](img/Three06Img/tutieshi_390x348_4s.gif)
+![](img/Three06Img/tutieshi_390x348_4s.webp)
 
 #### 围绕某个轴旋转
 
@@ -113,7 +113,7 @@ function render() {
 const axis = new THREE.Vector3(0, 0, 1); //向量axis
 mesh.rotateOnAxis(axis, Math.PI / 20); //绕axis轴旋转π/8
 ```
-![](img/Three06Img/2.gif)
+![](img/Three06Img/2.webp)
 
 #### 克隆`.clone`
 复制一份和原对象一样的新对象，可以参考这种写法

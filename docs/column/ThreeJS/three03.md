@@ -35,7 +35,7 @@ const render = () => {
 render();
 ```
 
-实际效果：![](./img/Three03Img/1683165388397.gif)
+实际效果：![](./img/Three03Img/1683165388397.webp)
 
 #### 计算两帧渲染时间间隔和帧率
 
@@ -216,7 +216,7 @@ camera = new THREE.PerspectiveCamera(
 ```
 
 效果如下：
-![](img/Three03Img/1683186446774.gif)
+![](img/Three03Img/1683186446774.webp)
 
 ## 双层 for 循环创建阵列模型
 
@@ -288,9 +288,9 @@ controls.update(); //update()函数内会执行camera.lookAt(controls.targe)
 ```
 
 改变前：
-![](img/Three03Img/qian.gif)
+![](img/Three03Img/qian.webp)
 改变后：
-![](img/Three03Img/tutieshi_640x768_5s.gif)
+![](img/Three03Img/tutieshi_640x768_5s.webp)
 
 <strong>透视投影相机的投影规律是远小近大，通过相机观察阵列立方体大小变化，可以看到距离相机越远，立方体的渲染视觉效果越小。</strong>
 

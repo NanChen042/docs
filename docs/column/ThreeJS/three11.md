@@ -50,7 +50,7 @@ new THREE.MeshStandardMaterial({
 测试图片
 ![](img/Three11Img/02.png)
 实际效果如下：
-![](img/Three11Img/tutieshi_480x411_20s.gif)
+![](img/Three11Img/tutieshi_480x411_20s.webp)
 
 ## `envMapIntensity`环境贴图反射率
 用于设置环境贴图的强度。它控制着环境贴图对物体表面的反射程度，数值越大反射越强烈，数值越小反射越弱。该属性的取值范围为0到1之间，默认值为1。

@@ -165,7 +165,7 @@ scene.add(pointLightHelper);
 
 ```
 效果如下：
-![](img/Three02Img/1682218652160.gif)
+![](img/Three02Img/1682218652160.webp)
 
 ### 环境光设置
 环境光`AmbientLight`没有特定方向，只是整体改变场景的光照明暗。环境光就不需要加位置了，只有整体
@@ -199,4 +199,4 @@ const dirLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5,0xff
 scene.add(dirLightHelper);
 ```
 
-![](img/Three02Img/tutieshi_636x536_6s.gif)  
+![](img/Three02Img/tutieshi_636x536_6s.webp)  

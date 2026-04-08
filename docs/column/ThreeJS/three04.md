@@ -18,7 +18,7 @@ const geometry = new THREE.CircleGeometry(50);
 ```
 
 这里拿平面做示例：
-![](img/Three04Img/danmian5s.gif)
+![](img/Three04Img/danmian5s.webp)
 
 #### 双面可见
 
@@ -36,7 +36,7 @@ new THREE.MeshBasicMaterial({
 });
 ```
 
-![](img/Three04Img/quanmian.gif)
+![](img/Three04Img/quanmian.webp)
 
 ## 高光网络材质
 
@@ -71,10 +71,10 @@ const material = new THREE.MeshPhongMaterial({
 
 数字越大，光越亮
 对比效果:
-![](img/Three04Img/tutieshi_406x296_5s.gif)
+![](img/Three04Img/tutieshi_406x296_5s.webp)
 
 下面是使用`MeshLambertMaterial`材质的效果：
-![](img/Three04Img/02.gif)
+![](img/Three04Img/02.webp)
 
 #### WebGL 渲染器设置(锯齿模糊)
 
@@ -199,7 +199,7 @@ function guiFun() {
 ```
 
 效果演示：
-![](img/Three04Img/tutieshi_640x766_10s.gif)
+![](img/Three04Img/tutieshi_640x766_10s.webp)
 
 #### name()
 
@@ -246,7 +246,7 @@ gui.addColor(obj, "color").onChange(function (value) {
 });
 ```
 
-![](img/Three04Img/colors.gif)
+![](img/Three04Img/colors.webp)
 
 ## gui 下拉菜单
 
@@ -344,7 +344,7 @@ render();
 ```
 
 效果：
-![](img/Three04Img/xuanzhuan.gif)
+![](img/Three04Img/xuanzhuan.webp)
 
 ## gui.js 库(分组)
 
@@ -440,7 +440,7 @@ dirFolder.add(directionalLight.position, "z", -400, 400);
 ```
 
 显示效果如下：
-![](img/Three04Img/14s.gif)
+![](img/Three04Img/14s.webp)
 
 #### 关闭.close()和展开.open()交互界面
 

@@ -70,7 +70,7 @@ const render = () => {
 render();
 ```
 
-![](img/Three15Img/tutieshi_454x320_9s.gif)
+![](img/Three15Img/tutieshi_454x320_9s.webp)
 
 #### 执行`lookAt()`计算相机视线方向
 
@@ -264,7 +264,7 @@ control();
 
 效果如下：(此图片是 GIF 压缩后的效果，实际效果比较理想)
 
-![](img/Three15Img/tutieshi_640x503_4s.gif)
+![](img/Three15Img/tutieshi_640x503_4s.webp)
 
 #### 给相机添加完整动画
 
@@ -287,7 +287,7 @@ const render = () => {
 render();
 ```
 
-![](<img/Three15Img/tutieshi_320x251_7s%20(1).gif>)
+![](<img/Three15Img/tutieshi_320x251_7s%20(1).webp>)
 
 用点模型渲染,会渲染成类似于虫洞的效果
 
@@ -299,7 +299,7 @@ material = new THREE.PointsMaterial({
 mesh = new THREE.Points(geometry, material);
 ```
 
-![](img/Three15Img/4s.gif)
+![](img/Three15Img/4s.webp)
 
 完整代码：
 
@@ -651,7 +651,7 @@ controls.minAzimuthAngle = -Math.PI/2;
 controls.maxAzimuthAngle = Math.PI/2;
 ```
 
-![](img/Three15Img/tutieshi_640x555_10s.gif)
+![](img/Three15Img/tutieshi_640x555_10s.webp)
 
 
 
@@ -666,7 +666,7 @@ import { MapControls } from 'three/addons/controls/OrbitControls.js';
 const controls = new MapControls(camera, renderer.domElement);
 ```
 效果：
-![](img/Three15Img/map.gif)
+![](img/Three15Img/map.webp)
 
 MapControls本质上就是改变相机的参数，比如相机的位置属性、相机目标观察点。
 

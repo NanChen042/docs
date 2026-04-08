@@ -24,13 +24,13 @@ const geometry = new THREE.BoxGeometry(100, 100, 100); //长方体
 ```
 
 效果：
-![](./img/Three09Img/tutieshi_390x348_5s.gif)
+![](./img/Three09Img/tutieshi_390x348_5s.webp)
 
 ```js
 const geometry = new THREE.SphereGeometry(50, 50, 50); //长方体
 ```
 
-![](./img/Three09Img/qiu.gif)
+![](./img/Three09Img/qiu.webp)
 
 ## 顶点 UV 坐标
 
@@ -187,7 +187,7 @@ mesh.position = 1;
     requestAnimationFrame(render);
   };
 ```
-效果：![](img/Three09Img/10s.gif)
+效果：![](img/Three09Img/10s.webp)
 
 偏移量+纹理映射
 ```js
@@ -197,7 +197,7 @@ mesh.position = 1;
   // texture.offset.y +=0.5;//纹理V方向偏移
   // texture.wrapT = THREE.RepeatWrapping;//对应offste.y偏移
 ```
-效果：![](img/Three09Img/7s.gif)
+效果：![](img/Three09Img/7s.webp)
 
 可以看到第一种方法旋转一圈后就会出现问题，后续就无法重复映射。
 
@@ -234,4 +234,4 @@ mesh.position = 1;
   };
   render();
 ```
-![](img/Three09Img/UV.gif)
+![](img/Three09Img/UV.webp)

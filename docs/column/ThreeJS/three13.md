@@ -42,7 +42,7 @@ const yellowBtn = () => {
 ```
 
 效果：
-![](img/Three13Img/3s.gif)
+![](img/Three13Img/3s.webp)
 
 ## 背景透明度
 

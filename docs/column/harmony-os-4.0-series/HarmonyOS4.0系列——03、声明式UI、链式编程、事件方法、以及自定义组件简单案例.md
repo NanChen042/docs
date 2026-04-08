@@ -243,7 +243,7 @@ struct itemComponent{
 
 效果：
 
-![tutieshi_260x552_4s.gif](./assets/HarmonyOS4.0系列——03、声明式UI、链式编程、事件方法、以及自定义组件简单案例/3e.png)
+![tutieshi_260x552_4s.webp](./assets/HarmonyOS4.0系列——03、声明式UI、链式编程、事件方法、以及自定义组件简单案例/3e.png)
 
 添加下滑线：`TextDecorationType`文本枚举类型
 
@@ -320,4 +320,4 @@ struct itemComponent{
 
 ```
 
-![tutieshi_260x552_6s.gif](./assets/HarmonyOS4.0系列——03、声明式UI、链式编程、事件方法、以及自定义组件简单案例/3e.png)
+![tutieshi_260x552_6s.webp](./assets/HarmonyOS4.0系列——03、声明式UI、链式编程、事件方法、以及自定义组件简单案例/3e.png)
