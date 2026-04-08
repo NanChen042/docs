@@ -8,6 +8,10 @@ export const sidebar: DefaultTheme.Sidebar = {
       text: 'AI 系列',
       items: [
         {
+          text: 'AI Skill Server 动态技能中台 - 完整技术文档',
+          link: '/column/AI/AI Skill Server 动态技能中台 - 完整技术文档.md'
+        },
+        {
           text: 'AI系列——Rules、Skills、MCP 到底是什么？',
           link: '/column/AI/Rules、Skills、MCP 到底是什么？.md'
         },
