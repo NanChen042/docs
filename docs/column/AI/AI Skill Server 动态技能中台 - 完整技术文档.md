@@ -1651,7 +1651,7 @@ ${skillDesc}
 
 项目使用 `.env` 文件管理配置。示例：
 
-```dotenv
+```bash
 # .env 文件
 
 # 服务器配置
@@ -1676,7 +1676,7 @@ NODE_ENV=production
 
 **不同环境的配置示例**：
 
-```dotenv
+```bash
 # .env.development - 开发环境
 PORT=3000
 DB_HOST=localhost
