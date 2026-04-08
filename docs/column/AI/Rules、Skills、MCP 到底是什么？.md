@@ -83,8 +83,7 @@ Skills 的底层技术原理，其实就是 OpenAI 搞出来的 **Function Calli
 ## MCP (协议)
 
 什么是 MCP？它是如何运作的？Smithery 是如何使用 MCP 的？
-![alt text](assets/skill和rules的区别/image-2.png)
-
+![alt text](assets/skill和rules的区别/image.png)
 本质上是 **Model Context Protocol（模型上下文协议）**。
 官方解释：MCP 是一个开放标准，它使 LLM 能够访问定制工具和上下文，只要 LLM 支持 MCP 并且该工具实现了 MCP 协议。
 
@@ -153,13 +152,14 @@ const result = await mcpClient.callTool({
 Smithery 这个网站可以帮你快速了解 MCP 以及如何上手里面的配置。**你可以把它理解成是 MCP 时代的“App Store（应用商店）”。**
 全网大佬写好的各种牛逼的 MCP 插件都在上面。我这边随便点击了一个进去，可以看到 `Skill.md` 文件，这是可以方便前端拿来使用的规范，右侧就是可以使用模型对应的安装命令以及文件位置：
 
-![alt text](assets/skill和rules的区别/image.png)
 ![alt text](assets/skill和rules的区别/image-1.png)
 
+![alt text](assets/skill和rules的区别/image-2.png)
 ---
 
 ### 总结归纳
-![alt text](assets/skill和rules的区别/image-4.png)
+![alt text](assets/skill和rules的区别/image-3.png)
+
 所以，当你下次在 AI IDE 里折腾的时候，别再把它们混为一谈了：
 * **发现 AI 废话太多、代码风格不对？** 去改 **Rules**（调教它的脑子，改人设）。
 * **发现 AI 想帮你干活但提示“无权限/找不到命令”？** 说明它缺了 **Skills**（给它配发趁手的工具）。
