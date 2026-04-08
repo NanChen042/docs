@@ -8,8 +8,8 @@ export const sidebar: DefaultTheme.Sidebar = {
       text: 'AI 系列',
       items: [
         {
-          text: 'AI系列——skill和rules的区别',
-          link: '/column/AI/skill和rules的区别.md'
+          text: 'AI系列——Rules、Skills、MCP 到底是什么？',
+          link: '/column/AI/Rules、Skills、MCP 到底是什么？.md'
         },
         {
           text: 'AI系列——01、用cursor接入mcp协议并体验Magic生成AI网站',
