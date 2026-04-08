@@ -8,6 +8,7 @@
       :hide-on-click-modal="true"
       @close="closeViewer"
     />
+    
   </div>
 </template>
 
