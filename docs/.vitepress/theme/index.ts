@@ -17,7 +17,6 @@ import Contribute from '../components/Contribute/Contribute.vue'
 import NightLight from '../../column/home/NightLight.vue'
 import Confetti from '../components/Confetti/Confetti.vue'
 import MNavLinks from '../../nav/components/MNavLinks.vue'
-import Cjx from '../../column/cjx/Cjx.vue'
 import ImagePreview from '../components/ImagePreview/ImagePreview.vue'
 import './custom.css';
 import './style/blur.css';
@@ -42,7 +41,6 @@ export default {
     app.component('Confetti', Confetti)
     app.component('MNavLinks', MNavLinks)
     app.component('Home', Home)
-    app.component('Cjx', Cjx)
     app.component('Contribute', Contribute)
     app.component('NightLight', NightLight)
     app.component('Map', Map)
