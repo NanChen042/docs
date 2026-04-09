@@ -5,7 +5,7 @@ import "../../assets/styles/font/iconfont.css";
 import "element-plus/dist/index.css";
 import { useData,EnhanceAppContext } from 'vitepress'
 import ElementPlus from 'element-plus'
-// import { initCustomCursor } from './cursor'
+import { initCustomCursor } from './cursor'
 import { envLanguageSupport } from './env-lang'
 import TlbsMap from 'tlbs-map-vue'
 
@@ -57,7 +57,7 @@ export default {
 
    if (typeof window !== 'undefined') {
      window.addEventListener('DOMContentLoaded', () => {
-      //  initCustomCursor()
+       initCustomCursor()
       // 注册环境变量文件语法高亮支持，解决 "The language 'env' is not loaded" 警告
       envLanguageSupport.register()
      })

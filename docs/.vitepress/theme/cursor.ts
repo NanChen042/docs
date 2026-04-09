@@ -1,4 +1,4 @@
-/* type CursorType = 'auto' | 'pointer' | 'text' | 'wait' | 'move' | 'not-allowed' | 'grab' | 'grabbing' | 'zoom-in' | 'vertical-text' | 'cell' | 'copy' | 'progress';
+type CursorType = 'auto' | 'pointer' | 'text' | 'wait' | 'move' | 'not-allowed' | 'grab' | 'grabbing' | 'zoom-in' | 'vertical-text' | 'cell' | 'copy' | 'progress';
 
 interface CursorMapping {
   [key: string]: string;
@@ -86,4 +86,3 @@ export const initCustomCursor = (): CleanupFunction | void => {
     document.removeEventListener('mousemove', handleMouseMove as any);
   };
 };
- */
