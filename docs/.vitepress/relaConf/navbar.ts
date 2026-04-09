@@ -17,10 +17,6 @@ export const nav: DefaultTheme.NavItem[] = [
     link: '/' // 表示docs/index.md
   },
   {
-    text: 'Lottie动画',
-    link: '/column/map/map.md'
-  },
-  {
     text: '个人历程',
     items: [
       {
@@ -63,8 +59,24 @@ export const nav: DefaultTheme.NavItem[] = [
       {
         text: 'Games',
         link: '/column/Games/从零开始打造HTML5拼图游戏：一个Canvas实战项目.md',
+      },
+      {
+        text: 'Lottie 动画实战',
+        link: '/column/map/map.md'
       }
-
+    ]
+  },
+  {
+    text: '全栈实战',
+    items: [
+      {
+        text: 'NaiveUI 企业级中后台',
+        link: 'https://nanchen042.github.io/naiveui_admin'
+      },
+      {
+        text: 'Vue3 个人博客主页',
+        link: 'https://nanchen042.github.io/vue3-blog/#/'
+      }
     ]
   },
   {
