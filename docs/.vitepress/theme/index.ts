@@ -1,6 +1,7 @@
 import { h, watch } from 'vue'
 import DefaultTheme from "vitepress/theme";
 import "../../styles/main.scss";
+import "../../assets/styles/font/iconfont.css";
 import "element-plus/dist/index.css";
 import { useData,EnhanceAppContext } from 'vitepress'
 import ElementPlus from 'element-plus'

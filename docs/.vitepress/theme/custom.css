@@ -22,6 +22,7 @@
 }
 
 :root {
+  --vp-font-family-base: "iconfont", "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --vp-c-brand: var(--vp-c-purple);
   --vp-c-brand-purple: var(--vp-c-purple-dark);
   --vp-c-brand-page-background: #fff;
@@ -34,18 +35,18 @@
   --vp-button-brand-bg: var(--vp-c-purple-dark);
   --vp-button-brand-hover-bg: var(--vp-c-purple-darker);
   /* Tooltip文字颜色 */
-  --vp-tooltip-bg:linear-gradient(90deg, #A06CD5, #EC69BD,#EC69BD,#A06CD5);
-  --vp-tooltip-bg-before:linear-gradient(45deg,#EB69BD,#EB69BD );
-  --vp-tooltip-color-before:#fff;
+  --vp-tooltip-bg: linear-gradient(90deg, #A06CD5, #EC69BD, #EC69BD, #A06CD5);
+  --vp-tooltip-bg-before: linear-gradient(45deg, #EB69BD, #EB69BD);
+  --vp-tooltip-color-before: #fff;
   --vp-shadow-2: 0 3px 12px rgba(0, 0, 0, .07), 0 1px 4px rgba(0, 0, 0, .07);
 }
 
 .dark {
   --vp-c-bg-alt: #161618;
   --vp-c-bg-soft: #202127;
-  --vp-tooltip-bg-before:linear-gradient(45deg,#252529,#27262B );
-  --vp-tooltip-bg:linear-gradient(90deg, #000, #4B4A54);
-  --vp-tooltip-color-before:#fff;
+  --vp-tooltip-bg-before: linear-gradient(45deg, #252529, #27262B);
+  --vp-tooltip-bg: linear-gradient(90deg, #000, #4B4A54);
+  --vp-tooltip-color-before: #fff;
   --vp-c-brand-purple: #fff;
   --vp-c-brand-1: var(--vp-c-purple-light);
   --vp-c-brand-page-background: var(--vp-c-purple-dark)
@@ -64,6 +65,7 @@ body::-webkit-scrollbar {
 body::-webkit-scrollbar-thumb {
   background-color: var(--vp-c-brand-purple);
 }
+
 aside::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
@@ -75,14 +77,149 @@ aside::-webkit-scrollbar {
 aside::-webkit-scrollbar-thumb {
   background-color: var(--vp-c-brand-1);
 }
-.box .icon{
- text-align: center;
+
+.box .icon {
+  text-align: center;
 }
-.clip{
+
+.clip {
   animation: hueRotate 3s infinite alternate;
 }
+
 @keyframes hueRotate {
   100% {
-      filter: hue-rotate(360deg);
+    filter: hue-rotate(360deg);
   }
+}
+
+/* =========================================
+   为下拉菜单注入彩色图标 (通过 CSS)
+   保证不影响文字本身，同时绕过 VitePress 的 HTML 转义
+========================================= */
+.VPMenuLink a[href*="AI/AI"]::before {
+  content: '\e60b';
+  font-family: 'iconfont';
+  color: #a06cd5;
+  /* AI 紫色 */
+  margin-right: 6px;
+  font-size: 1.1em;
+}
+
+.VPMenuLink a[href*="deepseek"]::before {
+  content: '\e603';
+  font-family: 'iconfont';
+  color: #1a73e8;
+  /* DeepSeek 蓝 */
+  margin-right: 6px;
+  font-size: 1.1em;
+}
+
+.VPMenuLink a[href*="harmony-os"]::before {
+  content: '\e610';
+  font-family: 'iconfont';
+  color: #CF1D26;
+  /* 鸿蒙蓝 */
+  margin-right: 6px;
+  font-size: 1.1em;
+}
+
+.VPMenuLink a[href*="ThreeJS"]::before {
+  content: '\e611';
+  font-family: 'iconfont';
+  color: #26e5ac;
+  /* ThreeJS 橙 */
+  margin-right: 6px;
+  font-size: 1.1em;
+}
+
+.VPMenuLink a[href*="Games"]::before {
+  content: '\e785';
+  font-family: 'iconfont';
+  color: #fc4c02;
+  /* 游戏 橙/红 */
+  margin-right: 6px;
+  font-size: 1.1em;
+}
+
+/* 导航栏单栏图标自定义通用样式 */
+.nav-deepseek-icon,
+.nav-aivista-icon,
+.nav-atilas-icon {
+  font-size: 0.9em;
+  /* 图标小一点 */
+  margin-right: 2px;
+  transition: color 0.25s;
+}
+
+/* 各自定义默认颜色 */
+.nav-deepseek-icon {
+  color: #1a73e8;
+}
+
+/* DeepSeek 蓝 */
+.nav-aivista-icon {
+  color: orange;
+}
+
+/* AIVista 橙 */
+.nav-atilas-icon {
+  color: #FF485A;
+}
+
+/* Atilas 粉红 */
+
+/* 鼠标悬停变紫 */
+.VPLink:hover .nav-deepseek-icon,
+a:hover .nav-deepseek-icon,
+.VPLink:hover .nav-aivista-icon,
+a:hover .nav-aivista-icon,
+.VPLink:hover .nav-atilas-icon,
+a:hover .nav-atilas-icon {
+  color: var(--vp-c-purple-dark, #a06cd5);
+}
+
+/* =========================================
+   极致优雅的毛玻璃 Tooltip (Premium Glassmorphism)
+   极简、干净，符合现代 Web 审美风格
+========================================= */
+.nav-vp-tooltip {
+  position: relative;
+  display: inline-block;
+  line-height: normal;
+}
+
+/* 悬浮药丸式弹出层 */
+.nav-vp-tooltip::after {
+  content: attr(data-title);
+  position: absolute;
+  /* 相对文字高度往下一点，脱离高度膨胀的计算陷阱 */
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px) scale(0.95);
+  background: rgba(28, 28, 30, 0.85); /* 极简的暗色半透明质感 (Apple 式) */
+  backdrop-filter: blur(10px); /* 毛玻璃核心参数 */
+  -webkit-backdrop-filter: blur(10px);
+  color: #fff; /* 文字纯白 */
+  padding: 5px 12px;
+  border-radius: 20px; /* 药丸弧度更显圆润顺滑 */
+  border: 1px solid rgba(255, 255, 255, 0.12); /* 淡淡的一层微光边框 */
+  font-size: 11.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); /* 收缩弹跳过渡过度，手感极佳 */
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* 悬停唤出动画效果 */
+.VPLink:hover .nav-vp-tooltip[data-title]::after,
+a:hover .nav-vp-tooltip[data-title]::after,
+.nav-vp-tooltip[data-title]:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0) scale(1);
 }

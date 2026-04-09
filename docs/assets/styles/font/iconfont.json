@@ -1,0 +1,93 @@
+{
+  "id": "5156750",
+  "name": "docs",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "24111663",
+      "name": "闹钟",
+      "font_class": "naozhong",
+      "unicode": "fb37",
+      "unicode_decimal": 64311
+    },
+    {
+      "icon_id": "41588055",
+      "name": "智能体",
+      "font_class": "zhinengti",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "5504842",
+      "name": "人工智能",
+      "font_class": "rengongzhineng",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "24164622",
+      "name": "华为1",
+      "font_class": "huawei1",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "30430531",
+      "name": "Threejs-logo",
+      "font_class": "Threejs-logo",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "36284926",
+      "name": "人工智能_line",
+      "font_class": "rengongzhineng_line",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "44771287",
+      "name": "gamepad",
+      "font_class": "gamepad",
+      "unicode": "e785",
+      "unicode_decimal": 59269
+    },
+    {
+      "icon_id": "20266229",
+      "name": "游戏",
+      "font_class": "youxi",
+      "unicode": "e6e3",
+      "unicode_decimal": 59107
+    },
+    {
+      "icon_id": "37475781",
+      "name": "threejs",
+      "font_class": "a-threejs1",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "43694179",
+      "name": "deepseek-copy-copy",
+      "font_class": "deepseek1",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "44199023",
+      "name": "华为鸿蒙-copy",
+      "font_class": "huaweihongmeng",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "5961321",
+      "name": "AI",
+      "font_class": "wuguan",
+      "unicode": "ec5f",
+      "unicode_decimal": 60511
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 5156750 */
+  src: url('iconfont.woff2?t=1775720548815') format('woff2'),
+       url('iconfont.woff?t=1775720548815') format('woff'),
+       url('iconfont.ttf?t=1775720548815') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-naozhong:before {
+  content: "\fb37";
+}
+
+.icon-zhinengti:before {
+  content: "\e64b";
+}
+
+.icon-rengongzhineng:before {
+  content: "\e60b";
+}
+
+.icon-huawei1:before {
+  content: "\e610";
+}
+
+.icon-Threejs-logo:before {
+  content: "\e611";
+}
+
+.icon-rengongzhineng_line:before {
+  content: "\e612";
+}
+
+.icon-gamepad:before {
+  content: "\e785";
+}
+
+.icon-youxi:before {
+  content: "\e6e3";
+}
+
+.icon-a-threejs1:before {
+  content: "\e600";
+}
+
+.icon-deepseek1:before {
+  content: "\e603";
+}
+
+.icon-huaweihongmeng:before {
+  content: "\e607";
+}
+
+.icon-wuguan:before {
+  content: "\ec5f";
+}
+
