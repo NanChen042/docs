@@ -21,7 +21,6 @@ import MNavLinks from '../../nav/components/MNavLinks.vue'
 import ImagePreview from '../components/ImagePreview/ImagePreview.vue'
 import './custom.css';
 import './style/blur.css';
-import './style.css';
 // 图标并进行全局注册
 export default {
   Layout: () => {
