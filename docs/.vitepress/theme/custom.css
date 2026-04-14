@@ -127,7 +127,14 @@ aside::-webkit-scrollbar-thumb {
   content: '\e611';
   font-family: 'iconfont';
   color: #26e5ac;
-  /* ThreeJS 橙 */
+  margin-right: 6px;
+  font-size: 1.1em;
+}
+
+.VPMenuLink a[href*="Vue"]::before {
+  content: '\e6b3';
+  font-family: 'iconfont';
+  color: #25B885;
   margin-right: 6px;
   font-size: 1.1em;
 }
@@ -196,20 +203,26 @@ a:hover .nav-atilas-icon {
   top: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%) translateY(4px) scale(0.95);
-  background: rgba(28, 28, 30, 0.85); /* 极简的暗色半透明质感 (Apple 式) */
-  backdrop-filter: blur(10px); /* 毛玻璃核心参数 */
+  background: rgba(28, 28, 30, 0.85);
+  /* 极简的暗色半透明质感 (Apple 式) */
+  backdrop-filter: blur(10px);
+  /* 毛玻璃核心参数 */
   -webkit-backdrop-filter: blur(10px);
-  color: #fff; /* 文字纯白 */
+  color: #fff;
+  /* 文字纯白 */
   padding: 5px 12px;
-  border-radius: 20px; /* 药丸弧度更显圆润顺滑 */
-  border: 1px solid rgba(255, 255, 255, 0.12); /* 淡淡的一层微光边框 */
+  border-radius: 20px;
+  /* 药丸弧度更显圆润顺滑 */
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  /* 淡淡的一层微光边框 */
   font-size: 11.5px;
   font-weight: 500;
   white-space: nowrap;
   letter-spacing: 0.5px;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); /* 收缩弹跳过渡过度，手感极佳 */
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* 收缩弹跳过渡过度，手感极佳 */
   pointer-events: none;
   z-index: 100;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);

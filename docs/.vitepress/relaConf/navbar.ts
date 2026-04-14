@@ -37,8 +37,12 @@ export const nav: DefaultTheme.NavItem[] = [
     text: '相关技术文章',
     items: [
       {
-        text: 'AI',
-        link: '/column/AI/AI系列——01、用cursor接入mcp协议并体验Magic生成AI网站.md',
+        text: 'Vue3 系列',
+        link: '/column/Vue/Vue 3 + Naive UI 企业级后台管理系统完整解析.md'
+      },
+      {
+        text: 'AI Agent',
+        link: '/column/AI/AI Skill Server 动态技能中台 - 完整技术文档.md'
       },
       {
         text: 'DeepSeek',

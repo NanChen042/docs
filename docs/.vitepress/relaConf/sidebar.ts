@@ -12,10 +12,6 @@ export const sidebar: DefaultTheme.Sidebar = {
           link: '/column/AI/AI Skill Server 动态技能中台 - 完整技术文档.md'
         },
         {
-          text: 'Vue 3 + Naive UI 企业级后台管理系统完整解析',
-          link: '/column/AI/Vue 3 + Naive UI 企业级后台管理系统完整解析.md'
-        },
-        {
           text: 'AI系列——Rules、Skills、MCP 到底是什么？',
           link: '/column/AI/Rules、Skills、MCP 到底是什么？.md'
         },
@@ -56,6 +52,17 @@ export const sidebar: DefaultTheme.Sidebar = {
         {
           text: 'Vista平台 接入 智能体API 演示',
           link: '/column/AI/VistaAI.md'
+        }
+      ]
+    }
+  ],
+  '/column/Vue': [
+    {
+      text: 'Vue 系列',
+      items: [
+        {
+          text: 'Vue 3 + Naive UI 企业级后台管理系统完整解析',
+          link: '/column/Vue/Vue 3 + Naive UI 企业级后台管理系统完整解析.md'
         }
       ]
     }
