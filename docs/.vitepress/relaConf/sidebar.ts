@@ -8,6 +8,10 @@ export const sidebar: DefaultTheme.Sidebar = {
       text: 'AI 系列',
       items: [
         {
+          text: 'Hermes Agent 深度解析：从概念到应用实战',
+          link: '/column/AI/Hermes Agent解析.md'
+        },
+        {
           text: 'AI Skill Server 动态技能中台 - 完整技术文档',
           link: '/column/AI/AI Skill Server 动态技能中台 - 完整技术文档.md'
         },
