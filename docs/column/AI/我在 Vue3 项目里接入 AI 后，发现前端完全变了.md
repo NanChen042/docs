@@ -36,9 +36,9 @@
 
 最直观的做法：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 async function askAI(question: string) {
   const response = await fetch('/api/ask', {
     method: 'POST',
@@ -67,9 +67,7 @@ async function askAI(question: string) {
 
 假设AI生成的内容可能包含文本、代码块、表格等多种元素。在传统的流程中，后端会生成这样一个结构化的响应：
 
-JSON
-
-```plain&#x20;text
+```json
 {"content": [{ "type": "text", "value": "这是一段介绍" },{ "type": "code", "value": "const x = 1;", "language": "javascript" },{ "type": "text", "value": "这是后续说明" }]}
 ```
 
@@ -77,29 +75,28 @@ JSON
 
 但是在流式场景中，数据是这样到达前端的：
 
-Code
 
-````plain&#x20;text
+```text
 这是一段介...
 这是一段介绍
 这是一段介绍
+```
+
 ```cpp
 const x = 1;
-````
+```
 
 这是一段介绍
 
-C++
 
-```plain&#x20;text
+```c
 const x = 1;
 ```
 
 这是后续... 这是后续说明
 
-Code
 
-````plain&#x20;text
+
 
 看起来流式只是把数据分块发送。但实际上，问题远比这复杂。
 
@@ -129,7 +126,7 @@ Streaming UI不是一个全新的概念，但在AI驱动的应用中获得了新
 
 第一个问题是如何从网络读取流式数据。现代浏览器提供了`ReadableStream` API来处理这个问题。
 
-```typescript
+```js
 async function readStream(response: Response): Promise<string> {
   const reader = response.body?.getReader();
   if (!reader) throw new Error('No response body');
@@ -148,15 +145,15 @@ async function readStream(response: Response): Promise<string> {
 
   return result;
 }
-````
+```
 
 但这只是读取原始的流数据。实际应用中，我们需要更细粒度的控制。特别是对于AI生成的内容，很多API（比如OpenAI）使用server-sent events (SSE) 或 JSON lines格式。
 
 让我写一个更实用的SSE解析函数：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 interface StreamCallback {
   onData: (data: string) => void;
   onError?: (error: Error) => void;
@@ -223,9 +220,9 @@ async function streamFromSSE(url: string,
 
 这是一个Composition API的绝佳用例。让我创建一个`useStreaming`的composable：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 import { ref, computed, reactive } from 'vue';
 
 interface StreamingState {
@@ -289,9 +286,8 @@ export function useStreaming() {
 
 现在在组件中使用它就很简单了：
 
-Vue
 
-```plain&#x20;text
+```html
 <template>
   <div class="ai-chat">
     <div v-if="state.isLoading" class="loading">
@@ -331,9 +327,9 @@ const handleAsk = async (question: string) => {
 
 这时候，我们需要在流式数据到达时就进行解析和结构化。这是一个非常有趣的问题。
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 interface StreamEvent {
   type: 'thought' | 'action' | 'result' | 'text';
   content: string;
@@ -409,9 +405,8 @@ export function useStructuredStreaming() {
 
 在模板中使用：
 
-Vue
 
-```plain&#x20;text
+```html
 <template>
   <div class="streaming-events">
     <div 
@@ -436,9 +431,9 @@ Vue
 
 Vue3提供了几种优化手段。首先，我们可以使用`shallowReactive`来避免深层响应性跟踪：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 const state = shallowReactive<StreamingState>({
   content: '',
   isLoading: false,
@@ -452,9 +447,9 @@ state.content += chunk;
 
 但这还不够。对于高频更新的场景，我们可以使用防抖或节流策略：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 import { debounce } from './utils';
 
 export function useStreamingOptimized() {
@@ -504,9 +499,9 @@ export function useStreamingOptimized() {
 
 让我展示一个更接近实际的例子。假设AI生成的是markdown格式的内容，我们需要流式将其转换为HTML并渲染。
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 import { marked } from 'marked';
 
 interface MarkdownStreamingState {
@@ -572,9 +567,8 @@ export function useMarkdownStreaming() {
 
 在组件中使用：
 
-Vue
 
-```plain&#x20;text
+```html
 <template>
   <div class="markdown-viewer">
     <div v-if="state.isLoading" class="loading">生成中...</div>
@@ -614,9 +608,9 @@ Schema驱动UI提供了一个优雅的解决方案。核心思想是：定义一
 
 首先，我们需要定义一个schema格式。这个schema应该足够表达常见的UI模式，同时保持简洁。
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 // 基础类型定义export type FieldType = 
   | 'text' 
   | 'number' 
@@ -660,7 +654,7 @@ export interface UISchema {
 
 JSON
 
-```plain&#x20;text
+```json
 {"version": "1.0","type": "page","fields": [{"type": "text","label": "项目名称","value": "AI Assistant"},{"type": "markdown","label": "项目描述","value": "# 项目概述\n这是一{"AI助手..."},{"type": "table","label": "性能指标","columns": [{ "type": "text", "label": "指标名" },{ "type": "number", "label": "数值" }],"rows": [["响应时间", 150],["准确率", 95]]},{"type": "code","label": "示例代码","value": "const x = 1;","language": "javascript"}]}
 ```
 
@@ -670,9 +664,8 @@ JSON
 
 首先，创建基础的字段组件：
 
-Vue
 
-```plain&#x20;text
+```html
 <!-- FieldText.vue -->
 <template>
   <div :class="['field', 'field-text', field.className]">
@@ -716,9 +709,8 @@ defineProps<{
 </style>
 ```
 
-Vue
 
-```plain&#x20;text
+```html
 <!-- FieldMarkdown.vue -->
 <template>
   <div :class="['field', 'field-markdown', field.className]">
@@ -778,9 +770,8 @@ const parsedHtml = computed(() => {
 </style>
 ```
 
-Vue
 
-```plain&#x20;text
+```html
 <!-- FieldCode.vue -->
 <template>
   <div :class="['field', 'field-code', field.className]">
@@ -813,9 +804,8 @@ code {
 </style>
 ```
 
-Vue
 
-```plain&#x20;text
+```html
 <!-- FieldTable.vue -->
 <template>
   <div :class="['field', 'field-table', field.className]">
@@ -877,9 +867,8 @@ defineProps<{
 
 现在创建一个通用的field渲染组件，它根据type来选择合适的组件：
 
-Vue
 
-```plain&#x20;text
+```html
 <!-- SchemaField.vue -->
 <template>
   <div class="schema-field-wrapper">
@@ -921,9 +910,8 @@ defineProps<{
 </style>
 ```
 
-Vue
 
-```plain&#x20;text
+```html
 <!-- SchemaRenderer.vue -->
 <template>
   <div :class="['schema-renderer', `layout-${schema.layout || 'vertical'}`]">
@@ -974,9 +962,9 @@ defineProps<{
 
 这要求我们能够动态地更新schema。一个巧妙的方法是使用JSON Lines格式，每行是一个指令：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 interface SchemaUpdateInstruction {
   type: 'init' | 'add_field' | 'update_field' | 'set_value' | 'complete';
   schema?: UISchema;
@@ -1042,9 +1030,9 @@ export function useSchemaStreaming() {
 
 但这种方式有一个问题：如果每个指令都独立发送，网络开销会很大。更现实的做法是，AI生成部分schema，我们试图从不完整的JSON中推断出已完成的部分。
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 export function parsePartialJSON(jsonString: string): Partial<UISchema> | null {
   // 移除尾部可能不完整的部分let cleaned = jsonString.trim();
   
@@ -1112,9 +1100,9 @@ export function useSchemaStreamingAdvanced() {
 
 随着时间推移，可能需要支持新的字段类型。最好的方式是提供一个注册机制：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 import { defineAsyncComponent, Component } from 'vue';
 
 type FieldComponentMap = Record<string, Component>;
@@ -1146,9 +1134,8 @@ export function getFieldComponent(type: string): Component | null {
 
 然后更新SchemaField.vue来使用这个动态注册：
 
-Vue
 
-```plain&#x20;text
+```html
 <!-- SchemaField.vue (updated) -->
 <template>
   <div class="schema-field-wrapper">
@@ -1184,9 +1171,9 @@ const fieldComponent = computed(() => {
 
 现在是时候将Streaming UI和Schema驱动UI结合起来了。这是真正强大的地方。
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 interface StreamingSchemaState {
   schema: UISchema;
   isLoading: boolean;
@@ -1275,9 +1262,9 @@ export function useStreamingSchema() {
 
 首先，定义后端会返回的schema结构：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 // 后端伪代码（Node.js Express）
 app.post('/api/analyze-data', async (req, res) => {
   const file = req.files.data;
@@ -1344,9 +1331,8 @@ async function* analyzeDataStream(data) {
 
 前端Vue组件：
 
-Vue
 
-```plain&#x20;text
+```html
 <!-- DataAnalysisPage.vue -->
 <template>
   <div class="data-analysis-page">
@@ -1565,9 +1551,8 @@ const handleDrop = (event: DragEvent) => {
 
 在实际应用中，schema可能包含嵌套的对象和数组。我们需要能够递归地渲染它们。
 
-Vue
 
-```plain&#x20;text
+```html
 <!-- FieldArray.vue -->
 <template>
   <div :class="['field', 'field-array', field.className]">
@@ -1650,9 +1635,8 @@ const createItemField = (item: any): SchemaField => {
 </style>
 ```
 
-Vue
 
-```plain&#x20;text
+```html
 <!-- FieldObject.vue -->
 <template>
   <div :class="['field', 'field-object', field.className]">
@@ -1744,9 +1728,9 @@ const createPropertyField = (name: string, value: any): SchemaField => {
 
 当schema包含大量数组元素时，渲染所有元素会导致性能问题。虚拟列表只渲染可见的元素：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 // 使用 vue-virtual-scroll 库import { DynamicScroller } from 'vue-virtual-scroller';
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
@@ -1757,9 +1741,8 @@ export default {
 };
 ```
 
-Vue
 
-```plain&#x20;text
+```html
 <template>
   <DynamicScroller
     :items="field.value"
@@ -1777,9 +1760,9 @@ Vue
 
 频繁的UI更新会导致性能下降。使用防抖来减少更新频率：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 import { debounce } from 'lodash-es';
 
 export function useStreamingSchemaOptimized() {
@@ -1807,9 +1790,9 @@ export function useStreamingSchemaOptimized() {
 
 对于大量数据，避免深层响应性跟踪：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 const state = shallowReactive<StreamingSchemaState>({
   schema: {
     version: '1.0',
@@ -1831,9 +1814,9 @@ const state = shallowReactive<StreamingSchemaState>({
 
 lazy load字段组件以减少初始包大小：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 import { defineAsyncComponent } from 'vue';
 
 const fieldComponents = {
@@ -1848,9 +1831,9 @@ const fieldComponents = {
 
 在生产环境中，各种错误都可能发生：网络中断、畸形数据、超时等。
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 export class StreamingError extends Error {
   constructor(message: string,
     public readonly code: string,
@@ -1910,9 +1893,9 @@ export function useStreamingSchemaWithErrorHandling() {
 
 Streaming Schema UI增加了测试的复杂性。需要mock流式数据的行为。
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 // __tests__/useStreamingSchema.spec.tsimport { describe, it, expect, beforeEach, vi } from 'vitest';
 import { useStreamingSchema } from '../composables/useStreamingSchema';
 
@@ -1995,9 +1978,9 @@ describe('useStreamingSchema', () => {
 
 一个典型的集成步骤：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 // main.tsimport { createApp } from 'vue';
 import { createStreamingUIPlugin } from './plugins/streaming-ui';
 
@@ -2006,9 +1989,9 @@ app.use(createStreamingUIPlugin());
 app.mount('#app');
 ```
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 // plugins/streaming-ui.tsimport type { App } from 'vue';
 import SchemaRenderer from '../components/SchemaRenderer.vue';
 import SchemaField from '../components/SchemaField.vue';
@@ -2053,9 +2036,9 @@ export function createStreamingUIPlugin() {
 
 在传统的前端模式中，我们通过命令式的代码来控制UI的更新：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 // 命令式风格const response = await fetch('/api/data');
 const data = await response.json();
 const element = document.getElementById('content');
@@ -2065,9 +2048,9 @@ element.style.display = 'block';
 
 而Streaming Schema UI鼓励更声明式的方法：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 // 声明式风格const { state, stream } = useStreamingSchema();
 await stream('/api/data');
 // state的变化会自动驱动UI更新
@@ -2097,9 +2080,8 @@ Pattern 1: 容器组件模式
 
 容器组件管理流式数据的加载和状态，展示组件只负责渲染：
 
-Vue
 
-```plain&#x20;text
+```html
 <!-- DataContainer.vue -->
 <template>
   <div class="container">
@@ -2124,9 +2106,9 @@ Pattern 2: 渐进式渲染模式
 
 不同优先级的数据以不同的速度渲染。最重要的数据首先显示，附加信息逐步加入：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 interface PrioritizedField extends SchemaField {
   priority: number; // 0-100，越高越优先
 }
@@ -2144,9 +2126,9 @@ Pattern 3: 缓存和恢复模式
 
 对于长时间运行的流式操作，可能需要处理刷新或恢复的情况：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 interface CacheKey {
   url: string;
   params: Record<string, any>;
@@ -2184,9 +2166,9 @@ const stream = async (url: string, params: Record<string, any>) => {
 
 解决方案：提供fallback方案，比如使用WebSocket或长轮询：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 export async function streamData(url: string, 
   callbacks: StreamCallbacks): Promise<void> {
   try {
@@ -2203,9 +2185,9 @@ export async function streamData(url: string,
 
 解决方案：在前端模拟流式响应：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 export async function simulateStreaming(data: any,
   callbacks: StreamCallbacks,
   chunkSize: number = 100): Promise<void> {
@@ -2228,9 +2210,9 @@ export async function simulateStreaming(data: any,
 
 解决方案：使用事务性的更新，即同时更新整个schema的相关部分：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 interface SchemaTransaction {
   updates: {
     fieldIndex: number;
@@ -2260,9 +2242,9 @@ const applyTransaction = (transaction: SchemaTransaction) => {
 
 使用AST解析和编译的思想来处理流式数据，可能比当前的正则表达式匹配更强大：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 class SchemaStreamParser {
   private ast: ASTNode[] = [];
   private currentNode: ASTNode | null = null;
@@ -2283,9 +2265,9 @@ class SchemaStreamParser {
 
 多个用户同时浏览和编辑同一个生成的schema。这需要类似于Google Docs的操作转换(OT)或CRDTs技术：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 interface SchemaOperation {
   timestamp: number;
   userId: string;
@@ -2306,9 +2288,9 @@ interface SchemaOperation {
 
 为schema定义一个完整的DSL，并提供VS Code插件来编辑和验证：
 
-TypeScript
 
-```plain&#x20;text
+
+```js
 // schema.dsl
 schema {
   version: 1.0type: page
