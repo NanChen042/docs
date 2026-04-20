@@ -8,6 +8,10 @@ export const sidebar: DefaultTheme.Sidebar = {
       text: 'AI 系列',
       items: [
         {
+          text: '我在 Vue3 项目里接入 AI 后，发现前端完全变了',
+          link: '/column/AI/我在 Vue3 项目里接入 AI 后，发现前端完全变了.md'
+        },
+        {
           text: 'Hermes Agent 深度解析：从概念到应用实战',
           link: '/column/AI/Hermes Agent解析.md'
         },
