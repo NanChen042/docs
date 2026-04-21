@@ -8,10 +8,6 @@ export const sidebar: DefaultTheme.Sidebar = {
       text: 'AI 系列',
       items: [
         {
-          text: '别再用原生的 Socket 了！Nest.js 让你的实时聊天系统开发效率翻倍',
-          link: '/column/AI/别再用原生的 Socket 了！Nest.js 让你的实时聊天系统开发效率翻倍.md'
-        },
-        {
           text: '我在 Vue3 项目里接入 AI 后，发现前端完全变了',
           link: '/column/AI/我在 Vue3 项目里接入 AI 后，发现前端完全变了.md'
         },
@@ -200,6 +196,17 @@ export const sidebar: DefaultTheme.Sidebar = {
         },
       ],
 
+    }
+  ],
+  '/column/NodeJS': [
+    {
+      text: '后端专栏',
+      items: [
+        {
+          text: '别再用原生的 Socket 了！Nest.js 让你的实时聊天系统开发效率翻倍',
+          link: '/column/NodeJS/index.md'
+        }
+      ]
     }
   ]
 };

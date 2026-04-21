@@ -139,6 +139,15 @@ aside::-webkit-scrollbar-thumb {
   font-size: 1.1em;
 }
 
+.VPMenuLink a[href*="NodeJS"]::before {
+  content: '\e7a4';
+  font-family: 'iconfont';
+  color: #639F67;
+  /* Node.js 绿 */
+  margin-right: 6px;
+  font-size: 1.1em;
+}
+
 .VPMenuLink a[href*="Games"]::before {
   content: '\e785';
   font-family: 'iconfont';
@@ -148,14 +157,52 @@ aside::-webkit-scrollbar-thumb {
   font-size: 1.1em;
 }
 
+/* =========================================
+   二级菜单 (Dropdown) 动态悬停颜色
+   根据 href 匹配对应的图标色，取代统一的紫色
+========================================= */
+.VPMenuLink:hover a[href*="AI/AI"] {
+  color: #a06cd5 !important;
+}
+
+.VPMenuLink:hover a[href*="deepseek"] {
+  color: #1a73e8 !important;
+}
+
+.VPMenuLink:hover a[href*="NodeJS"] {
+  color: #639F67 !important;
+}
+
+.VPMenuLink:hover a[href*="harmony-os"] {
+  color: #CF1D26 !important;
+}
+
+.VPMenuLink:hover a[href*="ThreeJS"] {
+  color: #26e5ac !important;
+}
+
+.VPMenuLink:hover a[href*="Vue"] {
+  color: #25B885 !important;
+}
+
+.VPMenuLink:hover a[href*="Games"] {
+  color: #fc4c02 !important;
+}
+
+/* 悬停时让图标也稍微亮一些 */
+.VPMenuLink:hover a::before {
+  filter: brightness(1.2);
+}
+
 /* 导航栏单栏图标自定义通用样式 */
 .nav-deepseek-icon,
 .nav-aivista-icon,
-.nav-atilas-icon {
+.nav-atilas-icon,
+.nav-nodejs-icon {
   font-size: 0.9em;
   /* 图标小一点 */
   margin-right: 2px;
-  transition: color 0.25s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* 各自定义默认颜色 */
@@ -174,15 +221,30 @@ aside::-webkit-scrollbar-thumb {
 }
 
 /* Atilas 粉红 */
+.nav-nodejs-icon {
+  color: #639F67;
+}
 
-/* 鼠标悬停变紫 */
+/* NodeJS 绿 */
+
+/* 鼠标悬停动态效果 (不再统一变紫) */
+.VPLink:hover .iconfont:not(.nav-aivista-icon):not(.nav-deepseek-icon):not(.nav-atilas-icon):not(.nav-nodejs-icon),
+a:hover .iconfont:not(.nav-aivista-icon):not(.nav-deepseek-icon):not(.nav-atilas-icon):not(.nav-nodejs-icon) {
+  color: var(--vp-c-purple-dark, #a06cd5);
+}
+
 .VPLink:hover .nav-deepseek-icon,
 a:hover .nav-deepseek-icon,
 .VPLink:hover .nav-aivista-icon,
 a:hover .nav-aivista-icon,
 .VPLink:hover .nav-atilas-icon,
-a:hover .nav-atilas-icon {
-  color: var(--vp-c-purple-dark, #a06cd5);
+a:hover .nav-atilas-icon,
+.VPLink:hover .nav-nodejs-icon,
+a:hover .nav-nodejs-icon {
+  filter: brightness(1.1);
+  transform: scale(1.1);
+  opacity: 0.85;
+  /* 稍微淡一些 */
 }
 
 /* =========================================

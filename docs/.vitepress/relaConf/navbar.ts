@@ -37,6 +37,10 @@ export const nav: DefaultTheme.NavItem[] = [
     text: '相关技术文章',
     items: [
       {
+        text: '后端专栏',
+        link: '/column/NodeJS/'
+      },
+      {
         text: 'Vue3 系列',
         link: '/column/Vue/Vue 3 + Naive UI 企业级后台管理系统完整解析.md'
       },
