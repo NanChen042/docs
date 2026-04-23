@@ -71,6 +71,10 @@ export const sidebar: DefaultTheme.Sidebar = {
         {
           text: 'Vue 3 + Naive UI 企业级后台管理系统完整解析',
           link: '/column/Vue/Vue 3 + Naive UI 企业级后台管理系统完整解析.md'
+        },
+        {
+          text: 'Vue 3 + Socket.io 实时聊天项目完整开发文档',
+          link: '/column/Vue/Vue 3 + Socket.io 实时聊天项目完整开发文档.md'
         }
       ]
     }
