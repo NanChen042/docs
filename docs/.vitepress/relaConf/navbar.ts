@@ -1,15 +1,15 @@
 import { DefaultTheme } from 'vitepress';
 export const nav: DefaultTheme.NavItem[] = [
   {
-    text: '<span class="nav-vp-tooltip" data-title="探索 AIVista 智能体"><i class="iconfont icon-zhinengti nav-aivista-icon"></i> AIVista</span>',
+    text: 'AIVista',
     link: 'https://nanchen042.github.io/magicforge/'
   },
   {
-    text: '<span class="nav-vp-tooltip" data-title="访问 DeepSeek 专栏"><i class="iconfont icon-deepseek1 nav-deepseek-icon"></i> DeepSeek</span>',
+    text: 'DeepSeek',
     link: 'https://nanchen042.github.io/deepseek/'
   },
   {
-    text: '<span class="nav-vp-tooltip" data-title="体验 Atilas 工具"><i class="iconfont icon-naozhong nav-atilas-icon"></i> Atilas</span>',
+    text: 'Atilas',
     link: 'https://nanchen042.github.io/atlas/'
   },
   {
@@ -77,6 +77,10 @@ export const nav: DefaultTheme.NavItem[] = [
   {
     text: '全栈实战',
     items: [
+      {
+        text: 'v-chat',
+        link: 'https://github.com/NanChen042/v-chat-pro'
+      },
       {
         text: 'NaiveUI 企业级中后台',
         link: 'https://nanchen042.github.io/naiveui_admin'

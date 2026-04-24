@@ -24,7 +24,7 @@ const url =
 div {
   max-width: 1198px;
   margin: 0 auto;
-  padding: 50px 0 0;
+  padding: 50px 40px 0;
   box-sizing: border-box;
 
   .github-chart {
