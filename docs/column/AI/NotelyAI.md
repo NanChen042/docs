@@ -1,5 +1,7 @@
 # 谷记账：一个 Vue 3 批次记账 App 的完整拆解
 
+体验地址：[https://notelyai.pages.dev/](https://notelyai.pages.dev/)
+
 新建批次
 ![alt text](assets/notelyai/image.png)
 
@@ -1097,6 +1099,5 @@ Tailwind v4 的接入方式相对现代，和 Vite 配合也比较自然。
 而谷记账目前的实现，至少已经走在这条路上了。
 
 ---
-
 
 如果后续项目继续演进，这篇博客也可以继续追加新版章节，逐步从“开发总结”沉淀成一份真正可对外发布的技术文章。
