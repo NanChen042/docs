@@ -9,7 +9,7 @@ export const sidebar: DefaultTheme.Sidebar = {
       items: [
         {
           text: '谷记账：一个 Vue 3 批次记账 App 的完整拆解',
-          link: '/colume/AI/NotelyAI.md'
+          link: '/column/AI/NotelyAI.md'
         },
         {
           text: '我在 Vue3 项目里接入 AI 后，发现前端完全变了',
@@ -82,7 +82,7 @@ export const sidebar: DefaultTheme.Sidebar = {
         },
         {
           text: '谷记账：一个 Vue 3 批次记账 App 的完整拆解',
-          link: '/colume/AI/NotelyAI.md'
+          link: '/column/AI/NotelyAI.md'
         },
       ]
     }
