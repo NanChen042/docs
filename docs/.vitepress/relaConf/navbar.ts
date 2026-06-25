@@ -71,6 +71,10 @@ export const nav: DefaultTheme.NavItem[] = [
       {
         text: 'Lottie 动画实战',
         link: '/column/map/map.md'
+      },
+      {
+        text: 'web端',
+        link: '/column/web/lowcode-form-builder.md'
       }
     ]
   },
@@ -88,6 +92,18 @@ export const nav: DefaultTheme.NavItem[] = [
       {
         text: 'Vue3 个人博客主页',
         link: 'https://nanchen042.github.io/vue3-blog/#/'
+      },
+      {
+        text: '谷记账',
+        link: 'https://notelyai-rho.vercel.app/'
+      },
+      {
+        text: 'three-glb',
+        link: 'https://three-glb-viewer.pages.dev'
+      },
+      {
+        text: '低代码表单构建器',
+        link: 'https://lowcode-form-builder.pages.dev/'
       }
     ]
   },

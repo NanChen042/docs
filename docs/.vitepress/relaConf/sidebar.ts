@@ -220,5 +220,16 @@ export const sidebar: DefaultTheme.Sidebar = {
         }
       ]
     }
+  ],
+  '/column/web': [
+    {
+      text: 'Web端开发与实战',
+      items: [
+        {
+          text: '低代码表单构建器原理与实战',
+          link: '/column/web/lowcode-form-builder.md'
+        }
+      ]
+    }
   ]
 };
