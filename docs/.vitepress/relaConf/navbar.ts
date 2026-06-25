@@ -91,7 +91,7 @@ export const nav: DefaultTheme.NavItem[] = [
       },
       {
         text: 'Vue3 个人博客主页',
-        link: 'https://nanchen042.github.io/vue3-blog/#/'
+        link: 'https://vue3-blog-bt9.pages.dev/#/home'
       },
       {
         text: '谷记账',

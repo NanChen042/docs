@@ -24,7 +24,7 @@ hero:
   actions:
     - theme: brand
       text: 开篇
-      link: 'https://nanchen042.github.io/vue3-blog/#/'
+      link: 'https://vue3-blog-bt9.pages.dev/#/home'
     - theme: alt
       text: 个人成长
       link: /column/home/index
