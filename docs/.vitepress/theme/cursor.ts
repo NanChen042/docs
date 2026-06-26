@@ -7,20 +7,20 @@ interface CursorMapping {
 type CleanupFunction = () => void;
 
 // 光标映射配置 - 修复构建时路径解析问题
-const cursorMap: CursorMapping = {
-  'auto': '/docs/SimplifyCoffee/cursor.cur',
-  'pointer': '/docs/SimplifyCoffee/cursor2.cur',
-  'text': '/docs/SimplifyCoffee/cursor3.cur',
-  'progress': '/docs/SimplifyCoffee/03_working_in_background.ani',
-  'not-allowed': '/docs/SimplifyCoffee/08_unavailable.cur',
-  'move': '/docs/SimplifyCoffee/13_move.cur',
-  'wait': '/docs/SimplifyCoffee/03_working_in_background.ani',
-  'zoom-in': '/docs/SimplifyCoffee/cursor.cur',
-  'grab': '/docs/SimplifyCoffee/cursor2.cur',
-  'grabbing': '/docs/SimplifyCoffee/cursor3.cur',
-  'vertical-text': '/docs/SimplifyCoffee/09_vertical_resize.cur',
-  'cell': '/docs/SimplifyCoffee/cursor.cur',
-  'copy': '/docs/SimplifyCoffee/cursor2.cur'
+const cursorMap: Record<string, string> = {
+  'auto': '/SimplifyCoffee/cursor.cur',
+  'pointer': '/SimplifyCoffee/cursor2.cur',
+  'text': '/SimplifyCoffee/cursor3.cur',
+  'progress': '/SimplifyCoffee/03_working_in_background.ani',
+  'not-allowed': '/SimplifyCoffee/08_unavailable.cur',
+  'move': '/SimplifyCoffee/13_move.cur',
+  'wait': '/SimplifyCoffee/03_working_in_background.ani',
+  'zoom-in': '/SimplifyCoffee/cursor.cur',
+  'grab': '/SimplifyCoffee/cursor2.cur',
+  'grabbing': '/SimplifyCoffee/cursor3.cur',
+  'vertical-text': '/SimplifyCoffee/09_vertical_resize.cur',
+  'cell': '/SimplifyCoffee/cursor.cur',
+  'copy': '/SimplifyCoffee/cursor2.cur'
 };
 
 // 获取计算样式中的cursor属性

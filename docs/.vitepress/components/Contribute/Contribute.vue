@@ -170,9 +170,7 @@ const monthLabels = computed(() => {
 
 onMounted(async () => {
   try {
-    const targetUrl = 'https://github-contributions.vercel.app/api/v1/NanChen042'
-    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`
-    const res = await fetch(proxyUrl)
+    const res = await fetch('https://github-contributions.vercel.app/api/v1/NanChen042')
     
     if (!res.ok) throw new Error('API Error')
     const data = await res.json()
