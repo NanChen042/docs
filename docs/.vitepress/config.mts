@@ -46,7 +46,7 @@ export default defineConfig({
     },
 
     siteTitle: false,
-    logo: '/logo2.png',
+    logo: '/logo3.png',
     // https://vitepress.dev/reference/default-theme-config
     nav: nav,
     i18nRouting: true,
@@ -78,7 +78,7 @@ export default defineConfig({
       {
         ariaLabel: '南辰Blog',
         icon: {
-          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="icon" width="38px" height="38px"><defs><clipPath id="circleClipLogo"><circle cx="100" cy="100" r="100"></circle></clipPath></defs><g clip-path="url(#circleClipLogo)"><g transform="translate(15, 20)"><path d="M 110,40 C 145,40 155,75 140,110 C 130,125 120,130 110,130 L 110,190 L 75,190 L 75,130 C 50,130 20,125 20,105 C 20,90 35,80 50,80 C 65,80 75,85 85,85 C 85,60 90,40 110,40 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"></path><rect x="72" y="145" width="41" height="14" rx="4" fill="#E32636" stroke="currentColor" stroke-width="4"></rect><path d="M 110,80 C 130,80 145,110 135,140 C 125,160 100,150 100,125 C 100,100 95,80 110,80 Z" fill="currentColor"></path><ellipse cx="20" cy="96" rx="9" ry="13" fill="currentColor" transform="rotate(-15 20 96)"></ellipse><path d="M 75,68 Q 80,56 85,68" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"></path><path d="M 40,115 Q 55,125 70,112" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path></g></g></svg>'
+          svg: '<img src="/logos.png" style="width: 22px; height: 22px; object-fit: contain; transform: translateY(-1px);" alt="Logo" />'
         },
         link: 'https://vue3-blog-bt9.pages.dev/#/home'
       }
