@@ -670,3 +670,1134 @@ a:hover .nav-vp-tooltip[data-title]::after,
   }
 }
 
+/* =========================================
+   首页 Features 卡片高级感重构 (Modern Glassmorphism)
+========================================= */
+.VPFeature {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  /* 恢复极简质感：纯净白/黑底色，完全遮盖下方的灰色背景 */
+  background-color: var(--vp-c-bg) !important;
+  /* 极简淡雅的边框和阴影 */
+  border: 1px solid rgba(128, 128, 128, 0.12) !important;
+  border-radius: 12px !important; 
+  box-shadow: 0 2px 12px rgba(0,0,0,0.02) !important;
+  transition: all 0.3s ease !important;
+  padding: 32px 28px !important; /* 没有了图标，大幅增加内边距让文字有足够的呼吸感 */
+}
+
+/* 消除 VitePress 默认内置 box 的双重边距和背景 */
+.VPFeature .box {
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+/* 深色模式下的卡片边框极度弱化 */
+.dark .VPFeature {
+  background-color: var(--vp-c-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* =========================================
+   卡片专属高级极简 SVG 线条背景
+========================================= */
+.VPFeature::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url('/bg-lines.svg'); /* 统一使用极简流线 */
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  opacity: 0.3; /* 极其微弱的线条，不抢戏 */
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+/* 悬浮时线条稍微变清晰 */
+.VPFeature:hover::before {
+  opacity: 0.8;
+}
+
+/* 悬浮交互：极度轻微的边框亮起 */
+.VPFeature:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05) !important;
+  border-color: rgba(128, 128, 128, 0.25) !important; /* 不再使用突兀的主题色边框，改用稍深的浅灰 */
+}
+
+.dark .VPFeature:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* =========================================
+   卡片内部极简文字排版 (Text-only Typography)
+========================================= */
+.VPFeature .title {
+  font-size: 1.25rem !important; /* 放大标题字号，充当视觉焦点 */
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  margin-top: 0 !important;
+  margin-bottom: 16px !important; /* 加大标题与正文的呼吸间距 */
+  color: var(--vp-c-text-1) !important; 
+  transition: color 0.3s ease;
+}
+
+/* 悬浮时标题文字微微变为主色 */
+.VPFeature:hover .title {
+  color: var(--vp-c-brand-1) !important;
+}
+
+/* 详情文字排版优化：拉开层级 */
+.VPFeature .details {
+  line-height: 1.7 !important; /* 更舒适的阅读行高 */
+  font-size: 0.95rem !important; /* 稍微调大字号，让无图标排版更扎实 */
+  color: var(--vp-c-text-2) !important;
+  margin: 0 !important;
+}
+
+/* =========================================
+   第四个卡片专属：高级照片堆叠特效 (Photo Stack)
+========================================= */
+.VPFeatures .item:nth-child(4) .VPFeature {
+  padding-bottom: 24px !important;
+}
+.VPFeatures .item:nth-child(4) .title {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+.title-arrow {
+  font-family: Arial, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 300;
+  transition: transform 0.3s ease;
+}
+.VPFeature:hover .title-arrow {
+  transform: translateX(4px);
+}
+
+/* =========================================
+   第四个卡片专属：高级拍立得乱序相册 (Premium Polaroid Stack)
+========================================= */
+.photo-stack {
+  position: relative;
+  height: 120px;
+  margin: 20px 0 24px 0;
+  display: block; /* 恢复块级，内部使用绝对定位 */
+  perspective: 1000px;
+}
+
+.photo-stack img {
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 105px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 4px solid var(--vp-c-bg); /* 拍立得边框 */
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  background: var(--vp-c-bg-soft);
+  transform-origin: bottom left; /* 底部左侧作为旋转原点，像拿在手里的一叠牌 */
+  cursor: pointer;
+  /* 取消 pointer-events: none，让图片本体重新接管物理碰撞体积！ */
+}
+.dark .photo-stack img { border-color: #1e1e1e; }
+
+/* 修改底层架构为永久展开像扇子一样的阵列 (Fanned-out Array)，确保和 hover 效果 100% 一致 */
+.photo-stack img {
+  left: var(--hl);
+  z-index: var(--z);
+  transform: rotate(0deg) scale(0.95);
+  box-shadow: -4px 0 16px rgba(0,0,0,0.06);
+  animation: auto-focus-stack 12s infinite; /* 12s 总循环，每张 3s */
+}
+
+/* 为每张图片分配独立的坐标变量和交错的动画延迟 */
+.photo-stack img:nth-child(1) { --z: 4; --hl: 0;     animation-delay: 0s; }
+.photo-stack img:nth-child(2) { --z: 3; --hl: 45px;  animation-delay: 3s; }
+.photo-stack img:nth-child(3) { --z: 2; --hl: 90px;  animation-delay: 6s; }
+.photo-stack img:nth-child(4) { --z: 1; --hl: 135px; animation-delay: 9s; }
+
+/* 纯 CSS 驱动的定时自动抽出、聚光灯放大动画，完美复刻 hover 的视觉和压暗效果 */
+@keyframes auto-focus-stack {
+  0% { 
+    z-index: 20; 
+    transform: rotate(0deg) scale(0.95); 
+    filter: grayscale(30%) blur(1px); 
+    opacity: 0.5; 
+    box-shadow: -4px 0 16px rgba(0,0,0,0.06);
+  }
+  2% { 
+    filter: grayscale(0%) blur(0); 
+    opacity: 1; 
+  }
+  4%, 21% {
+    z-index: 20;
+    transform: translateY(-12px) scale(1.05) rotate(-3deg);
+    box-shadow: 0 16px 36px rgba(0,0,0,0.2);
+    filter: grayscale(0%) blur(0); 
+    opacity: 1;
+  }
+  23% { 
+    filter: grayscale(0%) blur(0); 
+    opacity: 1; 
+  }
+  25% { 
+    z-index: 20; 
+    transform: rotate(0deg) scale(0.95); 
+    filter: grayscale(30%) blur(1px); 
+    opacity: 0.5; 
+    box-shadow: -4px 0 16px rgba(0,0,0,0.06);
+  }
+  25.1%, 100% { 
+    z-index: var(--z); 
+    transform: rotate(0deg) scale(0.95); 
+    filter: grayscale(30%) blur(1px); 
+    opacity: 0.5; 
+    box-shadow: -4px 0 16px rgba(0,0,0,0.06);
+  }
+}
+
+/* 当鼠标悬停在卡片时：暂停自动轮播动画，全部高亮恢复，进入手动控制模式 */
+.VPFeature:hover .photo-stack img {
+  animation: none !important; /* 用户交互时交出控制权，动画暂停并回退到上面的底层架构状态 */
+  filter: grayscale(0%) blur(0) !important;
+  opacity: 1 !important;
+}
+
+/* 极致顺滑交互：单张悬停时抽出 */
+.VPFeature:hover .photo-stack img:hover {
+  transform: translateY(-12px) scale(1.05) rotate(-3deg) !important;
+  box-shadow: 0 16px 36px rgba(0,0,0,0.2) !important;
+  z-index: 20 !important;
+}
+
+/* 史诗级聚光灯：手动 hover 交互时实时压暗其他未被悬停的元素 */
+.photo-stack:has(img:hover) img:not(:hover) {
+  opacity: 0.5 !important;
+  filter: grayscale(30%) blur(1px) !important;
+}
+
+/* =========================================
+   第六个卡片专属：极简悬浮照片墙与全屏展开 (Minimalist Expanding Gallery)
+========================================= */
+.floating-gallery {
+  position: relative;
+  height: 180px; /* 根据要求缩小高度，让卡片更紧凑 */
+  background: var(--vp-c-bg); /* 完全融入卡片底色，实现无边界极简感 */
+  border-radius: 4px; /* 去除大圆角，采用更硬朗的微圆角 */
+  overflow: hidden;
+  margin: 15px 0 10px 0;
+  color: var(--vp-c-text-1);
+}
+
+/* 悬浮的图片容器 */
+.float-item {
+  position: absolute;
+  display: block;
+  border-radius: 4px; /* 缩小圆角，避免在小尺寸下变成胶囊形状 */
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.5); /* 专为深色模式优化的深邃阴影 */
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  /* 默认极其缓慢的呼吸浮动动画 */
+  animation: float-anim 8s ease-in-out infinite alternate;
+  outline: none; /* 移除原生点击外框 */
+  -webkit-tap-highlight-color: transparent; /* 移除移动端点击高亮 */
+}
+
+/* 专为浅色模式优化的相框质感 */
+html:not(.dark) .float-item {
+  box-shadow: 0 8px 20px rgba(100, 110, 140, 0.25); /* 浅色模式下极其清透的弥散阴影 */
+  border: 1px solid rgba(255,255,255,0.8); /* 增加一圈高光白边，隔离深色图片和浅色背景，解决“脏乱感” */
+}
+
+.float-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  display: block;
+}
+
+/* 悬停时的全屏遮罩和文字 */
+.float-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end; /* 文字靠下，不要挡住图片主视觉 */
+  padding-bottom: 20px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.float-overlay span {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transform: translateY(15px);
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  margin-bottom: 6px;
+}
+
+.float-overlay small {
+  font-size: 13px;
+  opacity: 0.85;
+  transform: translateY(15px);
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.05s;
+}
+
+/* 单张图片的极致全屏爆发 (点击触发: Focus-within Expansion) */
+.float-item:focus-within {
+  /* 强制撑满整个卡片空间 */
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 50;
+  border-radius: 4px; /* 去除大圆角 */
+  box-shadow: none;
+  border: none; /* 全屏时干掉白边 */
+  animation: none; /* 移除浮动动画，让 transition 丝滑接管位置变化 */
+  transform: translate(0, 0) !important; /* 抵消残留的浮动偏移 */
+  cursor: default; /* 展开后不再是指针形态 */
+}
+
+.float-item:focus-within .float-overlay {
+  opacity: 1;
+}
+
+.float-item:focus-within .float-overlay span,
+.float-item:focus-within .float-overlay small {
+  transform: translateY(0);
+}
+
+.float-btn {
+  margin-top: 15px;
+  padding: 5px 16px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff !important;
+  border-radius: 4px; 
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  text-decoration: none !important;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all 0.4s ease 0.1s;
+}
+
+.float-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.9);
+  transform: translateY(0) !important; /* 去除夸张的缩放，保留原本位置的纯粹感 */
+}
+
+.float-item:focus-within .float-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 极简风坐标系：8 个项目，采用错落有致的蜂窝布局 (Honeycomb Layout) */
+/* 完美消除了中心空洞，同时保证各个图片错落排列，绝不产生严重的相互遮挡 */
+.p1 { top: 5%; left: 6%; width: 65px; height: 60px; animation-delay: 0s; }
+.p2 { top: 10%; left: 38%; width: 75px; height: 55px; animation-delay: -1.5s; }
+.p3 { top: 6%; left: 72%; width: 60px; height: 65px; animation-delay: -3s; }
+.p4 { top: 45%; left: 20%; width: 60px; height: 55px; animation-delay: -0.5s; }
+.p5 { top: 42%; left: 56%; width: 65px; height: 60px; animation-delay: -2.5s; }
+.p6 { top: 68%; left: 4%; width: 65px; height: 60px; animation-delay: -4s; }
+.p7 { top: 60%; left: 35%; width: 75px; height: 55px; animation-delay: -1s; }
+.p8 { top: 65%; left: 70%; width: 65px; height: 65px; animation-delay: -2s; }
+
+/* 极其柔和的浮动动画 */
+@keyframes float-anim {
+  0% { transform: translateY(0) translateX(0); }
+  33% { transform: translateY(-6px) translateX(3px); }
+  66% { transform: translateY(4px) translateX(-4px); }
+  100% { transform: translateY(-2px) translateX(2px); }
+}
+
+/* 数据展示条 (Metadata) */
+.card-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--vp-c-text-2);
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.meta-item svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--vp-c-text-2);
+}
+
+/* 卡片专属底部描述 */
+.card-desc {
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--vp-c-text-2);
+  margin: 0;
+}
+
+/* =========================================
+   全局卡片特效：标题栏带圆形箭头
+========================================= */
+.VPFeature .title {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.title-arrow-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  transition: all 0.3s ease;
+}
+.title-arrow-circle svg {
+  width: 14px;
+  height: 14px;
+}
+.VPFeature:hover .title-arrow-circle {
+  background: var(--vp-c-brand-1);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* =========================================
+   第二个卡片专属：网格徽章特效 (Partner Badges)
+========================================= */
+/* =========================================
+   多排无限轮播跑马灯 (Infinite Marquee)
+========================================= */
+.marquee-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  margin-top: 16px;
+  /* 两侧边缘羽化遮罩，让滚动显得极其平滑高级 */
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marquee-row {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+}
+
+.marquee-content {
+  display: flex;
+  gap: 12px;
+  animation: scrollX 15s linear infinite;
+  /* 解决 flex 缩小的问题 */
+  flex-shrink: 0; 
+}
+
+/* 反向滚动且速度略微不同，制造错落的呼吸感 */
+.marquee-row.reverse .marquee-content {
+  animation-direction: reverse;
+  animation-duration: 18s; 
+}
+
+/* 快速滚动行，增加交错的物理感 */
+.marquee-row.fast .marquee-content {
+  animation-duration: 12s;
+}
+
+/* 悬停暂停，方便用户查看详情 */
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+@keyframes scrollX {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+.partner-badge {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px 4px 4px; /* 极致紧凑的内边距 */
+  border-radius: 50px;
+  border: 1px solid rgba(128, 128, 128, 0.12);
+  background: var(--vp-c-bg);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+  min-width: 0; /* 允许内部元素缩小而不撑破网格 */
+}
+.partner-badge:hover {
+  border-color: rgba(128,128,128,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transform: translateY(-2px);
+}
+.dark .partner-badge:hover {
+  border-color: rgba(255,255,255,0.2);
+}
+
+.partner-icon {
+  width: 22px; /* 再次缩小图标圈 */
+  height: 22px;
+  border-radius: 50%;
+  background: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 6px; /* 进一步拉近图文距离 */
+  flex-shrink: 0;
+}
+.dark .partner-icon {
+  background: rgba(255,255,255,0.05);
+}
+.partner-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+.partner-name {
+  font-size: 0.75rem !important; /* 字号再小一点，更像原生胶囊 */
+  font-weight: 600 !important;
+  color: var(--vp-c-text-1) !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap; 
+  overflow: hidden; /* 防止文字过长撑破导致排版乱掉 */
+  text-overflow: ellipsis;
+}
+
+/* =========================================
+   第五个卡片专属：推荐文章手风琴 (Accordion List)
+========================================= */
+.VPFeatures .item:nth-child(5) .VPFeature {
+  padding: 24px 20px !important;
+  height: 400px; /* 固定高度防止跳动 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 消除标题下方多余的间距，让手风琴紧贴标题 */
+.VPFeatures .item:nth-child(5) .details {
+  margin-top: 4px !important;
+  padding-top: 0 !important;
+}
+
+.title-view-all {
+  font-size: 0.85rem;
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+.title-view-all:hover {
+  color: var(--vp-c-brand-1);
+}
+
+.article-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+  flex: 1;
+}
+
+.dynamic-article-list .article-accordion {
+  display: none;
+}
+.dynamic-article-list .article-accordion:nth-child(-n+4) {
+  display: block; /* 默认显示前4条，让整体布局更饱满 */
+}
+
+.article-accordion {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.12);
+}
+.article-accordion:last-child {
+  border-bottom: none;
+}
+
+/* 隐藏 details 默认的小箭头 */
+.article-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0; /* 略微收紧内部卡片的上下留白 */
+  cursor: pointer;
+  list-style: none; /* Firefox/Standard */
+}
+.article-summary::-webkit-details-marker {
+  display: none; /* Safari */
+}
+
+.article-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  margin: 0;
+  line-height: 1.4;
+  transition: color 0.3s;
+}
+
+.article-summary:hover .article-title {
+  color: var(--vp-c-brand-1);
+}
+
+.article-chevron {
+  width: 16px;
+  height: 16px;
+  color: var(--vp-c-text-3);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+/* 极度丝滑高度动画：CSS Grid 黑科技 */
+.article-content-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.article-content {
+  overflow: hidden;
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--vp-c-text-2);
+  line-height: 1.6;
+}
+
+/* 展开状态的样式 */
+.article-accordion.is-active .article-chevron {
+  transform: rotate(-180deg);
+}
+.article-accordion.is-active .article-title {
+  color: var(--vp-c-brand-1);
+}
+.article-accordion.is-active .article-content-wrapper {
+  grid-template-rows: 1fr;
+}
+
+/* 用 padding 替代 margin，防止 grid 收起时 margin 溢出导致的卡顿跳跃 */
+.article-content p {
+  margin: 0;
+  padding-bottom: 16px;
+}
+
+/* =========================================
+   全局卡片高度一致性修复
+========================================= */
+.VPFeatures .items {
+  align-items: stretch !important;
+}
+.VPFeatures .item {
+  display: flex !important;
+}
+.VPFeatures .item .VPFeature {
+  height: auto !important;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================
+   第一张卡片专属：3D 翻转个人名片
+========================================= */
+.VPFeatures .item:nth-child(1) .VPFeature {
+  padding: 0 !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.VPFeatures .item:nth-child(1) .box {
+  padding: 0 !important;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.VPFeatures .item:nth-child(1) .details {
+  margin: 0 !important;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.VPFeatures .item:nth-child(1) .title, 
+.VPFeatures .item:nth-child(1) .link {
+  display: none !important;
+}
+
+.flip-card-container {
+  width: 100%;
+  height: 100%;
+  flex: 1; /* 这个是让翻转卡片高度撑满父容器的核心修复！ */
+  perspective: 1200px;
+}
+
+.flip-card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+}
+
+.flip-toggle:checked + .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  background-color: var(--vp-c-bg);
+  border: 1px solid rgba(128, 128, 128, 0.12);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.02);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-flip-btn-wrapper {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+.fc-flip-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top right, var(--vp-c-brand-soft), var(--vp-c-brand-lighter));
+  opacity: 0;
+  filter: blur(12px);
+  transition: opacity 0.7s;
+  border-radius: 50%;
+}
+.flip-card-container:hover .fc-flip-glow {
+  opacity: 1;
+}
+.fc-flip-btn {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(128, 128, 128, 0.1);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  transition: all 0.7s ease-out;
+  animation: fluidMorph 6s ease-in-out infinite;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  overflow: hidden;
+}
+.dark .fc-flip-btn {
+  background-color: rgba(30, 30, 30, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.flip-card-container:hover .fc-flip-btn {
+  background-color: var(--vp-c-bg);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  animation-duration: 3s;
+}
+.fc-flip-fluid-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, transparent, rgba(128, 128, 128, 0.1));
+  opacity: 0;
+  transition: opacity 0.5s;
+  border-radius: inherit;
+}
+.flip-card-container:hover .fc-flip-fluid-bg {
+  opacity: 1;
+}
+.fc-flip-svg-wrapper {
+  position: relative;
+  z-index: 10;
+  display: flex;
+}
+.fc-flip-btn svg {
+  width: 20px;
+  height: 20px;
+  color: var(--vp-c-text-2);
+  transition: all 0.5s;
+}
+.flip-card-container:hover .fc-flip-btn svg {
+  color: var(--vp-c-text-1);
+}
+@keyframes fluidMorph {
+  0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+  34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+  67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+}
+
+.flip-card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  background-color: var(--vp-c-bg);
+  border: 1px solid rgba(128, 128, 128, 0.12);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.02);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Front 面 */
+.fc-banner {
+  height: 85px;
+  background-image: url('/bg.png');
+  background-position: top center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+.fc-avatar-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: -35px;
+  position: relative;
+  z-index: 2;
+}
+.fc-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 4px solid var(--vp-c-bg-soft);
+  background-color: var(--vp-c-bg-soft);
+  object-fit: contain;
+  padding: 4px;
+}
+.fc-info {
+  padding: 8px 16px 16px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.fc-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--vp-c-text-1);
+}
+.fc-role {
+  color: var(--vp-c-text-2);
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.fc-btn-small {
+  margin-top: auto;
+  align-self: center;
+  background-color: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-border);
+  color: var(--vp-c-text-2);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.fc-btn-small:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+.fc-socials {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+.fc-social-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--vp-c-default-soft);
+  color: var(--vp-c-text-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+.fc-social-icon:hover {
+  background-color: var(--vp-c-brand-1);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.fc-barcode {
+  margin-top: auto;
+  padding-top: 24px;
+  opacity: 0.15;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 二维码弹窗 (CSS-only Modal) */
+.qr-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.qr-modal-toggle:checked ~ .qr-modal {
+  opacity: 1;
+  pointer-events: auto;
+}
+.qr-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+.qr-modal-content {
+  position: relative;
+  z-index: 100000;
+  background-color: var(--vp-c-bg);
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.qr-modal-toggle:checked ~ .qr-modal .qr-modal-content {
+  transform: scale(1) translateY(0);
+}
+.qr-modal-content img {
+  max-width: 100%;
+  max-height: calc(90vh - 24px);
+  object-fit: contain;
+  border-radius: 4px;
+}
+.qr-modal-close {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 28px;
+  height: 28px;
+  background-color: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--vp-c-text-2);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.qr-modal-close:hover {
+  color: var(--vp-c-brand-1);
+  transform: scale(1.1) rotate(90deg);
+}
+
+.fc-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  margin-bottom: 0;
+  padding: 12px;
+  background-color: var(--vp-c-default-soft);
+  border-radius: 12px;
+  width: 100%;
+}
+.fc-stat-item {
+  text-align: center;
+}
+.fc-stat-val {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--vp-c-text-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.fc-stat-lbl {
+  font-size: 0.75rem;
+  color: var(--vp-c-text-2);
+  margin-top: 4px;
+}
+.fc-stat-divider {
+  width: 1px;
+  height: 24px;
+  background-color: var(--vp-c-border);
+}
+
+/* Back 面 */
+.flip-card-back {
+  transform: rotateY(180deg);
+  padding: 16px;
+}
+.fc-back-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+.fc-back-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: contain;
+  margin-right: 12px;
+  background-color: var(--vp-c-bg-soft);
+  padding: 4px;
+}
+.fc-back-expire {
+  flex: 1;
+}
+.fc-expire-lbl {
+  font-size: 0.75rem;
+  color: var(--vp-c-text-2);
+  display: flex;
+  align-items: center;
+}
+.fc-expire-val {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 4px;
+  color: var(--vp-c-text-1);
+}
+/* 高级折角二维码贴纸特效 (Dog-ear Fold Effect) */
+.fc-back-qr {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  background-color: var(--vp-c-bg-mute);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vp-c-text-2);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  /* 裁切右上角 14px 的等腰直角三角形 */
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+}
+
+.fc-back-qr::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  /* 卷起的边角颜色 */
+  background-color: var(--vp-c-default-soft);
+  /* 画出左下角的折叠三角形 */
+  clip-path: polygon(0 0, 0 100%, 100% 100%);
+  border-bottom-left-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.fc-back-qr svg {
+  width: 26px;
+  height: 26px;
+  /* 向右上角偏移，让二维码的右上角正好被折叠盖住！ */
+  transform: translate(2px, -2px);
+  transition: color 0.3s;
+}
+
+.fc-back-qr:hover {
+  transform: translateY(-2px);
+  background-color: var(--vp-c-bg-soft);
+}
+.fc-back-qr:hover svg {
+  color: var(--vp-c-brand-1);
+}
+.fc-back-qr:hover::after {
+  background-color: var(--vp-c-brand-soft);
+}
+.fc-back-body {
+  border-top: 1px dashed var(--vp-c-border);
+  padding: 16px 0 0 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.fc-row {
+  display: flex;
+  justify-content: space-between;
+}
+.fc-col {
+  width: 48%;
+}
+.fc-lbl {
+  font-size: 0.75rem;
+  color: var(--vp-c-text-2);
+  margin-bottom: 2px;
+}
+.fc-val {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--vp-c-text-1);
+}
+
+.article-read-more {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+.article-read-more:hover {
+  opacity: 0.7;
+}
+
+/* 适配移动端 */
+@media (max-width: 480px) {
+  .partner-grid { grid-template-columns: 1fr; }
+}

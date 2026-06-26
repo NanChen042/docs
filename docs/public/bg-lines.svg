@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" preserveAspectRatio="none">
+  <g fill="none" stroke="#888888" stroke-width="0.5" opacity="0.4">
+    <path d="M 0 50 Q 100 100 200 50 T 400 50">
+      <animate attributeName="d" values="M 0 50 Q 100 100 200 50 T 400 50; M 0 50 Q 100 0 200 50 T 400 50; M 0 50 Q 100 100 200 50 T 400 50" dur="8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 0 100 Q 100 50 200 100 T 400 100">
+      <animate attributeName="d" values="M 0 100 Q 100 50 200 100 T 400 100; M 0 100 Q 100 150 200 100 T 400 100; M 0 100 Q 100 50 200 100 T 400 100" dur="11s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 0 150 Q 100 200 200 150 T 400 150">
+      <animate attributeName="d" values="M 0 150 Q 100 100 200 150 T 400 150; M 0 150 Q 100 200 200 150 T 400 150; M 0 150 Q 100 100 200 150 T 400 150" dur="14s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 0 200 Q 100 250 200 200 T 400 200">
+      <animate attributeName="d" values="M 0 200 Q 100 250 200 200 T 400 200; M 0 200 Q 100 150 200 200 T 400 200; M 0 200 Q 100 250 200 200 T 400 200" dur="10s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 0 250 Q 100 300 200 250 T 400 250">
+      <animate attributeName="d" values="M 0 250 Q 100 300 200 250 T 400 250; M 0 250 Q 100 200 200 250 T 400 250; M 0 250 Q 100 300 200 250 T 400 250" dur="13s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 0 300 Q 100 250 200 300 T 400 300">
+      <animate attributeName="d" values="M 0 300 Q 100 250 200 300 T 400 300; M 0 300 Q 100 350 200 300 T 400 300; M 0 300 Q 100 250 200 300 T 400 300" dur="16s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 0 350 Q 100 400 200 350 T 400 350">
+      <animate attributeName="d" values="M 0 350 Q 100 300 200 350 T 400 350; M 0 350 Q 100 400 200 350 T 400 350; M 0 350 Q 100 300 200 350 T 400 350" dur="12s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>

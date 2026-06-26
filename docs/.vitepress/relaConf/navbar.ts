@@ -69,10 +69,6 @@ export const nav: DefaultTheme.NavItem[] = [
         link: '/column/Games/从零开始打造HTML5拼图游戏：一个Canvas实战项目.md',
       },
       {
-        text: 'Lottie 动画实战',
-        link: '/column/map/map.md'
-      },
-      {
         text: 'web端',
         link: '/column/web/lowcode-form-builder.md'
       }
@@ -104,6 +100,10 @@ export const nav: DefaultTheme.NavItem[] = [
       {
         text: '低代码表单构建器',
         link: 'https://lowcode-form-builder.pages.dev/'
+      },
+      {
+        text: 'Lottie 动画实战',
+        link: '/column/map/map.md'
       }
     ]
   },

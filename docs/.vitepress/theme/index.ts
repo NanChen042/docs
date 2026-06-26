@@ -60,7 +60,76 @@ export default {
       // 注册环境变量文件语法高亮支持，解决 "The language 'env' is not loaded" 警告
       envLanguageSupport.register()
      })
-   }
+
+     // 原生手风琴轮播逻辑封装
+     let accordionInterval: any = null;
+     
+     const initAccordion = () => {
+       const card = document.querySelector('.VPFeatures .item:nth-child(5)') as HTMLElement;
+       const list = document.querySelector('.dynamic-article-list') as HTMLElement;
+       if (!list || !card) return;
+
+       // 1. 随机打乱并挑选前 4 个
+       const items = Array.from(list.children) as HTMLElement[];
+       items.sort(() => Math.random() - 0.5);
+       list.innerHTML = '';
+       
+       const activeItems: HTMLElement[] = [];
+       items.forEach((item, index) => {
+         item.style.display = index < 4 ? 'block' : 'none';
+         item.classList.remove('is-active'); // 初始化状态
+         list.appendChild(item);
+         if (index < 4) activeItems.push(item);
+       });
+
+       if (activeItems.length === 0) return;
+
+       // 2. 默认展开第一个
+       activeItems[0].classList.add('is-active');
+
+       // 3. 点击互斥交互
+       activeItems.forEach(item => {
+         const summary = item.querySelector('.article-summary') as HTMLElement;
+         if (summary) {
+           summary.onclick = () => {
+             // 如果点击当前已展开的，不做改变或者关闭？要求是手风琴，一般互斥
+             if (item.classList.contains('is-active')) return; 
+             activeItems.forEach(el => el.classList.remove('is-active'));
+             item.classList.add('is-active');
+           };
+         }
+       });
+
+       // 4. 自动轮播逻辑
+       let currentIndex = 0;
+       const nextAccordion = () => {
+         currentIndex = (currentIndex + 1) % activeItems.length;
+         activeItems.forEach(el => el.classList.remove('is-active'));
+         activeItems[currentIndex].classList.add('is-active');
+       };
+
+       if (accordionInterval) clearInterval(accordionInterval);
+       accordionInterval = setInterval(nextAccordion, 4000); // 4秒切换一次
+
+       // 5. 悬停暂停逻辑
+       card.onmouseenter = () => {
+         if (accordionInterval) clearInterval(accordionInterval);
+       };
+       card.onmouseleave = () => {
+         // 获取当前 focus 的 index
+         const curActive = activeItems.findIndex(el => el.classList.contains('is-active'));
+         if (curActive !== -1) currentIndex = curActive;
+         accordionInterval = setInterval(nextAccordion, 4000);
+       };
+     };
+
+      router.onAfterRouteChanged = (to) => {
+        setTimeout(initAccordion, 100);
+      };
+
+      // 初次加载时执行
+      setTimeout(initAccordion, 300);
+    }
   }
 };
 

@@ -46,7 +46,7 @@ export default defineConfig({
     },
 
     siteTitle: false,
-    logo: '/logo3.png',
+    logo: { light: '/logo3.png', dark: '/logodark.png' },
     // https://vitepress.dev/reference/default-theme-config
     nav: nav,
     i18nRouting: true,
