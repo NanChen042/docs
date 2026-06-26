@@ -4,7 +4,7 @@ import { nav, sidebar } from './relaConf';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: '/docs/',
+  base: '/',
   title: "personal-blog😶‍🌫️",
 
   description: "A VitePress Site",
