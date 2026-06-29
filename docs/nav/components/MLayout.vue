@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
-import { nextTick, provide } from 'vue'
+import { computed, nextTick, provide } from 'vue'
 
 const { Layout } = DefaultTheme
-const { isDark } = useData()
+const { isDark, frontmatter } = useData()
+const showImagePreview = computed(() => frontmatter.value?.layout !== 'home')
 
 const enableTransitions = () =>
   'startViewTransition' in document &&
@@ -43,6 +44,5 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 <template>
   <Layout v-bind="$attrs" />
-  <!-- 全局图片预览组件 -->
-  <ImagePreview />
+  <ImagePreview v-if="showImagePreview" />
 </template>

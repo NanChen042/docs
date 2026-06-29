@@ -19,6 +19,7 @@ import NightLight from '../../column/home/NightLight.vue'
 import Confetti from '../components/Confetti/Confetti.vue'
 import MNavLinks from '../../nav/components/MNavLinks.vue'
 import ImagePreview from '../components/ImagePreview/ImagePreview.vue'
+import HomeClientEffects from '../components/HomeClientEffects/HomeClientEffects.vue'
 import GravityTags from '../components/GravityTags.vue'
 import './custom.css';
 import './style/blur.css';
@@ -29,7 +30,6 @@ export default {
     const props: Record<string, any> = {}
     // 获取 frontmatter
     const { frontmatter } = useData()
-    console.log(frontmatter);
 
     /* 添加自定义 class */
     if (frontmatter.value?.layoutClass) {
@@ -49,6 +49,7 @@ export default {
     app.component('Games', Games)
     app.component('ImagePreview', ImagePreview)
     app.component('GravityTags', GravityTags)
+    app.component('HomeClientEffects', HomeClientEffects)
     // app.component('Map4', Map4)
 
    // 全局注册基础组件

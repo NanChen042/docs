@@ -18,7 +18,6 @@ const formatTitle = computed(() => {
   if (!props.desc) {
     return "";
   }
-  console.log(props.title);
 
   return slugify(props.title);
 });

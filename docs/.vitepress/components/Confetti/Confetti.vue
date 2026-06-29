@@ -2,6 +2,8 @@
 import confetti from "canvas-confetti";
 import { onMounted, onUnmounted } from "vue";
 
+let timer: ReturnType<typeof setInterval> | null = null;
+
 onMounted(() => {
   const duration = 3000;
   const end = Date.now() + duration;
@@ -25,7 +27,7 @@ onMounted(() => {
     }
   })();
 
-  const timer = setInterval(() => {
+  timer = setInterval(() => {
     confetti({
       particleCount: 2,
       angle: 90,
@@ -34,20 +36,16 @@ onMounted(() => {
     });
   }, 100);
 
-  // 例如 5 秒后停止
   setTimeout(() => {
-    clearInterval(timer);
+    if (timer) clearInterval(timer);
   }, 5000);
-  
-  onUnmounted(() => clearInterval(timer));
+});
+
+onUnmounted(() => {
+  if (timer) clearInterval(timer);
 });
 </script>
 
 <template>
-  <div>
-
-  </div>
+  <div />
 </template>
-
-<style scoped>
-</style>

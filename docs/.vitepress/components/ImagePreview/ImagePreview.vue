@@ -27,8 +27,6 @@ const initImagePreview = () => {
     // 查找所有在 markdown 内容中的图片
     const contentImages = document.querySelectorAll('.vp-doc img') as NodeListOf<HTMLImageElement>
 
-    console.log('Found images:', contentImages.length)
-
     if (contentImages.length === 0) return
 
     // 清空之前的数据
@@ -45,8 +43,6 @@ const initImagePreview = () => {
       // 直接使用图片的 src 属性
       const imageSrc = img.src
 
-      console.log(`Image ${index}:`, imageSrc)
-
       // 添加到数组
       imageList.value.push(imageSrc)
 
@@ -57,9 +53,6 @@ const initImagePreview = () => {
       img.addEventListener('click', (e) => {
         e.preventDefault()
         e.stopPropagation()
-
-        console.log('Clicked image:', index, imageSrc)
-        console.log('All images:', imageList.value)
 
         currentIndex.value = index
         showViewer.value = true
