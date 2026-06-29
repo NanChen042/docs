@@ -637,6 +637,7 @@ a:hover .nav-vp-tooltip[data-title]::after,
   }
 
   .dark .VPFooter .container::before {
+    background-image: url('/logosdark.png');
     opacity: 0.85; /* 夜间模式下稍微降低亮度防刺眼 */
   }
 
@@ -668,6 +669,20 @@ a:hover .nav-vp-tooltip[data-title]::after,
     background-size: contain;
     margin-bottom: 16px;
   }
+  .dark .VPFooter .container::before {
+    background-image: url('/logosdark.png');
+  }
+}
+
+/* 图片亮/暗色模式自动切换控制类 (优化兼容性，不使用 :not) */
+.dark-only-img {
+  display: none !important;
+}
+html.dark .dark-only-img {
+  display: block !important;
+}
+html.dark .light-only-img {
+  display: none !important;
 }
 
 /* =========================================
@@ -760,140 +775,18 @@ a:hover .nav-vp-tooltip[data-title]::after,
   margin: 0 !important;
 }
 
-/* =========================================
-   第四个卡片专属：高级照片堆叠特效 (Photo Stack)
-========================================= */
-.VPFeatures .item:nth-child(4) .VPFeature {
-  padding-bottom: 24px !important;
-}
-.VPFeatures .item:nth-child(4) .title {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-}
-.title-arrow {
-  font-family: Arial, sans-serif;
-  font-size: 1.4rem;
-  font-weight: 300;
-  transition: transform 0.3s ease;
-}
-.VPFeature:hover .title-arrow {
-  transform: translateX(4px);
-}
 
-/* =========================================
-   第四个卡片专属：高级拍立得乱序相册 (Premium Polaroid Stack)
-========================================= */
-.photo-stack {
-  position: relative;
-  height: 120px;
-  margin: 20px 0 24px 0;
-  display: block; /* 恢复块级，内部使用绝对定位 */
-  perspective: 1000px;
-}
-
-.photo-stack img {
-  position: absolute;
-  top: 0;
-  width: 150px;
-  height: 105px;
-  object-fit: cover;
-  border-radius: 6px;
-  border: 4px solid var(--vp-c-bg); /* 拍立得边框 */
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  background: var(--vp-c-bg-soft);
-  transform-origin: bottom left; /* 底部左侧作为旋转原点，像拿在手里的一叠牌 */
-  cursor: pointer;
-  /* 取消 pointer-events: none，让图片本体重新接管物理碰撞体积！ */
-}
-.dark .photo-stack img { border-color: #1e1e1e; }
-
-/* 修改底层架构为永久展开像扇子一样的阵列 (Fanned-out Array)，确保和 hover 效果 100% 一致 */
-.photo-stack img {
-  left: var(--hl);
-  z-index: var(--z);
-  transform: rotate(0deg) scale(0.95);
-  box-shadow: -4px 0 16px rgba(0,0,0,0.06);
-  animation: auto-focus-stack 12s infinite; /* 12s 总循环，每张 3s */
-}
-
-/* 为每张图片分配独立的坐标变量和交错的动画延迟 */
-.photo-stack img:nth-child(1) { --z: 4; --hl: 0;     animation-delay: 0s; }
-.photo-stack img:nth-child(2) { --z: 3; --hl: 45px;  animation-delay: 3s; }
-.photo-stack img:nth-child(3) { --z: 2; --hl: 90px;  animation-delay: 6s; }
-.photo-stack img:nth-child(4) { --z: 1; --hl: 135px; animation-delay: 9s; }
-
-/* 纯 CSS 驱动的定时自动抽出、聚光灯放大动画，完美复刻 hover 的视觉和压暗效果 */
-@keyframes auto-focus-stack {
-  0% { 
-    z-index: 20; 
-    transform: rotate(0deg) scale(0.95); 
-    filter: grayscale(30%) blur(1px); 
-    opacity: 0.5; 
-    box-shadow: -4px 0 16px rgba(0,0,0,0.06);
-  }
-  2% { 
-    filter: grayscale(0%) blur(0); 
-    opacity: 1; 
-  }
-  4%, 21% {
-    z-index: 20;
-    transform: translateY(-12px) scale(1.05) rotate(-3deg);
-    box-shadow: 0 16px 36px rgba(0,0,0,0.2);
-    filter: grayscale(0%) blur(0); 
-    opacity: 1;
-  }
-  23% { 
-    filter: grayscale(0%) blur(0); 
-    opacity: 1; 
-  }
-  25% { 
-    z-index: 20; 
-    transform: rotate(0deg) scale(0.95); 
-    filter: grayscale(30%) blur(1px); 
-    opacity: 0.5; 
-    box-shadow: -4px 0 16px rgba(0,0,0,0.06);
-  }
-  25.1%, 100% { 
-    z-index: var(--z); 
-    transform: rotate(0deg) scale(0.95); 
-    filter: grayscale(30%) blur(1px); 
-    opacity: 0.5; 
-    box-shadow: -4px 0 16px rgba(0,0,0,0.06);
-  }
-}
-
-/* 当鼠标悬停在卡片时：暂停自动轮播动画，全部高亮恢复，进入手动控制模式 */
-.VPFeature:hover .photo-stack img {
-  animation: none !important; /* 用户交互时交出控制权，动画暂停并回退到上面的底层架构状态 */
-  filter: grayscale(0%) blur(0) !important;
-  opacity: 1 !important;
-}
-
-/* 极致顺滑交互：单张悬停时抽出 */
-.VPFeature:hover .photo-stack img:hover {
-  transform: translateY(-12px) scale(1.05) rotate(-3deg) !important;
-  box-shadow: 0 16px 36px rgba(0,0,0,0.2) !important;
-  z-index: 20 !important;
-}
-
-/* 史诗级聚光灯：手动 hover 交互时实时压暗其他未被悬停的元素 */
-.photo-stack:has(img:hover) img:not(:hover) {
-  opacity: 0.5 !important;
-  filter: grayscale(30%) blur(1px) !important;
-}
 
 /* =========================================
    第六个卡片专属：极简悬浮照片墙与全屏展开 (Minimalist Expanding Gallery)
 ========================================= */
 .floating-gallery {
   position: relative;
-  height: 180px; /* 根据要求缩小高度，让卡片更紧凑 */
+  height: 230px; /* 精确适配中间文章列表的 400px 总高度 */
   background: var(--vp-c-bg); /* 完全融入卡片底色，实现无边界极简感 */
-  border-radius: 4px; /* 去除大圆角，采用更硬朗的微圆角 */
-  overflow: hidden;
-  margin: 15px 0 10px 0;
+  border-radius: 8px;
+  overflow: visible; /* 允许部分图片微微溢出边界，增强立体感 */
+  margin: 10px 0 5px 0; /* 压缩外边距 */
   color: var(--vp-c-text-1);
 }
 
@@ -901,7 +794,7 @@ a:hover .nav-vp-tooltip[data-title]::after,
 .float-item {
   position: absolute;
   display: block;
-  border-radius: 4px; /* 缩小圆角，避免在小尺寸下变成胶囊形状 */
+  border-radius: 8px; /* 增大圆角，匹配截图质感 */
   overflow: hidden;
   box-shadow: 0 6px 16px rgba(0,0,0,0.5); /* 专为深色模式优化的深邃阴影 */
   transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
@@ -913,8 +806,8 @@ a:hover .nav-vp-tooltip[data-title]::after,
 
 /* 专为浅色模式优化的相框质感 */
 html:not(.dark) .float-item {
-  box-shadow: 0 8px 20px rgba(100, 110, 140, 0.25); /* 浅色模式下极其清透的弥散阴影 */
-  border: 1px solid rgba(255,255,255,0.8); /* 增加一圈高光白边，隔离深色图片和浅色背景，解决“脏乱感” */
+  box-shadow: 0 8px 24px rgba(100, 110, 140, 0.2); /* 浅色模式下极其清透的弥散阴影 */
+  border: 1px solid rgba(255,255,255,0.9); /* 增加一圈高光白边 */
 }
 
 .float-item img {
@@ -928,67 +821,71 @@ html:not(.dark) .float-item {
 .float-overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%);
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 100%);
   color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end; /* 文字靠下，不要挡住图片主视觉 */
-  padding-bottom: 20px;
+  justify-content: flex-end;
+  padding-bottom: 25px;
   opacity: 0;
   transition: opacity 0.4s ease;
+  pointer-events: none; /* 核心修复：未展开时，遮罩和内部按钮禁止点击，防止误触跳转！ */
 }
 
-.float-overlay span {
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  transform: translateY(15px);
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-  margin-bottom: 6px;
-}
-
-.float-overlay small {
-  font-size: 13px;
-  opacity: 0.85;
-  transform: translateY(15px);
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.05s;
-}
-
-/* 单张图片的极致全屏爆发 (点击触发: Focus-within Expansion) */
+/* 展开后的极致全屏效果优化 */
 .float-item:focus-within {
-  /* 强制撑满整个卡片空间 */
   top: 0 !important;
   left: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  z-index: 50;
-  border-radius: 4px; /* 去除大圆角 */
-  box-shadow: none;
-  border: none; /* 全屏时干掉白边 */
-  animation: none; /* 移除浮动动画，让 transition 丝滑接管位置变化 */
-  transform: translate(0, 0) !important; /* 抵消残留的浮动偏移 */
-  cursor: default; /* 展开后不再是指针形态 */
+  z-index: 50 !important;
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  border: none;
+  animation: none;
+  transform: scale(1) !important; /* 展开时取消浮动位移 */
+  cursor: default;
+}
+
+.float-item:focus-within img {
+  transform: scale(1.05); /* 展开时图片微微放大，更有沉浸感 */
+  filter: brightness(0.9);
 }
 
 .float-item:focus-within .float-overlay {
   opacity: 1;
+  pointer-events: auto; /* 展开后，恢复遮罩和内部按钮的点击能力 */
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 60%, transparent 100%); /* 更有层次感的渐变底色 */
 }
 
-.float-item:focus-within .float-overlay span,
-.float-item:focus-within .float-overlay small {
-  transform: translateY(0);
+.float-overlay span {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transform: translateY(20px);
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  margin-bottom: 8px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.float-overlay small {
+  font-size: 14px;
+  opacity: 0.9;
+  transform: translateY(20px);
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.05s;
 }
 
 .float-btn {
-  margin-top: 15px;
-  padding: 5px 16px;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  margin-top: 18px;
+  padding: 8px 24px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   color: #fff !important;
-  border-radius: 4px; 
-  font-size: 12px;
-  font-weight: 400;
+  border-radius: 20px; 
+  font-size: 13px;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
   letter-spacing: 0.5px;
   text-decoration: none !important;
   opacity: 0;
@@ -997,26 +894,28 @@ html:not(.dark) .float-item {
 }
 
 .float-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.9);
-  transform: translateY(0) !important; /* 去除夸张的缩放，保留原本位置的纯粹感 */
+  background: rgba(255, 255, 255, 0.9);
+  color: #000 !important;
+  border-color: rgba(255, 255, 255, 1);
+  transform: translateY(0) scale(1.05) !important;
+}
+
+.float-item:focus-within .float-overlay span,
+.float-item:focus-within .float-overlay small,
+.float-item:focus-within .float-btn {
+  transform: translateY(0);
 }
 
 .float-item:focus-within .float-btn {
   opacity: 1;
-  transform: translateY(0);
 }
 
-/* 极简风坐标系：8 个项目，采用错落有致的蜂窝布局 (Honeycomb Layout) */
-/* 完美消除了中心空洞，同时保证各个图片错落排列，绝不产生严重的相互遮挡 */
-.p1 { top: 5%; left: 6%; width: 65px; height: 60px; animation-delay: 0s; }
-.p2 { top: 10%; left: 38%; width: 75px; height: 55px; animation-delay: -1.5s; }
-.p3 { top: 6%; left: 72%; width: 60px; height: 65px; animation-delay: -3s; }
-.p4 { top: 45%; left: 20%; width: 60px; height: 55px; animation-delay: -0.5s; }
-.p5 { top: 42%; left: 56%; width: 65px; height: 60px; animation-delay: -2.5s; }
-.p6 { top: 68%; left: 4%; width: 65px; height: 60px; animation-delay: -4s; }
-.p7 { top: 60%; left: 35%; width: 75px; height: 55px; animation-delay: -1s; }
-.p8 { top: 65%; left: 70%; width: 65px; height: 65px; animation-delay: -2s; }
+/* 极简风坐标系：完美适配 230px 容器的新比例排版 (5个项目) */
+.p1 { top: 6%;  left: 32%; width: 36%; height: 88%; z-index: 10; animation-delay: 0s; }
+.p2 { top: 2%;  left: 0%;  width: 30%; height: 46%; z-index: 5;  animation-delay: -1.5s; }
+.p3 { top: 52%; left: 2%;  width: 28%; height: 46%; z-index: 8;  animation-delay: -3s; }
+.p4 { top: 4%;  left: 70%; width: 30%; height: 42%; z-index: 4;  animation-delay: -0.5s; }
+.p5 { top: 50%; left: 70%; width: 28%; height: 48%; z-index: 3;  animation-delay: -2.5s; }
 
 /* 极其柔和的浮动动画 */
 @keyframes float-anim {
@@ -1226,8 +1125,8 @@ html:not(.dark) .float-item {
 .dynamic-article-list .article-accordion {
   display: none;
 }
-.dynamic-article-list .article-accordion:nth-child(-n+4) {
-  display: block; /* 默认显示前4条，让整体布局更饱满 */
+.dynamic-article-list .article-accordion:nth-child(-n+5) {
+  display: block; /* 默认显示前5条，加上默认展开的一个，刚好填满 400px */
 }
 
 .article-accordion {
@@ -1483,6 +1382,9 @@ html:not(.dark) .float-item {
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
+}
+.dark .fc-banner {
+  background-image: url('/bgdark.png');
 }
 .fc-avatar-wrapper {
   display: flex;

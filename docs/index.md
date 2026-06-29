@@ -54,7 +54,8 @@ features:
             </div>
 
             <div class="fc-avatar-wrapper">
-              <img src="/logos.png" alt="Avatar" class="fc-avatar">
+              <img src="/logos.png" alt="Avatar" class="fc-avatar light-only-img">
+              <img src="/logosdark.png" alt="Avatar" class="fc-avatar dark-only-img">
             </div>
             <div class="fc-info" style="align-items: center; text-align: center;">
               <div class="fc-name">南辰 (NanChen)</div>
@@ -70,7 +71,8 @@ features:
           <!-- 反面 -->
           <div class="flip-card-back">
             <div class="fc-back-header">
-              <img src="/logos.png" alt="Avatar" class="fc-back-avatar">
+              <img src="/logos.png" alt="Avatar" class="fc-back-avatar light-only-img">
+              <img src="/logosdark.png" alt="Avatar" class="fc-back-avatar dark-only-img">
               <div class="fc-back-expire">
                 <div class="fc-expire-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="12" height="12" style="margin-right:4px;"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> 开发者档案</div>
                 <div class="fc-expire-val">NanChen</div>
@@ -189,21 +191,9 @@ features:
       </div>
   - title: 青年成功之道
     details: 真正的成功不在于你得到了什么，而是在于你成为了什么样的人。<br>不求尽胜，但拒久败。<br>步履虽缓，志不可停。
-  - title: 效率工具箱 <span class="title-arrow">→</span>
+  - title: 效率工具箱 <a href="/nav/index" class="title-view-all">查看全部</a>
     details: |
-      <div class="photo-stack">
-        <img src="https://images.unsplash.com/photo-1550439062-609e1531270e?auto=format&fit=crop&w=300&h=200" class="photo-1" />
-        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=300&h=200" class="photo-2" />
-        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=300&h=200" class="photo-3" />
-        <img src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=300&h=200" class="photo-4" />
-      </div>
-      <span class="card-meta">
-        <span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg> 效率起飞</span>
-        <span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> 摸鱼必备</span>
-        <span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> 生产力拉满</span>
-      </span>
-      <span class="card-desc">噢耶！这也太好用了吧！！收录了各种极大提升开发体验的神仙工具。</span>
-    link: /nav/index
+      <div id="gravity-tags-mount" style="min-height: 300px;"></div>
   - title: 推荐文章 <a href="/column/home/" class="title-view-all">查看全部</a>
     details: |
       <div class="article-list dynamic-article-list">
@@ -315,71 +305,47 @@ features:
     details: |
       <div class="floating-gallery">
         <div tabindex="0" class="float-item p1">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&h=400" />
+          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&h=800" />
           <div class="float-overlay">
-            <span>电商系统重构</span>
-            <small>高并发架构优化与微服务落地</small>
-            <a href="javascript:void(0)" class="float-btn">查看详情 →</a>
+            <span>人像摄影合集</span>
+            <small>Web 3D 画廊展示</small>
+            <a href="/column/ThreeJS/three01场景搭建.html" class="float-btn">点击访问项目 →</a>
           </div>
         </div>
         <div tabindex="0" class="float-item p2">
-          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&h=400" />
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&h=400" />
           <div class="float-overlay">
-            <span>数据大屏</span>
-            <small>千万级流量实时监控平台</small>
-            <a href="javascript:void(0)" class="float-btn">查看详情 →</a>
+            <span>色彩美学</span>
+            <small>视觉交互设计</small>
+            <a href="/column/Vue/Vue 3 + Naive UI 企业级后台管理系统完整解析.html" class="float-btn">点击访问项目 →</a>
           </div>
         </div>
         <div tabindex="0" class="float-item p3">
-          <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=600&h=400" />
+          <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&h=600" />
           <div class="float-overlay">
-            <span>企业 SaaS</span>
-            <small>全栈 RBAC 权限管理系统</small>
-            <a href="javascript:void(0)" class="float-btn">查看详情 →</a>
+            <span>餐饮小程序</span>
+            <small>O2O 商业闭环</small>
+            <a href="/column/Vue/Vue 3 + Socket.io 实时聊天项目完整开发文档.html" class="float-btn">点击访问项目 →</a>
           </div>
         </div>
         <div tabindex="0" class="float-item p4">
-          <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&h=400" />
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&h=400" />
           <div class="float-overlay">
-            <span>效率神器</span>
-            <small>基于 AI 的自动化编码助手</small>
-            <a href="javascript:void(0)" class="float-btn">查看详情 →</a>
+            <span>电商系统重构</span>
+            <small>高并发架构优化</small>
+            <a href="/column/AI/Atlas.html" class="float-btn">点击访问项目 →</a>
           </div>
         </div>
         <div tabindex="0" class="float-item p5">
-          <img src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=600&h=400" />
+          <img src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=600&h=600" />
           <div class="float-overlay">
-            <span>低码平台</span>
-            <small>拖拽式无缝生成企业表单</small>
-            <a href="javascript:void(0)" class="float-btn">查看详情 →</a>
-          </div>
-        </div>
-        <div tabindex="0" class="float-item p6">
-          <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=600&h=400" />
-          <div class="float-overlay">
-            <span>WebGL 渲染</span>
-            <small>Three.js 驱动的线上展馆</small>
-            <a href="javascript:void(0)" class="float-btn">查看详情 →</a>
-          </div>
-        </div>
-        <div tabindex="0" class="float-item p7">
-          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&h=400" />
-          <div class="float-overlay">
-            <span>智能物联</span>
-            <small>IoT 设备流式数据处理</small>
-            <a href="javascript:void(0)" class="float-btn">查看详情 →</a>
-          </div>
-        </div>
-        <div tabindex="0" class="float-item p8">
-          <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=600&h=400" />
-          <div class="float-overlay">
-            <span>在线文档</span>
-            <small>CRDT 多人协同编辑引擎</small>
-            <a href="javascript:void(0)" class="float-btn">查看详情 →</a>
+            <span>鲜花订阅</span>
+            <small>微信生态闭环</small>
+            <a href="/column/AI/VistaAI.html" class="float-btn">点击访问项目 →</a>
           </div>
         </div>
       </div>
-      <span class="card-desc" style="display: block; margin-top: 10px; line-height: 1.6;">点击相框即可跳转对应实战项目。涵盖从 0 到 1 的全链路落地经验与企业级架构设计思考。</span>
+      <span class="card-desc">点击相框即可跳转对应实战项目。涵盖从 0 到 1 的全链路落地经验与企业级架构设计思考。</span>
 ---
 
 
@@ -409,3 +375,24 @@ features:
 }
 }
 </style>
+
+<ClientOnly>
+  <Teleport to="#gravity-tags-mount" v-if="isMounted">
+    <GravityTags />
+  </Teleport>
+</ClientOnly>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const isMounted = ref(false)
+
+onMounted(() => {
+  // 延迟挂载，确保 VitePress 的 v-html 已经把 #gravity-tags-mount 渲染到 DOM 中
+  setTimeout(() => {
+    if (document.getElementById('gravity-tags-mount')) {
+      isMounted.value = true
+    }
+  }, 100)
+})
+</script>

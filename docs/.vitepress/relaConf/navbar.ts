@@ -37,10 +37,6 @@ export const nav: DefaultTheme.NavItem[] = [
     text: '相关技术文章',
     items: [
       {
-        text: '后端专栏',
-        link: '/column/NodeJS/'
-      },
-      {
         text: 'Vue3 系列',
         link: '/column/Vue/Vue 3 + Naive UI 企业级后台管理系统完整解析.md'
       },
@@ -53,24 +49,24 @@ export const nav: DefaultTheme.NavItem[] = [
         link: '/column/deepseek/deepseek.md',
       },
       {
-        text: 'HarmonyOS 4.0',
-        link: '/column/harmony-os-4.0-series/HarmonyOS4.0系列——01、下载、安装、配置环境、搭建页面以及运行示例代码.md', // 表示docs/column/Travel/index.md
-        /*  target: '_blank', */
-        /* rel: 'sponsored' */
+        text: 'web端',
+        link: '/column/web/lowcode-form-builder.md'
       },
       {
         text: 'Threejs',
-        link: '/column/ThreeJS/three01场景搭建.md', // 表示docs/column/Travel/index.md
-        /*  target: '_blank', */
-        /* rel: 'sponsored' */
+        link: '/column/ThreeJS/three01场景搭建.md',
       },
       {
         text: 'Games',
         link: '/column/Games/从零开始打造HTML5拼图游戏：一个Canvas实战项目.md',
       },
       {
-        text: 'web端',
-        link: '/column/web/lowcode-form-builder.md'
+        text: '后端专栏',
+        link: '/column/NodeJS/'
+      },
+      {
+        text: 'HarmonyOS 4.0',
+        link: '/column/harmony-os-4.0-series/HarmonyOS4.0系列——01、下载、安装、配置环境、搭建页面以及运行示例代码.md',
       }
     ]
   },

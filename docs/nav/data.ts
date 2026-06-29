@@ -9,6 +9,18 @@ export const NAV_DATA = [
         link: 'https://cn.vuejs.org/',
       },
       {
+        icon: 'https://zh-hans.react.dev/favicon.ico',
+        title: 'React',
+        desc: '用于构建 Web 和原生交互界面的库。',
+        link: 'https://zh-hans.react.dev/'
+      },
+      {
+        icon: 'https://nodejs.org/static/images/favicons/favicon.ico',
+        title: 'Node.js',
+        desc: 'Node.js 是一个跨平台、开源的 JavaScript 运行环境，能够在服务器端运行代码。',
+        link: 'https://nodejs.org/'
+      },
+      {
         icon: 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg',
         title: 'Naive UI',
         desc: '一个 Vue 3 组件库比较完整，主题可调，使用 TypeScript，快，有点意思',
@@ -40,7 +52,7 @@ export const NAV_DATA = [
         desc: 'Vue Composition API 的常用工具集',
         link: 'https://vueuse.org/',
       }, {
-        icon: 'https://ele.hamm.cn/images/element-plus-logo-small.svg',
+        icon: 'https://element-plus.org/images/element-plus-logo-small.svg',
         title: 'Element-Plus',
         desc: '基于 Vue 3，面向设计师和开发者的组件库',
         link: 'https://element-plus.org/zh-CN/',
@@ -354,6 +366,24 @@ export const NAV_DATA = [
     title: 'AI工具',
     items: [
       {
+        icon: 'https://v0.app/assets/apple-icon.png',
+        title: 'v0 by Vercel',
+        desc: '使用简单的文本提示生成无缝的 UI 界面，基于 AI 的前端生成平台。',
+        link: 'https://v0.dev/'
+      },
+      {
+        icon: 'https://cdn.sanity.io/images/4zrzovbb/claude-com/369b14e80ac643cc09dccd581ccb91f82b559190-32x32.png',
+        title: 'Claude',
+        desc: 'Anthropic 开发的新一代 AI 助手，在复杂的代码推理、长文本分析和逻辑思考上表现极为出色。',
+        link: 'https://claude.ai/'
+      },
+      {
+        icon: 'https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg',
+        title: 'Gemini',
+        desc: 'Google 最新发布的最强多模态生成式 AI 模型，支持无缝处理文本、图像、音频与代码。',
+        link: 'https://gemini.google.com/'
+      },
+      {
         icon: 'https://www.deepseek.com/favicon.ico',
         title: 'Deepseek',
         desc: '探索未至之境，DeepSeek-R1 发布，性能对标 OpenAI o1 正式版',
@@ -372,7 +402,7 @@ export const NAV_DATA = [
         link: 'https://www.aiprompter.cc/'
       },
       {
-        icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgNjAgNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgYXJpYS1sYWJlbD0iMjFzdCBsb2dvIC0gUmlnaHQtY2xpY2sgdG8gb3BlbiBicmFuZCBhc3NldHMgbWVudSI+PHBhdGggZD0iTTAgMjBDMCA4Ljk1NDMxIDguOTU0MzEgMCAyMCAwQzMxLjA0NTcgMCA0MCA4Ljk1NDMxIDQwIDIwQzQwIDMxLjA0NTcgMzEuNSAzNS41IDIwIDQwSDQwQzQwIDUxLjA0NTcgMzEuMDQ1NyA2MCAyMCA2MEM4Ljk1NDMxIDYwIDAgNTEuMDQ1NyAwIDQwQzAgMjguOTU0MyA5LjUgMjIgMjAgMjBIMFoiIGZpbGw9IndoaXRlIj48L3BhdGg+PHBhdGggZD0iTTQwIDYwQzUxLjczMjQgNTUuMDk3NyA2MCA0My41MTE3IDYwIDMwQzYwIDE2LjQ4ODMgNTEuNzMyNCA0LjkwMjM0IDQwIDBWNjBaIiBmaWxsPSJ3aGl0ZSI+PC9wYXRoPjwvc3ZnPg==',
+        icon: 'https://21st.dev/apple-touch-icon.png',
         title: '21st',
         desc: 'UI 组件、React 组件、Tailwind 组件、组件库、设计块、UI 块、组件市场、可重复使用的组件、代码片段、模块化 UI、更快构建、开发者工具包、前端样板、复制粘贴组件、插入式组件、快速原型设计、Web UI 工具包、组件共享、即插即用代码、开发者生产力工具、AI UI 构建器、面向开发者的 AI、AI 生成的组件、ChatGPT UI 构建器、提示到 UI、从文本编写代码、AI 设计到代码、使用 AI 生成 UI、GPT 代码示例、面向前端开发者的 AI、设计系统组件、面向开发者的 UI 设计、Figma 到代码、前端代码模板、开发者友好型设计、全栈组件、产品设计代码、低代码组件、设计工程师工具、前端组件中心、在线发布代码、组件货币化、开发者组合平台、公开构建、共享代码、UI 组件市场、开源组件、开发者社区平台、代码市场、前端灵感、Vibe 编码工具、vibe 编码、vibe coder、lovable ai、bolt.new、replit 代理、v0、v0 模板、AI 代码生成、基于提示的编码、自然语言编程、AI 辅助开发、语音驱动编码、AI 结对程序员、无代码 AI 解决方案、AI 编码助手、使用 AI 快速进行原型设计',
         link: 'https://21st.dev/home'
@@ -400,12 +430,7 @@ export const NAV_DATA = [
         desc: '提供免费接口调用平台，免费接口,免费API,免费服务',
         link: 'https://api.aa1.cn/'
       },
-      {
-        icon: 'https://api.vvhan.com/favicon.ico',
-        title: '韩小韩',
-        desc: '致力于为开发者提供便捷、免费、稳定、快速的免费Web API数据接口服务。',
-        link: 'https://api.vvhan.com/'
-      },
+
     ]
   },
 ]

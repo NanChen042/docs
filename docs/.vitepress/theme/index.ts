@@ -19,6 +19,7 @@ import NightLight from '../../column/home/NightLight.vue'
 import Confetti from '../components/Confetti/Confetti.vue'
 import MNavLinks from '../../nav/components/MNavLinks.vue'
 import ImagePreview from '../components/ImagePreview/ImagePreview.vue'
+import GravityTags from '../components/GravityTags.vue'
 import './custom.css';
 import './style/blur.css';
 // 图标并进行全局注册
@@ -46,6 +47,7 @@ export default {
     app.component('Map', Map)
     app.component('Games', Games)
     app.component('ImagePreview', ImagePreview)
+    app.component('GravityTags', GravityTags)
     // app.component('Map4', Map4)
 
    // 全局注册基础组件
@@ -76,10 +78,10 @@ export default {
        
        const activeItems: HTMLElement[] = [];
        items.forEach((item, index) => {
-         item.style.display = index < 4 ? 'block' : 'none';
+         item.style.display = index < 5 ? 'block' : 'none';
          item.classList.remove('is-active'); // 初始化状态
          list.appendChild(item);
-         if (index < 4) activeItems.push(item);
+         if (index < 5) activeItems.push(item);
        });
 
        if (activeItems.length === 0) return;

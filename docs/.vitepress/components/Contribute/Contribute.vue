@@ -431,7 +431,7 @@ $level-4: #5b21b6;
   border-radius: 2px;
   position: relative;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 
   /* Level colors with visible outlines for empty cells */
   &.level-0, &.cell-empty { 

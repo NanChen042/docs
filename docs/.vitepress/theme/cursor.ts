@@ -50,6 +50,9 @@ const handleMouseMove = debounce((e: MouseEvent) => {
 
   // 只处理特殊光标类型
   if (
+    computedCursor === 'pointer' ||
+    computedCursor === 'text' ||
+    computedCursor === 'auto' ||
     computedCursor === 'progress' ||
     computedCursor === 'not-allowed' ||
     computedCursor === 'move' ||

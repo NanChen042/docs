@@ -43,10 +43,10 @@ const svg = computed(() => {
           <div class="box-header">
             <div v-if="svg" class="icon" v-html="svg"></div>
             <div v-else-if="icon && typeof icon === 'string'" class="icon">
-              <img :src="icon" :alt="title" onerror="this.parentElement.style.display='none'" />
+              <img :src="icon" :alt="title" @error="(e) => { e.target.src = '/logos.png'; e.target.classList.add('fallback-logo'); e.target.onerror = null; }" />
             </div>
             <div v-else class="icon">
-              <img src="/bitbug_favicon.ico" alt="">
+              <img src="/logos.png" alt="" class="fallback-logo">
             </div>
             <!-- <h6 v-if="title" class="title">{{ title }}</h6> -->
             <h5 v-if="title" :id="formatTitle" class="title">{{ title }}</h5>
@@ -70,6 +70,14 @@ const svg = computed(() => {
 .el-popper.is-customized .el-popper__arrow::before {
   background: var(--vp-tooltip-bg-before);
   right: 0;
+}
+
+/* 兜底图标在暗黑模式下的适配：添加柔和的白底背板，保证任何深色/彩色 Logo 均清晰可见 */
+html.dark .fallback-logo {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+  padding: 2px;
+  box-sizing: border-box;
 }
 </style>
 <style lang="scss" scoped>

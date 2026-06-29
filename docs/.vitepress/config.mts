@@ -78,7 +78,7 @@ export default defineConfig({
       {
         ariaLabel: '南辰Blog',
         icon: {
-          svg: '<img src="/logos.png" style="width: 22px; height: 22px; object-fit: contain; transform: translateY(-1px);" alt="Logo" />'
+          svg: '<img src="/logos.png" class="light-only-img" style="width: 22px; height: 22px; object-fit: contain; transform: translateY(-1px);" alt="Logo" /><img src="/logosdark.png" class="dark-only-img" style="width: 22px; height: 22px; object-fit: contain; transform: translateY(-1px);" alt="Logo" />'
         },
         link: 'https://vue3-blog-bt9.pages.dev/#/home'
       }
