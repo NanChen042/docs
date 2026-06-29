@@ -393,7 +393,7 @@ function generateJSXForElement(elData) {
 我们不仅修复了由于跨模板切换引发的“组件 ID 计数器泄露”漏洞（通过在 `loadSchema` 中自适应扫描底层节点并重置最高水位线），更实现了画布 DOM 树与底层 JSON Schema 的**完美双向数据打通**。任何在右侧面板的修改、画布的拖拽，都会实时反馈至底层��型，使预览模块可以直接对接真实 Schema 数据。未来的演进则考虑在“撤销/重做”栈中引入类似 Immutable 数据结构或简易 Diff 算法以降低内存开销。
 
 ### 2. 组件联动与逻辑编排 (Logic Flow)
-目前的表单组件之间是彼此独立的。下一���将引入规则引擎（Rule Engine），支持组件间的值联动（Value Linkage）与显隐控制。例如：当“国家选择”选中“中国”时，“省市联动组件”才显示。这需要在 `schema` 中定义 `dependencies` 或 `expressions` 字段，并在核心引擎层增加表达式解析模块。
+目前的表单组件之间是彼此独立的。下一步将引入规则引擎（Rule Engine），支持组件间的值联动（Value Linkage）与显隐控制。例如：当“国家选择”选中“中国”时，“省市联动组件”才显示。这需要在 `schema` 中定义 `dependencies` 或 `expressions` 字段，并在核心引擎层增加表达式解析模块。
 
 ### 3. API 持久化与动态数据源接入 (Mock API & Remote Data) - **【已实现与演进中】**
 我们已经抽离出了 `api.js` 层，利用 Promise 和 localStorage 构建了一套完整的伪后端（Mock API）服务，完美打通了表单的“发布”、“加载初始模板”等流程，保证了页面刷新不丢数据。下一步演进是针对组件本身（如下拉框、单选框）支持绑定远程 API 获取选项数据，允许配置请求 URL 和 Response 解析路径，在画布预览时动态渲染异步数据。

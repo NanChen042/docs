@@ -32,6 +32,23 @@ export default defineConfig({
     noExternal: ['canvas-confetti']
   },
 
+  // 注入 Vite 插件，动态修改 VitePress 源码避免 `<p>` 标签嵌套块级元素导致浏览器强制拆分引起的 Hydration 错误
+  vite: {
+    plugins: [
+      {
+        name: 'fix-vpfeature-hydration',
+        enforce: 'pre',
+        transform(code, id) {
+          if (id.includes('VPFeature.vue')) {
+            // 将 details 的 <p> 标签强制转换为 <div>，从而允许内部嵌套其他块级元素（如翻转卡片等）
+            return code.replace(/<p\s+v-if="details"\s+class="details"\s+v-html="details"><\/p>/g, '<div v-if="details" class="details" v-html="details"></div>')
+          }
+          return code
+        }
+      }
+    ]
+  },
+
 
   head: [
     ['link', { rel: 'icon', href: '/logos.png' }],
