@@ -1,27 +1,28 @@
 <template>
-  <div class="contribute-wrapper">
-    <div v-if="loading" class="loading-text">正在同步 GitHub 真实数据...</div>
+  <ClientOnly>
+    <div class="contribute-wrapper">
+      <div v-if="loading" class="loading-text">正在同步 GitHub 真实数据...</div>
 
-    <div v-else-if="error" class="fallback-img">
-      <img src="https://ghchart.rshah.org/8b5cf6/NanChen042" alt="GitHub Contributions" />
-    </div>
+      <div v-else-if="error" class="fallback-img">
+        <img src="https://ghchart.rshah.org/8b5cf6/NanChen042" alt="GitHub Contributions" />
+      </div>
 
-    <div v-else class="layout-container">
-      <!-- Calendar Card -->
-      <div class="calendar-card">
-        <div class="calendar-header">
-          <span class="year-total">{{ activeYearTotal }} contributions in {{ selectedYear }}</span>
-          <span class="status"><span class="dot"></span>Live Sync</span>
-        </div>
-
-        <div class="graph-section">
-          <!-- Month labels -->
-          <div class="month-labels" :style="{ marginLeft: labelWidth + 'px' }">
-            <span v-for="m in monthLabels" :key="m.key"
-                  class="month-label" :style="{ left: m.left + 'px' }">
-              {{ m.name }}
-            </span>
+      <div v-else class="layout-container">
+        <!-- Calendar Card -->
+        <div class="calendar-card">
+          <div class="calendar-header">
+            <span class="year-total">{{ activeYearTotal }} contributions in {{ selectedYear }}</span>
+            <span class="status"><span class="dot"></span>Live Sync</span>
           </div>
+
+          <div class="graph-section">
+            <!-- Month labels -->
+            <div class="month-labels" :style="{ marginLeft: labelWidth + 'px' }">
+              <span v-for="m in monthLabels" :key="m.key"
+                    class="month-label" :style="{ left: m.left + 'px' }">
+                {{ m.name }}
+              </span>
+            </div>
 
           <!-- Grid row: weekday labels + cells -->
           <div class="grid-row">
@@ -70,7 +71,7 @@
       <h1>访问量:</h1>
       <img src="https://hitwebcounter.com/counter/counter.php?page=19094990&style=0024&nbdigits=5&type=page&initCount=0" title="Counter Widget" Alt="Visit counter For Websites" border="0" />
     </div>
-  </div>
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>

@@ -1,40 +1,46 @@
 <script setup lang="ts">
 import confetti from "canvas-confetti";
-const duration = 3000;
-const end = Date.now() + duration;
+import { onMounted, onUnmounted } from "vue";
 
-(function frame() {
-  confetti({
-    particleCount: 5,
-    angle: 60,
-    spread: 55,
-    origin: { x: 0 },
-  });
-  confetti({
-    particleCount: 5,
-    angle: 120,
-    spread: 55,
-    origin: { x: 1 },
-  });
+onMounted(() => {
+  const duration = 3000;
+  const end = Date.now() + duration;
 
-  if (Date.now() < end) {
-    requestAnimationFrame(frame);
-  }
-})();
+  (function frame() {
+    confetti({
+      particleCount: 5,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+    });
+    confetti({
+      particleCount: 5,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+    });
 
-const timer = setInterval(() => {
-  confetti({
-    particleCount: 2,
-    angle: 90,
-    spread: 20,
-    origin: { x: Math.random(), y: 0 },
-  });
-}, 100);
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
 
-// 例如 5 秒后停止
-setTimeout(() => {
-  clearInterval(timer);
-}, 5000);
+  const timer = setInterval(() => {
+    confetti({
+      particleCount: 2,
+      angle: 90,
+      spread: 20,
+      origin: { x: Math.random(), y: 0 },
+    });
+  }, 100);
+
+  // 例如 5 秒后停止
+  setTimeout(() => {
+    clearInterval(timer);
+  }, 5000);
+  
+  onUnmounted(() => clearInterval(timer));
+});
 </script>
 
 <template>
