@@ -187,15 +187,19 @@ onMounted(async () => {
   }
 
   const onTouchStart = (e: TouchEvent) => {
-    e.preventDefault()
     startX = e.touches[0].clientX
     startY = e.touches[0].clientY
     startTime = Date.now()
     startDrag(getRelPos(e.touches[0]))
+    if (dragBody) {
+      e.preventDefault()
+    }
   }
   const onTouchMove = (e: TouchEvent) => {
-    e.preventDefault()
-    moveDrag(getRelPos(e.touches[0]))
+    if (dragBody) {
+      e.preventDefault()
+      moveDrag(getRelPos(e.touches[0]))
+    }
   }
   const onTouchEnd = (e: TouchEvent) => { 
     endDrag()

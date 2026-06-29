@@ -22,6 +22,7 @@ import ImagePreview from '../components/ImagePreview/ImagePreview.vue'
 import GravityTags from '../components/GravityTags.vue'
 import './custom.css';
 import './style/blur.css';
+import { initHeroPopup } from './hero-popup'
 // 图标并进行全局注册
 export default {
   Layout: () => {
@@ -59,9 +60,10 @@ export default {
    if (typeof window !== 'undefined') {
      window.addEventListener('DOMContentLoaded', () => {
        initCustomCursor()
-      // 注册环境变量文件语法高亮支持，解决 "The language 'env' is not loaded" 警告
-      envLanguageSupport.register()
-     })
+       initHeroPopup()
+        // 注册环境变量文件语法高亮支持，解决 "The language 'env' is not loaded" 警告
+        envLanguageSupport.register()
+       })
 
      // 原生手风琴轮播逻辑封装
      let accordionInterval: any = null;

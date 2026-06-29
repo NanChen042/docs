@@ -23,10 +23,10 @@ hero:
   # 按钮相关
   actions:
     - theme: brand
-      text: 开篇
+      text: 开启探索
       link: 'https://vue3-blog-bt9.pages.dev/#/home'
     - theme: alt
-      text: 个人成长
+      text: 成长轨迹
       link: /column/home/index
 # 按钮下方的描述
 features:
