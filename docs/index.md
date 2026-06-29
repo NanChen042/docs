@@ -32,13 +32,13 @@ hero:
 features:
   - title: ""
     details: |
-      <label class="flip-card-container" style="cursor: pointer;">
-        <input type="checkbox" class="flip-toggle" style="display:none;">
+      <div class="flip-card-container">
+        <input type="checkbox" id="main-flip-toggle" class="flip-toggle" style="display:none;">
         <div class="flip-card-inner">
           <!-- 正面 -->
           <div class="flip-card-front">
             <div class="fc-banner"></div>
-            <div class="fc-flip-btn-wrapper" aria-label="翻转卡片">
+            <label class="fc-flip-btn-wrapper" for="main-flip-toggle" aria-label="翻转卡片" style="cursor: pointer;">
               <div class="fc-flip-glow"></div>
               <div class="fc-flip-btn">
                 <div class="fc-flip-fluid-bg"></div>
@@ -51,7 +51,7 @@ features:
                   </svg>
                 </div>
               </div>
-            </div>
+            </label>
 
             <div class="fc-avatar-wrapper">
               <img src="/logos.png" alt="Avatar" class="fc-avatar light-only-img">
@@ -71,12 +71,14 @@ features:
           <!-- 反面 -->
           <div class="flip-card-back">
             <div class="fc-back-header">
-              <img src="/logos.png" alt="Avatar" class="fc-back-avatar light-only-img">
-              <img src="/logosdark.png" alt="Avatar" class="fc-back-avatar dark-only-img">
-              <div class="fc-back-expire">
-                <div class="fc-expire-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="12" height="12" style="margin-right:4px;"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> 开发者档案</div>
-                <div class="fc-expire-val">NanChen</div>
-              </div>
+              <label for="main-flip-toggle" style="cursor: pointer; display: flex; align-items: center; flex: 1;" title="点击翻转回正面">
+                <img src="/logos.png" alt="Avatar" class="fc-back-avatar light-only-img">
+                <img src="/logosdark.png" alt="Avatar" class="fc-back-avatar dark-only-img">
+                <div class="fc-back-expire">
+                  <div class="fc-expire-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="12" height="12" style="margin-right:4px;"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> 开发者档案</div>
+                  <div class="fc-expire-val">NanChen</div>
+                </div>
+              </label>
               <label class="fc-back-qr" for="qr-modal-toggle" style="cursor: pointer;" title="点击查看二维码">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect width="5" height="5" x="3" y="3" rx="1"/>
@@ -124,7 +126,7 @@ features:
             </div>
           </div>
         </div>
-      </label>
+      </div>
 
   - title: 核心技术栈 <span class="title-arrow-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7 M8 7h9v9"/></svg></span>
     details: |
