@@ -71,6 +71,7 @@
       <h1>访问量:</h1>
       <img src="https://hitwebcounter.com/counter/counter.php?page=19094990&style=0024&nbdigits=5&type=page&initCount=0" title="Counter Widget" Alt="Visit counter For Websites" border="0" />
     </div>
+  </div>
   </ClientOnly>
 </template>
 
