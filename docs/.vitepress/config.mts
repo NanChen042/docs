@@ -134,6 +134,11 @@ export default defineConfig({
           target: 'https://apis.map.qq.com',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api\/map/, '')
+        },
+        '/api/github-contributions': {
+          target: 'https://github-contributions.vercel.app',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/github-contributions/, '/api/v1')
         }
       }
     },
