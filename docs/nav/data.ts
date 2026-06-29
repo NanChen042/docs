@@ -155,7 +155,7 @@ export const NAV_DATA = [
         link: 'https://cssgrid-generator.netlify.app/'
       },
       {
-        icon: '/docs/bitbug_favicon.ico',
+        icon: '/logos.png',
         title: 'SASS/LESS => CSS',
         desc: 'SASS/LESS => CSS,再也不用去记那些复杂的CSS代码了,一键生成~~',
         link: 'https://css.bqrdh.com/saless-css'
@@ -261,7 +261,7 @@ export const NAV_DATA = [
         link: 'https://www.mixamo.com/#/',
       },
       {
-        icon: '/docs/bitbug_favicon.ico',
+        icon: '/logos.png',
         title: 'HDRI-to-CubeMap',
         desc: '立方体拆切图工具',
         link: 'https://matheowis.github.io/HDRI-to-CubeMap/',

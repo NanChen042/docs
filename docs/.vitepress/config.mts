@@ -34,7 +34,7 @@ export default defineConfig({
 
 
   head: [
-    ['link', { rel: 'icon', href: '/docs/bitbug_favicon.ico' }],
+    ['link', { rel: 'icon', href: '/logos.png' }],
     // Simple Analytics script
     ['script', {}, 'var _hmt = _hmt || []; (function() { var hm = document.createElement(\'script\'); hm.src = \'https://hm.baidu.com/hm.js?d595e49724ffc0b53eb895cc7a704375\'; var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(hm, s); })();']
   ],

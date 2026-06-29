@@ -174,12 +174,8 @@ const monthLabels = computed(() => {
 
 onMounted(async () => {
   try {
-    // 开发环境走 Vite 代理以绕过 CORS，生产环境直连 API
-    const hostname = window.location.hostname
-    const isDev = hostname === 'localhost' || hostname.startsWith('192.168') || hostname.startsWith('127.')
-    const apiUrl = isDev
-      ? `/api/github-contributions/${props.username}`
-      : `https://github-contributions.vercel.app/api/v1/${props.username}`
+    // 开发环境走 Vite 代理，生产环境走 Cloudflare Pages Functions 边缘代理，彻底解决 CORS
+    const apiUrl = `/api/github-contributions/${props.username}`
     const res = await fetch(apiUrl)
     
     if (!res.ok) throw new Error('API Error')

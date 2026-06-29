@@ -13,7 +13,7 @@
           <span class="hero-line"><span class="hero-text highlight">Southern Wind</span></span>
         </h1>
         <p class="hero-subtitle">
-          <span class="hero-line"><span class="hero-text">Frontend Developer / {{ experience }} Experience / Explorer</span></span>
+          <span class="hero-line"><span class="hero-text">Frontend Developer / {{ expText }} Experience / Explorer</span></span>
         </p>
       </div>
     </section>
@@ -62,11 +62,14 @@ import { onMounted, onBeforeUnmount, ref, nextTick } from 'vue'
 import { growthActivities } from './data'
 import { useExperience } from './composables/useExperience'
 
+const expText = ref('4 Years+') // Server-side default fallback
 const { experience } = useExperience('2021-03-10')
 const threeCanvas = ref<HTMLCanvasElement | null>(null)
 let cleanupThreeJS: (() => void) | null = null
 
 onMounted(async () => {
+  expText.value = experience.value // Client-side hydration
+  
   if (typeof window !== 'undefined') {
     try {
       // 1. Load GSAP

@@ -350,8 +350,10 @@ features:
 
 
 
-<Contribute />
-<Confetti />
+<ClientOnly>
+  <Contribute />
+  <Confetti />
+</ClientOnly>
 
 <!-- 纯 CSS 二维码全局弹窗 (放在最外层解决 z-index 和覆盖层被卡片遮挡的问题) -->
 <input type="checkbox" id="qr-modal-toggle" class="qr-modal-toggle" style="display:none;">
