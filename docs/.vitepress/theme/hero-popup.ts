@@ -63,9 +63,6 @@ export function destroyHeroPopup() {
 
   document.querySelectorAll('.VPHero .VPButton.has-popup').forEach(btn => {
     const el = btn as HTMLElement
-    const href = el.dataset.originalHref
-    if (href) el.setAttribute('href', href)
-    el.removeAttribute('data-original-href')
     el.removeAttribute('role')
     el.classList.remove('has-popup')
   })
@@ -76,22 +73,25 @@ function isExternalHref(href: string) {
   return /^https?:\/\//i.test(href)
 }
 
-function getPopupContent(buttonText: string, originalHref: string) {
+function getPopupContent(buttonText: string) {
   let title = '专栏详情'
   let desc = '探索更多关于此专栏的内容，深入学习相关的技术与实战经验。'
   let imgSrc = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&h=300'
-
+  let originalHref = '#'
   let tags = ['Tech', 'Design']
+
   if (buttonText.includes('探索') || buttonText.includes('开篇')) {
     title = '南辰旧版主页'
     desc = '探索最初的起点，查看往期全栈开发和早期的个人项目积累。'
     imgSrc = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&h=300'
     tags = ['Web3D', 'Vue3']
+    originalHref = 'https://vue3-blog-bt9.pages.dev/#/home'
   } else if (buttonText.includes('成长')) {
     title = '个人成长轨迹'
     desc = '记录点滴成长，分享技术感悟、生活随想与职业发展的心路历程。'
     imgSrc = 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=600&h=300'
     tags = ['Life', 'Career']
+    originalHref = '/column/home/index'
   }
 
   const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
@@ -126,10 +126,6 @@ function bindEvents() {
     const el = btn as HTMLElement
     el.classList.add('has-popup')
 
-    const originalHref = el.getAttribute('href') || el.dataset.originalHref || '#'
-    el.dataset.originalHref = originalHref
-    // 水合完成后再移除 href，避免 mismatch，同时阻止 Router 直接跳转
-    el.removeAttribute('href')
     el.setAttribute('role', 'button')
     el.style.cursor = 'pointer'
 
@@ -137,7 +133,7 @@ function bindEvents() {
 
     const popup = document.createElement('div')
     popup.className = 'hero-popup-card'
-    popup.innerHTML = getPopupContent(buttonText, originalHref)
+    popup.innerHTML = getPopupContent(buttonText)
     popup.addEventListener('click', (e) => {
       e.stopPropagation()
     })
@@ -147,14 +143,5 @@ function bindEvents() {
       parent.style.position = 'relative'
       parent.appendChild(popup)
     }
-  })
-
-  // Vue 重渲染后可能恢复 href，再次清理
-  document.querySelectorAll('.VPHero .VPButton.has-popup[href]').forEach((btn) => {
-    const el = btn as HTMLElement
-    if (!el.dataset.originalHref) {
-      el.dataset.originalHref = el.getAttribute('href') || '#'
-    }
-    el.removeAttribute('href')
   })
 }

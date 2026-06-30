@@ -3,55 +3,68 @@
     <!-- Three.js Canvas Container (Fixed Background) -->
     <div class="three-container">
       <canvas ref="threeCanvas" class="three-canvas"></canvas>
+      
+      <!-- Non-intrusive Model Loading Badge -->
+      <transition name="fade">
+        <div v-if="isLoadingModel" class="model-loading-badge">
+          <div class="mini-planet-spinner"></div>
+          <span class="badge-text">Deploying Voyager...</span>
+        </div>
+      </transition>
     </div>
 
     <!-- Hero Section -->
     <section class="hero-section">
       <div class="hero-content">
         <h1 class="hero-title">
-          <span class="hero-line"><span class="hero-text">Journey of</span></span>
-          <span class="hero-line"><span class="hero-text highlight">Southern Wind</span></span>
+          <span class="word-mask"><span class="hero-word">Journey</span></span>
+          <span class="space">&nbsp;</span>
+          <span class="word-mask"><span class="hero-word">of</span></span>
+          <br/>
+          <span class="word-mask"><span class="hero-word highlight">Southern</span></span>
+          <span class="space">&nbsp;</span>
+          <span class="word-mask"><span class="hero-word highlight">Wind</span></span>
         </h1>
         <p class="hero-subtitle">
-          <span class="hero-line"><span class="hero-text">Frontend Developer / {{ expText }} Experience / Explorer</span></span>
+          <span class="word-mask"><span class="hero-word">Frontend</span></span>
+          <span class="space">&nbsp;</span>
+          <span class="word-mask"><span class="hero-word">Developer</span></span>
+          <span class="space">&nbsp;</span>
+          <span class="word-mask"><span class="hero-word">/</span></span>
+          <span class="space">&nbsp;</span>
+          <span class="word-mask"><span class="hero-word">{{ expText }}</span></span>
+          <span class="space">&nbsp;</span>
+          <span class="word-mask"><span class="hero-word">Experience</span></span>
+          <span class="space">&nbsp;</span>
+          <span class="word-mask"><span class="hero-word">/</span></span>
+          <span class="space">&nbsp;</span>
+          <span class="word-mask"><span class="hero-word">Explorer</span></span>
         </p>
       </div>
     </section>
 
-    <!-- Timeline Section -->
-    <section class="timeline-section">
-      <div class="timeline-container">
-        <div class="timeline-header">
-          <h2 class="timeline-main-title">Milestones</h2>
-          <p class="timeline-sub-title">Tracing the footprints of growth</p>
-        </div>
-        
-        <div class="timeline-list">
-          <div
-            v-for="(item, index) in growthActivities"
-            :key="index"
-            class="timeline-item"
-            :class="index % 2 === 0 ? 'align-left' : 'align-right'"
-          >
-            <div class="glass-card">
-              <div class="glass-year">{{ item.timestamp }}</div>
-              <h3 class="glass-title">{{ item.title }}</h3>
-              <p class="glass-desc">{{ item.content }}</p>
+    <!-- Milestones GSAP Track (In-Place Switching) -->
+    <section class="milestones-track">
+      <div class="milestones-container">
+        <div 
+          v-for="(activity, index) in growthActivities" 
+          :key="index"
+          class="typo-group"
+          :class="`milestone-${index}`"
+        >
+          <div class="typo-content">
+            <div class="typo-header-row">
+              <span class="typo-index">0{{ index + 1 }}</span>
+              <div class="typo-tag">{{ activity.timestamp }}</div>
+              <div class="typo-line"></div>
+            </div>
+            <h3 class="typo-title">{{ activity.title }}</h3>
+            <div class="typo-desc-wrapper">
+              <div class="typo-desc-accent"></div>
+              <p class="typo-desc">{{ activity.content }}</p>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Github Chart Section -->
-    <section class="chart-section">
-      <div class="chart-container">
-        <h4 class="chart-title">Open Source Contributions</h4>
-        <img
-          class="github-chart"
-          src="https://ghchart.rshah.org/409ba5/NanChen042"
-          alt="Southern Wind's Github Chart"
-        />
       </div>
     </section>
   </div>
@@ -65,6 +78,7 @@ import { useExperience } from './composables/useExperience'
 const expText = ref('4 Years+') // Server-side default fallback
 const { experience } = useExperience('2021-03-10')
 const threeCanvas = ref<HTMLCanvasElement | null>(null)
+const isLoadingModel = ref(true) // Track 3D model loading state
 let cleanupThreeJS: (() => void) | null = null
 
 onMounted(async () => {
@@ -83,50 +97,94 @@ onMounted(async () => {
       
       await nextTick()
 
-      // Hero Reveal
-      gsap.to('.hero-text', {
+      // 1. Hero Initial Reveal (Vertical Cut Reveal - Word Level)
+      gsap.to('.hero-word', {
         y: 0,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: 'power4.out',
+        duration: 1.0,
+        stagger: 0.08,
+        ease: 'back.out(1.4)', // Spring-like reveal matching the React component's physics
         delay: 0.1
       })
 
-      // Timeline Cards Reveal
-      const cards = gsap.utils.toArray('.glass-card')
-      cards.forEach((card: any, index: number) => {
-        const direction = index % 2 === 0 ? -50 : 50
-        gsap.fromTo(card,
-          { opacity: 0, x: direction, y: 30 },
-          {
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 85%',
-              toggleActions: 'play none none reverse'
-            },
-            opacity: 1,
-            x: 0,
-            y: 0,
-            duration: 1.2,
-            ease: 'power3.out'
-          }
-        )
+      // 2. Hero Tumble & Fade (On Scroll)
+      gsap.to('.hero-content', {
+        scrollTrigger: {
+          trigger: '.minimal-home-wrapper',
+          start: 'top top',
+          end: '1000px top',
+          scrub: 1
+        },
+        y: -100,
+        rotationX: -45,
+        scale: 0.8,
+        opacity: 0,
+        ease: 'power2.inOut'
       })
 
-      // Chart Reveal
-      gsap.fromTo('.chart-section',
-        { opacity: 0, y: 40 },
-        {
-          scrollTrigger: {
-            trigger: '.chart-section',
-            start: 'top 90%',
+      // 3. Advanced Modern Typography In-Place Switching (No Glassmorphism)
+      const groups = gsap.utils.toArray('.typo-group')
+      groups.forEach((group: any, index: number) => {
+        const headerRow = group.querySelector('.typo-header-row')
+        const title = group.querySelector('.typo-title')
+        const descWrapper = group.querySelector('.typo-desc-wrapper')
+        const line = group.querySelector('.typo-line')
+
+        // Initial state
+        gsap.set(group, { display: 'none', filter: 'blur(10px)' })
+        gsap.set([headerRow, title, descWrapper], { opacity: 0, y: 30 })
+        gsap.set(line, { scaleX: 0 })
+
+        // Exclusive interval logic so they NEVER overlap
+        ScrollTrigger.create({
+          trigger: '.minimal-home-wrapper',
+          start: `${800 + index * 800}px top`,
+          end: `${1600 + index * 800}px top`,
+          
+          onEnter: () => {
+            gsap.set(group, { display: 'flex' })
+            gsap.to(group, { filter: 'blur(0px)', duration: 0.6, ease: 'power2.out', overwrite: true })
+            
+            // Stagger elements from bottom up
+            gsap.fromTo([headerRow, title, descWrapper],
+              { opacity: 0, y: 30 },
+              { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out', overwrite: true }
+            )
+            // Stretch the glowing line
+            gsap.fromTo(line,
+              { scaleX: 0 },
+              { scaleX: 1, duration: 0.8, delay: 0.2, ease: 'power3.inOut', overwrite: true }
+            )
           },
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: 'power3.out'
-        }
-      )
+          onLeave: () => {
+            gsap.to(group, { filter: 'blur(10px)', duration: 0.4, ease: 'power2.in', overwrite: true })
+            gsap.to([headerRow, title, descWrapper], {
+              opacity: 0, y: -30, duration: 0.4, stagger: 0.05, ease: 'power2.in', overwrite: true
+            })
+            setTimeout(() => gsap.set(group, { display: 'none' }), 400)
+          },
+          onEnterBack: () => {
+            gsap.set(group, { display: 'flex' })
+            gsap.to(group, { filter: 'blur(0px)', duration: 0.6, ease: 'power2.out', overwrite: true })
+            
+            // Stagger elements from top down
+            gsap.fromTo([descWrapper, title, headerRow],
+              { opacity: 0, y: -30 },
+              { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out', overwrite: true }
+            )
+            gsap.fromTo(line,
+              { scaleX: 0 },
+              { scaleX: 1, duration: 0.8, delay: 0.2, ease: 'power3.inOut', overwrite: true }
+            )
+          },
+          onLeaveBack: () => {
+            gsap.to(group, { filter: 'blur(10px)', duration: 0.4, ease: 'power2.in', overwrite: true })
+            gsap.to([descWrapper, title, headerRow], {
+              opacity: 0, y: 30, duration: 0.4, stagger: 0.05, ease: 'power2.in', overwrite: true
+            })
+            setTimeout(() => gsap.set(group, { display: 'none' }), 400)
+          }
+        })
+      })
 
       // 2. Load and Init Three.js
       if (threeCanvas.value) {
@@ -149,9 +207,8 @@ onBeforeUnmount(() => {
 // Three.js Premium 2.5D Side-Scroller Diorama (Astro-Bot Explorer)
 function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
   const container = canvas.parentElement!
-  // Force prevent any overflow from wrapper to avoid double scrollbars
+// Force prevent any overflow from wrapper to avoid double scrollbars
   container.style.overflow = 'hidden' 
-  document.documentElement.style.overflowX = 'hidden'
   
   const scene = new THREE.Scene()
   
@@ -226,39 +283,206 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
   planetScrollGroup.add(planetAutoSpinGroup)
   planetAutoSpinGroup.add(planet)
 
+  // 3.1 The Equator Highway (For the character to walk on)
+  const roadWidth = 0.8
+  const roadMat = new THREE.MeshStandardMaterial({ 
+    color: 0x334155, // slate-700 asphalt
+    roughness: 0.9, 
+    metalness: 0.1 
+  })
+  
+  // 核心黑客：精确计算公路缺口，使其与前后门的台阶无缝衔接！
+  // 台阶伸出到 Z = 0.75，缩放后为 1.2，跨度为 2.4，对应弧度约为 0.53。
+  // 我们将缺口设为 0.5，让公路稍微塞进台阶底下一丁点，做到绝对无缝！
+  const gapStart = Math.PI / 2 + 0.25
+  const gapLen = Math.PI * 2 - 0.5
+  
+  const roadMesh = new THREE.Mesh(
+    new THREE.CylinderGeometry(planetRadius + 0.005, planetRadius + 0.005, roadWidth, 128, 1, true, gapStart, gapLen),
+    roadMat
+  )
+  roadMesh.receiveShadow = true
+  planetAutoSpinGroup.add(roadMesh)
+
+  // 3.2 Highway Edge Lines (Solid White)
+  const lineMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.4 })
+  const leftLine = new THREE.Mesh(
+    new THREE.CylinderGeometry(planetRadius + 0.015, planetRadius + 0.015, 0.04, 128, 1, true, gapStart, gapLen),
+    lineMat
+  )
+  leftLine.position.y = 0.35
+  leftLine.receiveShadow = true
+  planetAutoSpinGroup.add(leftLine)
+
+  const rightLine = new THREE.Mesh(
+    new THREE.CylinderGeometry(planetRadius + 0.015, planetRadius + 0.015, 0.04, 128, 1, true, gapStart, gapLen),
+    lineMat
+  )
+  rightLine.position.y = -0.35
+  rightLine.receiveShadow = true
+  planetAutoSpinGroup.add(rightLine)
+
+  // 3.3 Highway Dashed Center Line
+  const dashCount = 36
+  for (let i = 0; i < dashCount; i++) {
+    const angle = (i / dashCount) * Math.PI * 2
+    // 避开房子缺口区域 (0.25 弧度)
+    if (angle < 0.25 || angle > Math.PI * 2 - 0.25) continue;
+    
+    const dash = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.04, 0.01), lineMat)
+    dash.position.set(
+      (planetRadius + 0.015) * Math.cos(angle), 
+      0, 
+      (planetRadius + 0.015) * Math.sin(angle)
+    )
+    dash.lookAt(0, 0, 0) // Point local -Z towards the center, aligning the box perfectly with the surface!
+    dash.receiveShadow = true
+    planetAutoSpinGroup.add(dash)
+  }
+
   // 3.5 The Physical Glass River (Extremely Premium)
+  // 将河流从跨越极点改为“平行于赤道公路”的环形河，避免与公路产生任何物理交叉
   class RiverCurve extends THREE.Curve {
     radius: number;
-    zOffset: number;
-    constructor(radius: number, zOffset: number) {
+    yOffset: number;
+    constructor(radius: number, yOffset: number) {
       super();
-      this.radius = radius;
-      this.zOffset = zOffset;
+      // 核心物理黑客：把河流的基准曲线半径“往下沉” 0.35！
+      // 配合下面 0.4 的管道粗细，这就意味着整个水管的大部分体积都会埋在草地下面，
+      // 只有最顶部的一点点圆弧会露出地表，完美形成一条【平坦、宽阔且与地面齐平】的真实河流！
+      this.radius = radius - 0.35; 
+      this.yOffset = yOffset; // 改为 Y 轴偏移，让河流所在的平面与公路 (XZ平面) 绝对平行
     }
     getPoint(t: number, optionalTarget = new THREE.Vector3()) {
       const angle = t * Math.PI * 2;
-      // Meandering organic noise for the river path
+      // 蜿蜒的有机噪声，让河流有自然的曲折感
       const meander = Math.sin(angle * 5) * 0.4 + Math.sin(angle * 12) * 0.15;
-      const z = this.zOffset + meander;
-      // Ensure the river stays exactly glued to the sphere surface
-      const r_circle = Math.sqrt(Math.max(0.1, this.radius * this.radius - z * z));
-      optionalTarget.set(Math.cos(angle) * r_circle, Math.sin(angle) * r_circle, z);
+      const y = this.yOffset + meander;
+      // 勾股定理：确保河流始终紧紧贴合在星球的球面上
+      const r_circle = Math.sqrt(Math.max(0.1, this.radius * this.radius - y * y));
+      optionalTarget.set(Math.cos(angle) * r_circle, y, Math.sin(angle) * r_circle);
       return optionalTarget;
     }
   }
   
+  // yOffset = 1.8 意味着河流会在公路的“前方”（靠近屏幕/相机的一侧）流淌
   const riverPath = new RiverCurve(planetRadius, 1.8)
-  const riverGeo = new THREE.TubeGeometry(riverPath, 120, 0.12, 8, true) // Lower poly for performance
-  const riverMat = new THREE.MeshStandardMaterial({
-    color: 0x38bdf8,
-    roughness: 0.1,
-    metalness: 0.2,
-    transparent: true,
-    opacity: 0.85,
+  const riverGeo = new THREE.TubeGeometry(riverPath, 256, 0.4, 16, true) 
+  
+  // 泥土河床 (Muddy Riverbed)
+  // 通过略微加大半径并下沉，制造包裹着河流的泥土河道
+  // 泥土河床 (Muddy Riverbed) - Low Poly
+  const riverBedGeo = new THREE.TubeGeometry(riverPath, 256, 0.46, 8, true)
+  const riverBedMat = new THREE.MeshStandardMaterial({ 
+    color: 0x0ea5e9, 
+    roughness: 1.0,
+    flatShading: true // 回归扁平化多边形风格
   })
+  const riverBedMesh = new THREE.Mesh(riverBedGeo, riverBedMat)
+  riverBedMesh.position.y -= 0.05
+  riverBedMesh.receiveShadow = true
+  planetAutoSpinGroup.add(riverBedMesh)
+  
+  // 极简透射水面 - Low Poly
+  const riverMat = new THREE.MeshPhysicalMaterial({
+    color: 0x38bdf8,
+    metalness: 0.1,
+    roughness: 0.1,
+    transmission: 0.8,
+    ior: 1.33,
+    transparent: true,
+    flatShading: true // 钻石切面般的清澈反光
+  })
+  
+  // 注入轻量级顶点动画，让 Low Poly 水面产生物理起伏
+  riverMat.onBeforeCompile = (shader) => {
+    shader.uniforms.uTime = customUniforms.uTime;
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <common>',
+      `#include <common>
+       uniform float uTime;`
+    )
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <begin_vertex>',
+      `#include <begin_vertex>
+       // 利用正弦函数制造缓慢、大面积的低频起伏
+       float wave1 = sin(transformed.x * 15.0 + uTime * 2.0);
+       float wave2 = cos(transformed.z * 15.0 + uTime * 1.5);
+       float wave3 = sin((transformed.x + transformed.z) * 10.0 - uTime * 1.0);
+       
+       // 让顶点在 Y 轴（上下）产生物理位移，幅度微小但足以改变切面反光
+       transformed.y += (wave1 + wave2 + wave3) * 0.005;
+      `
+    )
+  }
   const riverMesh = new THREE.Mesh(riverGeo, riverMat)
   riverMesh.receiveShadow = true
   planetAutoSpinGroup.add(riverMesh) // The river spins with the planet!
+
+  // 极度硬核：程序化生态系统 (Rocks & Reeds)
+  // 利用曲线的 getPoint 沿途生成青苔石头和岸边植物
+  const mossRockGeo = new THREE.DodecahedronGeometry(1, 0) // 零细节十二面体，最纯正的 Low Poly 块状石头
+  const mossRockMat = new THREE.MeshStandardMaterial({
+    color: 0x94a3b8, // 简洁的岩石灰
+    roughness: 0.9,
+    flatShading: true // 扁平化棱角
+  })
+
+  const grassGeo = new THREE.ConeGeometry(0.04, 0.15, 3) // 3个面，底宽顶尖的三棱锥，最正宗的 Low Poly 草丛形状
+  grassGeo.translate(0, 0.075, 0) // 将原点移到草的根部
+  const grassMat = new THREE.MeshStandardMaterial({ 
+    color: 0x22c55e, // 更加苍翠纯正的绿色，比偏黄的绿色更生机盎然
+    roughness: 0.8,
+    flatShading: true // 扁平化光影
+
+  })
+
+  // 沿河道随机放置 80 块石头和 300 棵水草
+  for (let i = 0; i < 80; i++) {
+    const t = Math.random()
+    const pt = riverPath.getPoint(t)
+    // 随机偏移 (横向铺开)
+    const angle = Math.random() * Math.PI * 2
+    const offset = Math.random() * 0.35 // 散布在河流宽度内
+    const rock = new THREE.Mesh(mossRockGeo, mossRockMat)
+    rock.position.set(pt.x, pt.y - 0.2, pt.z) // 默认沉在水底
+    rock.position.x += Math.cos(angle) * offset
+    rock.position.z += Math.sin(angle) * offset
+    rock.scale.setScalar(0.08 + Math.random() * 0.15)
+    rock.rotation.set(Math.random()*3, Math.random()*3, Math.random()*3)
+    rock.castShadow = true
+    planetAutoSpinGroup.add(rock)
+  }
+
+  for (let i = 0; i < 200; i++) {
+    const t = Math.random()
+    const pt = riverPath.getPoint(t)
+    const angle = Math.random() * Math.PI * 2
+    // 散布在岸边 (0.35 到 0.55 之间)
+    const offset = 0.35 + Math.random() * 0.2
+    
+    // 生成聚簇草丛 (每处生成 2-3 根向四周炸开的小草)
+    const clumpSize = 2 + Math.floor(Math.random() * 2)
+    for(let j=0; j<clumpSize; j++) {
+      const grass = new THREE.Mesh(grassGeo, grassMat)
+      grass.position.set(pt.x, pt.y - 0.05, pt.z)
+      grass.position.x += Math.cos(angle) * offset + (Math.random() - 0.5) * 0.06
+      grass.position.z += Math.sin(angle) * offset + (Math.random() - 0.5) * 0.06
+      
+      // 使水草根部朝向星球法线向外生长
+      grass.lookAt(0,0,0)
+      grass.rotateX(-Math.PI/2)
+      
+      // 随机向四周歪斜，形成生机勃勃的草丛簇
+      grass.rotateX((Math.random() - 0.5) * 0.8)
+      grass.rotateZ((Math.random() - 0.5) * 0.8)
+      
+      // 随机大小
+      grass.scale.setScalar(0.4 + Math.random() * 0.8)
+      grass.castShadow = true
+      planetAutoSpinGroup.add(grass)
+    }
+  }
 
   // Helper to place elements on this tipped sphere
   // Lat (latitude) now controls Depth (Foreground/Background).
@@ -274,37 +498,10 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
     planetAutoSpinGroup.add(obj) // Add to the spinning wheel
   }
 
-  // 4. Premium Smooth Trees & Rocks
-  const treeMat = new THREE.MeshStandardMaterial({ color: 0x059669, roughness: 0.7 })
+  // 4. Premium Smooth Rocks (Trees are loaded via .3ds below)
+  // 复用之前预定义好的全局材质，这样它们就能自动响应下方暗黑模式的色彩切换！
+  const treeMat = new THREE.MeshStandardMaterial({ color: 0x059669, roughness: 0.7, side: THREE.DoubleSide })
   const trunkMat = new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.9 })
-  
-  const createTree = (lat: number, lon: number, scale: number) => {
-    const tree = new THREE.Group()
-    
-    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.12, 0.4, 16), trunkMat)
-    trunk.position.y = 0.2
-    trunk.castShadow = true
-    tree.add(trunk)
-    
-    const leavesCenter = new THREE.Mesh(new THREE.SphereGeometry(0.4, 32, 32), treeMat)
-    leavesCenter.position.y = 0.6
-    leavesCenter.castShadow = true
-    tree.add(leavesCenter)
-    
-    const leavesLeft = new THREE.Mesh(new THREE.SphereGeometry(0.25, 32, 32), treeMat)
-    leavesLeft.position.set(-0.25, 0.5, 0)
-    leavesLeft.castShadow = true
-    tree.add(leavesLeft)
-    
-    const leavesRight = new THREE.Mesh(new THREE.SphereGeometry(0.25, 32, 32), treeMat)
-    leavesRight.position.set(0.2, 0.55, 0.2)
-    leavesRight.castShadow = true
-    tree.add(leavesRight)
-    
-    tree.scale.set(scale, scale, scale)
-    placeOnSphere(tree, lat, lon)
-  }
-
   const rockMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.9, flatShading: true })
   const createRock = (lat: number, lon: number, scale: number) => {
     const rock = new THREE.Mesh(new THREE.DodecahedronGeometry(0.15, 0), rockMat)
@@ -312,24 +509,132 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
     rock.castShadow = true
     placeOnSphere(rock, lat, lon)
   }
-  
-  // Layered Ecosystem (Parallax effect)
-  // Background Trees (lat < -10)
-  createTree(-20, 0, 1.2)
-  createTree(-30, 45, 0.8)
-  createTree(-15, 90, 1.0)
-  createTree(-25, 135, 1.1)
-  createTree(-40, 180, 0.9)
-  createTree(-20, 225, 1.2)
-  createTree(-35, 270, 0.7)
-  createTree(-15, 315, 1.0)
 
-  // Foreground Trees (lat > 40, in front of the river)
-  createTree(45, 20, 1.0)
-  createTree(50, 80, 0.8)
-  createTree(40, 150, 1.1)
-  createTree(60, 210, 0.9)
-  createTree(45, 290, 1.2)
+  // 并行加载两种树木模型 (3DS 和 OBJ) 并统一标准化处理
+  Promise.all([
+    import('three/examples/jsm/loaders/TDSLoader.js'),
+    import('three/examples/jsm/loaders/OBJLoader.js')
+  ]).then(([ { TDSLoader }, { OBJLoader } ]) => {
+    
+    // 1. 加载第一种树 (Tree1.3ds)
+    const loadTDS = () => new Promise(resolve => {
+       const loader = new TDSLoader()
+       loader.setResourcePath('/three/tree1_3ds/')
+       loader.load('/three/tree1_3ds/Tree1.3ds', (object) => {
+         object.rotation.x = -Math.PI / 2 // 3DS Models are Z-up
+         resolve(object)
+       })
+    })
+
+    // 2. 加载第二种树 (Low_poly_tree.obj)
+    const loadOBJ = () => new Promise(resolve => {
+       import('three/examples/jsm/loaders/MTLLoader.js').then(({ MTLLoader }) => {
+         const mtlLoader = new MTLLoader()
+         mtlLoader.setPath('/three/low_poly_tree/')
+         mtlLoader.load('Lowpoly_tree_sample.mtl', (materials) => {
+           materials.preload()
+           const loader = new OBJLoader()
+           loader.setMaterials(materials)
+           loader.load('/three/low_poly_tree/Lowpoly_tree_sample.obj', resolve)
+         })
+       })
+    })
+
+    // 当所有树木加载完毕后，统一进行规格化和上色处理
+    Promise.all([loadTDS(), loadOBJ()]).then((objects) => {
+      const treeModels = objects.map((object) => {
+        object.traverse((child) => {
+          if (child.isMesh) {
+            child.castShadow = true
+            child.receiveShadow = true
+            
+            // 核心修复：很多高级模型（特别是 OBJ）为了优化性能，会把整棵树合并成【一个网格】，但使用【多材质数组】（MultiMaterial）
+            // 之前由于没有判断数组，导致 child.material.name 为 undefined，直接把整个树强行染成了纯绿！
+            const getPremiumMaterial = (mat) => {
+              if (!mat) return treeMat
+              const matName = (mat.name || '').toLowerCase()
+              let isBark = false
+              
+              // 1. 通过材质名称精准判断 (MTL 提供)
+              if (matName.includes('bark') || matName.includes('wood') || matName.includes('trunk') || matName.includes('stamm')) {
+                isBark = true
+              }
+              
+              // 2. 通过网格名称辅助判断（针对单材质拆分网格模型）
+              if (!isBark && child.name) {
+                const meshName = child.name.toLowerCase()
+                if (meshName.includes('bark') || meshName.includes('trunk')) {
+                  isBark = true
+                }
+              }
+              
+              return isBark ? trunkMat : treeMat
+            }
+
+            if (Array.isArray(child.material)) {
+              // 针对多材质数组：分别将它们替换为我们高级响应式日夜联动材质
+              child.material = child.material.map(mat => getPremiumMaterial(mat))
+            } else {
+              // 针对单材质
+              child.material = getPremiumMaterial(child.material)
+            }
+          }
+        })
+
+        const wrapper = new THREE.Group()
+        wrapper.add(object)
+
+        // 无论原始模型尺寸多大，全部强制归一化缩放到 1.2 高度
+        const box = new THREE.Box3().setFromObject(wrapper)
+        const size = new THREE.Vector3()
+        box.getSize(size)
+
+        const targetScale = 1.2 / size.y
+        wrapper.scale.set(targetScale, targetScale, targetScale)
+
+        // 将原点强制校准到底面中心，确保所有树木都能完美种在地上
+        const box2 = new THREE.Box3().setFromObject(wrapper)
+        const center = new THREE.Vector3()
+        box2.getCenter(center)
+        
+        wrapper.position.x -= center.x
+        wrapper.position.z -= center.z
+        wrapper.position.y -= box2.min.y
+
+        const normalizedTree = new THREE.Group()
+        normalizedTree.add(wrapper)
+        return normalizedTree
+      })
+
+      const createTree = (lat, lon, scale) => {
+        // 核心：每次创建树时，从模型库中随机抓取一种模型！
+        const template = treeModels[Math.floor(Math.random() * treeModels.length)]
+        const tree = template.clone()
+        tree.scale.set(scale, scale, scale)
+        placeOnSphere(tree, lat, lon)
+      }
+
+      // Layered Ecosystem (Parallax effect)
+      // Background Trees (lat < -10)
+      createTree(-20, 0, 1.2)
+      createTree(-30, 45, 0.8)
+      createTree(-15, 90, 1.0)
+      createTree(-25, 135, 1.1)
+      createTree(-40, 180, 0.9)
+      createTree(-20, 225, 1.2)
+      createTree(-35, 270, 0.7)
+      createTree(-15, 315, 1.0)
+
+      // Foreground Trees (lat > 40, in front of the river)
+      createTree(45, 20, 1.0)
+      createTree(50, 80, 0.8)
+      createTree(40, 150, 1.1)
+      createTree(60, 210, 0.9)
+      createTree(45, 290, 1.2)
+    })
+  }).catch(e => {
+    console.error('Failed to load Tree models', e)
+  })
 
   // Rocks along the riverbanks (lat around 15 and 40)
   createRock(15, 30, 0.8)
@@ -355,18 +660,24 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
   const innerContent = new THREE.Group()
   houseGroup.add(innerContent)
 
-  // 1. Beautiful Wooden Deck / Base
+  // 1. Beautiful Wooden Deck / Base (还原精巧的实心地基)
   const deckMat = new THREE.MeshStandardMaterial({ color: 0x5c4033, roughness: 0.85 })
-  const deck = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.06, 1.2), deckMat)
-  deck.position.y = 0.03
+  const deck = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.6, 1.2), deckMat) 
+  deck.position.y = -0.24 
   deck.castShadow = true
   innerContent.add(deck)
 
-  const steps = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.04, 0.2), deckMat)
-  steps.position.set(0, 0.02, -0.65)
-  innerContent.add(steps)
+  // 还原前门台阶，精巧优雅，正好压在公路上！
+  const stepsFront = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.2), deckMat)
+  stepsFront.position.set(0, -0.16, -0.65) 
+  innerContent.add(stepsFront)
 
-  // 2. Cozy Plaster / White Walls (Hollow Tunnel Design for Drive-Through!)
+  // 还原后门台阶
+  const stepsBack = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.2), deckMat)
+  stepsBack.position.set(0, -0.16, 0.65)
+  innerContent.add(stepsBack)
+
+  // 2. Cozy Plaster / White Walls (还原温馨紧凑的过道)
   const wallMat = new THREE.MeshStandardMaterial({ color: 0xfdfbf7, roughness: 0.9 })
   
   const wallL = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.5, 0.8), wallMat)
@@ -389,18 +700,19 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
   const roof = new THREE.Mesh(new THREE.CylinderGeometry(0, 0.65, 0.4, 4), roofMat)
   roof.rotation.y = Math.PI / 4 // Align flat sides with house walls
   roof.position.y = 0.2 // Shift up half height
-  roof.scale.set(1.0, 1.0, 0.85) // Scale depth to match house footprint
+  roof.scale.set(1.0, 1.0, 0.85) // 还原屋顶正常比例
   roof.castShadow = true
   roofGroup.add(roof)
   innerContent.add(roofGroup)
 
-  // 4. Entrance Doors (Front and Back Dynamic Hinges)
+  // 4. Entrance Doors
   const doorMat = new THREE.MeshStandardMaterial({ color: 0x271c19, roughness: 0.8 })
   const knobMat = new THREE.MeshStandardMaterial({ color: 0xfacc15 })
   
   // -- Front Door --
   const doorHingeFront = new THREE.Group()
-  doorHingeFront.position.set(-0.15, 0.26, -0.4) // Pivot at left inner edge
+  doorHingeFront.position.set(-0.15, 0.26, -0.4) 
+  doorHingeFront.rotation.y = 0 // 恢复为初始关闭，交给渲染循环动态开门
   
   const doorFront = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.4, 0.04), doorMat)
   doorFront.position.set(0.15, 0, 0)
@@ -413,7 +725,8 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
 
   // -- Back Door --
   const doorHingeBack = new THREE.Group()
-  doorHingeBack.position.set(-0.15, 0.26, 0.4) // Pivot at left inner edge (relative to front)
+  doorHingeBack.position.set(-0.15, 0.26, 0.4) 
+  doorHingeBack.rotation.y = 0 // 恢复为初始关闭，交给渲染循环动态开门
   
   const doorBack = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.4, 0.04), doorMat)
   doorBack.position.set(0.15, 0, 0)
@@ -436,10 +749,25 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
   smoke.position.set(0.3, 0.95, -0.2)
   innerContent.add(smoke)
 
-  // Rotate local contents without breaking placeOnSphere planet surface normal!
-  innerContent.rotation.y = -Math.PI / 2
+  // 6. 侧窗
+  const windowGeo = new THREE.BoxGeometry(0.32, 0.2, 0.3)
+  
+  const windowL = new THREE.Mesh(windowGeo, warmGlowMat)
+  windowL.position.set(-0.3, 0.35, 0) 
+  innerContent.add(windowL)
+  
+  const windowR = new THREE.Mesh(windowGeo, warmGlowMat)
+  windowR.position.set(0.3, 0.35, 0) 
+  innerContent.add(windowR)
 
-  houseGroup.scale.set(0.95, 0.95, 0.95)
+  // 【核心修复】：必须旋转 90 度，让房子的 Z 轴（前后门）对准赤道公路！否则房子是侧对着公路的！
+  innerContent.rotation.y = -Math.PI / 2
+  
+  // 尺寸保持 1.6
+  houseGroup.scale.set(1.6, 1.6, 1.6)
+  
+  // 【最核心】：将房子重新放回纬度 0，也就是人物行走的赤道公路上！
+  // 现在的它，是公路上一道宏伟的风景线门楼！
   placeOnSphere(houseGroup, 0, 180)
 
   // State control for Journey Engine (Cycling ⇄ Walking) & Umbrella system
@@ -942,44 +1270,81 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
   robotScrollPivot.add(robotGroup)
 
 
-  // 7. The Voyager (Real Airplane)
+  // 7. The Voyager (Real Airplane loaded from OBJ)
   const paperPlane = new THREE.Group()
+  paperPlane.scale.set(0.4, 0.4, 0.4) // 保留原本外部的整体缩放比例
 
-  const planeWhiteMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.5, metalness: 0.1 })
-  const planeDarkMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.8 })
-  const glassBlueMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.1, metalness: 0.8 })
+  // 异步加载真实飞机模型 (OBJ + MTL 保留原始贴图)
+  Promise.all([
+    import('three/examples/jsm/loaders/OBJLoader.js'),
+    import('three/examples/jsm/loaders/MTLLoader.js')
+  ]).then(([ { OBJLoader }, { MTLLoader } ]) => {
+    const mtlLoader = new MTLLoader()
+    mtlLoader.setPath('/three/airplane_v2/')
+    mtlLoader.load('11805_airplane_v2_L2.mtl', (materials) => {
+      materials.preload()
+      
+      const objLoader = new OBJLoader()
+      objLoader.setMaterials(materials)
+      objLoader.setPath('/three/airplane_v2/')
+      objLoader.load('11805_airplane_v2_L2.obj', (object) => {
+        
+        // 自动归一化缩放：将其最大长度强制缩放为 3.0 单位
+        const box = new THREE.Box3().setFromObject(object)
+        const size = new THREE.Vector3()
+        box.getSize(size)
+        
+        const maxDim = Math.max(size.x, size.y, size.z)
+        const targetScale = 3.0 / maxDim // 增大飞机尺寸
+        object.scale.setScalar(targetScale)
+        
+        // 将原点居中对齐
+        const box2 = new THREE.Box3().setFromObject(object)
+        const center = new THREE.Vector3()
+        box2.getCenter(center)
+        object.position.sub(center)
+        
+        const wrapper = new THREE.Group()
+        
+        // 修正飞机朝向：先压平 (X轴)，然后围绕局部机背水平调头
+        wrapper.rotateX(-Math.PI / 2)
+        wrapper.rotateZ(Math.PI)
+        
+        wrapper.add(object)
 
-  // Fuselage (body)
-  const fuselageGeo = new THREE.CylinderGeometry(0.1, 0.05, 1.2, 12)
-  fuselageGeo.rotateX(Math.PI / 2) // Orient along Z axis (nose at +Z)
-  const fuselage = new THREE.Mesh(fuselageGeo, planeWhiteMat)
-  paperPlane.add(fuselage)
-
-  // Main Wings
-  const wingsGeo = new THREE.BoxGeometry(1.6, 0.05, 0.3)
-  const wings = new THREE.Mesh(wingsGeo, planeWhiteMat)
-  wings.position.set(0, 0, 0.1)
-  paperPlane.add(wings)
-
-  // Tail Stabilizer (horizontal)
-  const tailGeo = new THREE.BoxGeometry(0.5, 0.05, 0.2)
-  const tail = new THREE.Mesh(tailGeo, planeWhiteMat)
-  tail.position.set(0, 0, -0.45)
-  paperPlane.add(tail)
-
-  // Tail Fin (vertical)
-  const finGeo = new THREE.BoxGeometry(0.05, 0.3, 0.2)
-  const fin = new THREE.Mesh(finGeo, planeDarkMat)
-  fin.position.set(0, 0.15, -0.45)
-  paperPlane.add(fin)
-
-  // Cockpit window
-  const cockpitGeo = new THREE.BoxGeometry(0.12, 0.08, 0.25)
-  const cockpit = new THREE.Mesh(cockpitGeo, glassBlueMat)
-  cockpit.position.set(0, 0.08, 0.25)
-  paperPlane.add(cockpit)
-
-  paperPlane.scale.set(0.4, 0.4, 0.4)
+        // 修复材质阴影，让它能接收场景光照
+        object.traverse(child => {
+          if (child.isMesh) {
+            child.castShadow = true
+            child.receiveShadow = true
+            // 确保如果有贴图，它能被正确渲染
+            if (child.material) {
+              if (Array.isArray(child.material)) {
+                child.material.forEach(m => { m.roughness = 0.5 })
+              } else {
+                child.material.roughness = 0.5
+              }
+            }
+          }
+        })
+        
+        // 将加载完成的真实飞机插入到轨道飞行组里！
+        paperPlane.add(wrapper)
+        
+        // 模型加载完毕，关闭 loading 动画
+        isLoadingModel.value = false
+      }, undefined, (e) => {
+        console.error('Failed to load airplane OBJ model', e)
+        isLoadingModel.value = false
+      })
+    }, undefined, (e) => {
+      console.error('Failed to load airplane MTL', e)
+      isLoadingModel.value = false
+    })
+  }).catch(e => {
+    console.error('Failed to import OBJ/MTL Loader', e)
+    isLoadingModel.value = false
+  })
   
   // Separation of Scroll rotation and Auto rotation to prevent animation fighting!
   const orbitScrollGroup = new THREE.Group() 
@@ -989,11 +1354,11 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
   const orbitAutoSpinGroup = new THREE.Group()
   orbitScrollGroup.add(orbitAutoSpinGroup)
   
-  paperPlane.position.set(planetRadius + 1.8, 0, 0)
+  paperPlane.position.set(planetRadius + 4.2, 0, -2.5) // 抬高并推入背景深处，避开赤道前方的乌云
   // Ensure the plane's 'up' points away from the planet (+X)
   paperPlane.up.set(1, 0, 0) 
   // Point the nose along the tangent (-Y) so it circles perfectly
-  paperPlane.lookAt(planetRadius + 1.8, -1, 0) 
+  paperPlane.lookAt(planetRadius + 4.2, -1, -2.5) 
   // Bank (roll) slightly into the turn
   paperPlane.rotateZ(-Math.PI / 6) 
   orbitAutoSpinGroup.add(paperPlane)
@@ -1137,10 +1502,16 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
   timer.connect(document)
   let animationFrameId: number
   
+  // 全局着色器变量 (Uniforms)
+  const customUniforms = {
+    uTime: { value: 0 }
+  }
+  
   const animate = (timestamp: number) => {
     animationFrameId = requestAnimationFrame(animate)
     timer.update(timestamp)
     const elapsedTime = timer.getElapsed()
+    customUniforms.uTime.value = elapsedTime // 更新全局时钟
     
     if (!isDragging) {
       // Auto snap back to center slowly for that perfect premium tactile feel
@@ -1160,32 +1531,44 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
     // Exact mathematical surface linear velocity tracking for bike wheels! (Planet R=4.8, Wheel R=0.24) -> 20x ratio
     const planetDeltaY = 0.003 + dragDeltaY
     
-    // Constant Paper Plane flight
+    // Constant Paper Plane flight (adjust altitude to 4.2 and keep it pushed into the background)
     orbitAutoSpinGroup.rotation.z -= 0.005
-    paperPlane.position.x = (planetRadius + 1.8) + Math.sin(elapsedTime * 4) * 0.2
+    paperPlane.position.x = (planetRadius + 4.2) + Math.sin(elapsedTime * 4) * 0.2
     
     // --- 1. 🏡 HOUSE PASSING ENGINE: Cycle through house to flip mode for the next full lap! ---
     houseGroup.getWorldPosition(houseWorldPos)
     robotGroup.getWorldPosition(robotWorldPos)
     const distToHouse = houseWorldPos.distanceTo(robotWorldPos)
 
-    // 🚪 Dynamic Entrance Doors! Open front when approaching front, close when inside. Same for back.
+    // 🚪 Dynamic Entrance Doors! 
     const localRobotPos = innerContent.worldToLocal(robotWorldPos.clone())
-    // Character enters from front (-Z) and exits from back (+Z) in innerContent space!
-    // Front door opens when between -2.5 and -0.1. Closes when inside (> -0.1)
-    const targetFrontDoor = (localRobotPos.z > -2.5 && localRobotPos.z < -0.1) ? Math.PI / 2 : 0
-    // Back door opens when between 0.1 and 2.5. Closes when exited (> 2.5) or not yet reached (< 0.1)
-    const targetBackDoor = (localRobotPos.z > 0.1 && localRobotPos.z < 2.5) ? -Math.PI / 2 : 0
+    
+    // Automatic welcoming doors: open both when the robot is near!
+    // This perfectly replaces the brittle local-coordinate bounding box logic.
+    const targetFrontDoor = (distToHouse < 1.8) ? Math.PI / 2 : 0
+    const targetBackDoor = (distToHouse < 1.8) ? -Math.PI / 2 : 0
     
     doorHingeFront.rotation.y += (targetFrontDoor - doorHingeFront.rotation.y) * 0.08
     doorHingeBack.rotation.y += (targetBackDoor - doorHingeBack.rotation.y) * 0.08
 
-    // Trigger mode flip when passing right through the cabin threshold
-    if (distToHouse < 1.6 && !housePassTriggered) {
-      isTravelerCycling = !isTravelerCycling
-      housePassTriggered = true
-    } else if (distToHouse >= 2.2) {
-      housePassTriggered = false
+    // 🏆 Dynamic Robot Height: Smoothly step up onto the wooden deck!
+    // The wooden deck in local space spans roughly from x = -0.6 to +0.6.
+    let targetYOffset = 0;
+    if (localRobotPos.x > -0.8 && localRobotPos.x < 0.8) {
+       // Calculate a smooth hump curve using polynomial easing
+       const ease = 1 - Math.pow(Math.min(1, Math.abs(localRobotPos.x) / 0.7), 4);
+       targetYOffset = ease * 0.08; // height offset to smoothly reach the wooden deck
+    }
+    
+    // Smoothly interpolate the robot's Y position to climb the steps
+    robotGroup.position.y += ((planetRadius + 0.02 + targetYOffset) - robotGroup.position.y) * 0.15;
+
+    // Trigger mode strictly based on absolute distance to the house
+    // Fixes the parallax scrolling bug where scrubbing back and forth caused the toggle to desync!
+    if (distToHouse < 1.8) {
+      isTravelerCycling = false // 靠近房子绝对是走路
+    } else {
+      isTravelerCycling = true  // 远离房子绝对是骑车
     }
 
     // Smooth lerp for mode transition weight (1.0 = Cycling, 0.0 = Walking)
@@ -1350,7 +1733,8 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
     const bgColorStr = getResolvedColor('--vp-c-bg', isDark ? '#1b1b1f' : '#ffffff')
     
     planetMat.color.setHex(isDark ? 0x0f766e : 0x34d399) 
-    treeMat.color.setHex(isDark ? 0x2dd4bf : 0x059669)
+    treeMat.color.setHex(isDark ? 0x2dd4bf : 0x059669) // 恢复树木色彩的日夜间交替
+    rockMat.color.setHex(isDark ? 0x475569 : 0x94a3b8)
     cloudMat.opacity = isDark ? 0.7 : 0.95
     starsMat.opacity = isDark ? 0.9 : 0.1
     
@@ -1383,12 +1767,74 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
 </script>
 
 <style scoped>
+/* --- Non-intrusive Loading Badge --- */
+.model-loading-badge {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  background: rgba(128, 128, 128, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 20;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.mini-planet-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px dashed var(--vp-c-brand);
+  animation: spin 3s linear infinite;
+  position: relative;
+}
+
+.mini-planet-spinner::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: var(--vp-c-brand);
+  border-radius: 50%;
+  box-shadow: 0 0 4px var(--vp-c-brand);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.badge-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .minimal-home-wrapper {
   position: relative;
   color: var(--vp-c-text-1);
-  overflow-x: hidden;
   font-family: var(--vp-font-family-base);
-  min-height: 100vh;
+  min-height: calc(100vh + 5000px); /* Guarantee enough scroll track height for all GSAP triggers, regardless of viewport height */
 }
 
 /* --- Fixed Three.js Canvas Container --- */
@@ -1396,8 +1842,8 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   z-index: 0; /* Keep it behind content */
   pointer-events: auto; /* ALLOW INTERACTION (Dragging the planet) */
 }
@@ -1409,38 +1855,51 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
 }
 
 /* Let clicks pass through empty space in these sections so user can drag the canvas */
-.hero-section, .timeline-section, .chart-section {
+.hero-section, .milestones-track {
   position: relative;
   z-index: 1;
   pointer-events: none; 
 }
 
-/* Re-enable pointer events for actual content (text, buttons, cards) */
-.hero-section > *, .timeline-container, .chart-container {
+/* Re-enable pointer events for actual content */
+.hero-section > *, .geom-card {
   pointer-events: auto;
 }
 
-/* --- Hero Section --- */
+/* --- Hero Section (Sticky to allow Tumble & Fade) --- */
 .hero-section {
-  min-height: 80vh;
+  position: sticky;
+  top: 0;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 0 5%;
+  padding: 0 8%;
+  perspective: 1200px;
 }
 
 .hero-content {
   max-width: 1000px;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  margin-top: -20vh; /* Push the hero title upwards as requested */
 }
 
-.hero-line {
-  display: block;
+.word-mask {
+  display: inline-block;
   overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.1em; /* Prevent descenders from clipping */
+  margin-bottom: -0.1em;
 }
 
-.hero-text {
-  display: block;
+.hero-word {
+  display: inline-block;
   transform: translateY(110%);
+}
+
+.space {
+  display: inline-block;
 }
 
 .hero-title {
@@ -1466,138 +1925,169 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
   letter-spacing: 0.05em;
 }
 
-/* --- Timeline Section --- */
-.timeline-section {
-  padding: 60px 5% 120px;
+/* --- Milestones GSAP Track (Elegant Typography In-Place Switching) --- */
+.milestones-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start; /* Changed from center to flex-start */
+  padding-top: 30vh; /* Precisely control the vertical position (upper middle) */
+  padding-left: 12%; /* Keep it to the left to balance the 3D globe on the right */
+  pointer-events: none;
+  z-index: 10;
+  perspective: 2000px;
 }
 
-.timeline-container {
-  max-width: 1000px;
-  margin: 0 auto;
+.milestones-container {
+  position: relative;
+  width: 500px;
+  height: 400px;
+  transform-style: preserve-3d;
+  pointer-events: auto;
 }
 
-.timeline-header {
-  text-align: center;
-  margin-bottom: 80px;
+.typo-group {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: none; /* GSAP */
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
-.timeline-main-title {
-  font-size: 3rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  margin: 0 0 10px;
-  color: var(--vp-c-text-1);
+.typo-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
 }
 
-.timeline-sub-title {
-  font-size: 1.1rem;
-  color: var(--vp-c-text-2);
-  text-transform: uppercase;
+.typo-header-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.typo-index {
+  font-family: var(--vp-font-family-base);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--vp-c-text-3);
   letter-spacing: 0.1em;
 }
 
-.timeline-list {
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
-}
-
-.timeline-item {
-  display: flex;
-  width: 100%;
-}
-
-.timeline-item.align-left {
-  justify-content: flex-start;
-}
-
-.timeline-item.align-right {
-  justify-content: flex-end;
-}
-
-/* Glassmorphism Card */
-.glass-card {
-  width: 100%;
-  max-width: 480px;
-  padding: 36px;
-  border-radius: 20px;
-  /* Add more opacity to background so text is readable over the 3D grid */
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-  opacity: 0;
-}
-
-.dark .glass-card {
-  background: rgba(30, 30, 32, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-}
-
-.glass-year {
-  font-size: 1.2rem;
+.typo-tag {
+  font-family: var(--vp-font-family-base);
+  font-size: 0.9rem;
   font-weight: 700;
-  color: var(--vp-c-brand-1);
-  margin-bottom: 12px;
-  font-family: monospace;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: linear-gradient(120deg, var(--vp-c-brand-1), var(--vp-c-brand-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.glass-title {
-  font-size: 1.6rem;
-  font-weight: 700;
+.typo-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--vp-c-brand-1) 0%, transparent 100%);
+  opacity: 0.5;
+  transform-origin: left center;
+}
+
+.typo-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   color: var(--vp-c-text-1);
-  margin: 0 0 12px;
-  line-height: 1.3;
+  margin: 0 0 24px;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.05); /* Very subtle premium shadow */
 }
 
-.glass-desc {
-  font-size: 1.05rem;
-  line-height: 1.7;
+.typo-desc-wrapper {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+}
+
+.typo-desc-accent {
+  width: 3px;
+  background: linear-gradient(180deg, var(--vp-c-brand-1), transparent);
+  border-radius: 2px;
+}
+
+.typo-desc {
+  font-size: 1.1rem;
+  line-height: 1.8;
   color: var(--vp-c-text-2);
   margin: 0;
+  font-weight: 400;
+  max-width: 450px;
 }
 
-/* --- Github Chart Section --- */
-.chart-section {
-  padding: 80px 5% 120px;
-  opacity: 0;
-}
+/* ==========================================
+   Mobile Responsiveness
+========================================== */
+@media (max-width: 768px) {
+  /* Hero Section Mobile Adjustments */
+  .hero-section {
+    padding: 0 5%;
+  }
 
-.chart-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  border-top: 1px solid var(--vp-c-divider);
-  padding-top: 60px;
-}
+  /* Disable Three.js Interaction on Mobile to prevent scroll conflicts */
+  .three-container {
+    pointer-events: none;
+  }
 
-.chart-title {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--vp-c-text-3);
-  margin: 0 0 40px;
-  text-align: center;
-}
+  .hero-content {
+    margin-top: -10vh; /* Don't pull up as much on short mobile screens */
+  }
 
-.github-chart {
-  width: 100%;
-  display: block;
-  filter: grayscale(0.8) opacity(0.7);
-  transition: all 0.4s ease;
-}
+  .hero-title {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+  }
 
-.github-chart:hover {
-  filter: grayscale(0) opacity(1);
-}
+  .hero-subtitle {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
 
-.dark .github-chart {
-  filter: invert(1) hue-rotate(180deg) brightness(0.8) contrast(1.2);
-}
+  /* Milestones Track Mobile Adjustments */
+  .milestones-track {
+    padding-left: 5%;
+    padding-top: 15vh; /* Higher up to give text more vertical space */
+  }
 
-.dark .github-chart:hover {
-  filter: invert(1) hue-rotate(180deg) brightness(1) contrast(1.2);
+  .milestones-container {
+    width: 90vw; /* Use percentage width instead of hard 500px */
+    height: auto;
+    min-height: 350px;
+  }
+
+  /* Typography Mobile Adjustments */
+  .typo-title {
+    font-size: clamp(2rem, 8vw, 2.5rem);
+    margin-bottom: 16px;
+  }
+
+  .typo-desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 100%;
+  }
+  
+  .typo-header-row {
+    margin-bottom: 12px;
+  }
 }
 </style>

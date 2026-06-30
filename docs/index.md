@@ -24,16 +24,16 @@ hero:
   actions:
     - theme: brand
       text: 开启探索
-      link: 'https://vue3-blog-bt9.pages.dev/#/home'
+      link: 'javascript:void(0)'
     - theme: alt
       text: 成长轨迹
-      link: /column/home/index
+      link: 'javascript:void(0)'
 # 按钮下方的描述
 features:
   - title: ""
     details: |
       <div class="flip-card-container">
-        <input type="checkbox" id="main-flip-toggle" class="flip-toggle" style="display:none;">
+        <input type="checkbox" id="main-flip-toggle" class="flip-toggle" style="display:none;" />
         <div class="flip-card-inner">
           <!-- 正面 -->
           <div class="flip-card-front">
@@ -54,8 +54,8 @@ features:
             </label>
 
             <div class="fc-avatar-wrapper">
-              <img src="/logos.png" alt="Avatar" class="fc-avatar light-only-img">
-              <img src="/logosdark.png" alt="Avatar" class="fc-avatar dark-only-img">
+              <img src="/logos.png" alt="Avatar" class="fc-avatar light-only-img" />
+              <img src="/logosdark.png" alt="Avatar" class="fc-avatar dark-only-img" />
             </div>
             <div class="fc-info" style="align-items: center; text-align: center;">
               <div class="fc-name">南辰 (NanChen)</div>
@@ -72,8 +72,8 @@ features:
           <div class="flip-card-back">
             <div class="fc-back-header">
               <label for="main-flip-toggle" style="cursor: pointer; display: flex; align-items: center; flex: 1;" title="点击翻转回正面">
-                <img src="/logos.png" alt="Avatar" class="fc-back-avatar light-only-img">
-                <img src="/logosdark.png" alt="Avatar" class="fc-back-avatar dark-only-img">
+                <img src="/logos.png" alt="Avatar" class="fc-back-avatar light-only-img" />
+                <img src="/logosdark.png" alt="Avatar" class="fc-back-avatar dark-only-img" />
                 <div class="fc-back-expire">
                   <div class="fc-expire-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="12" height="12" style="margin-right:4px;"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> 开发者档案</div>
                   <div class="fc-expire-val">NanChen</div>
@@ -113,14 +113,8 @@ features:
                   <div class="fc-val">Shanghai, CN</div>
                 </div>
                 <div class="fc-col">
-                  <div class="fc-lbl">当前状态</div>
-                  <div class="fc-val">持续进化中</div>
-                </div>
-              </div>
-              <div class="fc-row">
-                <div class="fc-col" style="width:100%;">
                   <div class="fc-lbl">个人信条</div>
-                  <div class="fc-val">步履虽缓，志不可停。</div>
+                  <div class="fc-val">步履虽缓，志不可停</div>
                 </div>
               </div>
             </div>
@@ -192,11 +186,13 @@ features:
         </div>
       </div>
   - title: 青年成功之道
-    details: 真正的成功不在于你得到了什么，而是在于你成为了什么样的人。<br>不求尽胜，但拒久败。<br>步履虽缓，志不可停。
-  - title: 效率工具箱 <a href="/nav/index" class="title-view-all">查看全部</a>
+    details: 真正的成功不在于你得到了什么，而是在于你成为了什么样的人。<br/>不求尽胜，但拒久败。<br/>步履虽缓，志不可停。
+  - title: >-
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;"><span>效率工具箱</span><div style="display: flex; align-items: center; gap: 16px; font-size: 14px; font-weight: normal;"><a href="/nav/index" class="title-view-all">查看全部</a><a href="javascript:void(0)" onclick="window.dispatchEvent(new CustomEvent('refresh-gravity-tags'))" class="title-view-all" style="display: inline-flex; align-items: center; gap: 4px; cursor: pointer;">换一批 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 8V2h6"/></svg></a></div></div>
     details: |
-      <div id="gravity-tags-mount" style="min-height: 300px;"></div>
-  - title: 推荐文章 <a href="/column/home/" class="title-view-all">查看全部</a>
+      <div id="gravity-tags-mount" style="height: 100%; min-height: 220px; display: flex; flex-direction: column; flex: 1;"></div>
+  - title: >-
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;"><span>推荐文章</span><a href="/column/home/" class="title-view-all" style="font-size: 14px; font-weight: normal;">查看全部</a></div>
     details: |
       <div class="article-list dynamic-article-list">
         <div class="article-accordion">
@@ -359,7 +355,7 @@ features:
 </ClientOnly>
 
 <!-- 纯 CSS 二维码全局弹窗 (放在最外层解决 z-index 和覆盖层被卡片遮挡的问题) -->
-<input type="checkbox" id="qr-modal-toggle" class="qr-modal-toggle" style="display:none;">
+<input type="checkbox" id="qr-modal-toggle" class="qr-modal-toggle" style="display:none;" />
 <div class="qr-modal">
   <label for="qr-modal-toggle" class="qr-modal-backdrop"></label>
   <div class="qr-modal-content">
@@ -370,7 +366,106 @@ features:
   </div>
 </div>
 
+<script setup>
+import { onMounted, nextTick } from 'vue'
+import gsap from 'gsap'
+
+onMounted(async () => {
+  await nextTick()
+  
+  setTimeout(() => {
+    try {
+      const splitIntoCharacters = (baseSelector) => {
+        // VitePress applies gradients to the .clip element inside .name, so we target it if it exists
+        let el = document.querySelector(`${baseSelector} .clip`) || document.querySelector(baseSelector)
+        if (!el) return
+        
+        const isName = baseSelector.includes('.name')
+        const text = el.innerText
+        const chars = text.split('')
+        el.innerHTML = ''
+        
+        chars.forEach((char) => {
+          if (char === ' ' || char === '\n') {
+            const space = document.createElement('span')
+            space.className = 'v-space'
+            space.innerHTML = '&nbsp;'
+            el.appendChild(space)
+            return
+          }
+          
+          const mask = document.createElement('span')
+          mask.className = 'v-word-mask'
+          
+          const inner = document.createElement('span')
+          inner.className = 'v-hero-word'
+          if (isName) {
+            inner.classList.add('v-hero-name')
+          }
+          inner.innerText = char
+          
+          mask.appendChild(inner)
+          el.appendChild(mask)
+        })
+      }
+
+      // 1. Split both Name and Text into characters
+      splitIntoCharacters('.VPHero .name')
+      splitIntoCharacters('.VPHero .text')
+
+      // 2. Animate EVERY character globally
+      gsap.to('.v-hero-word', {
+        y: 0,
+        duration: 0.8,
+        stagger: 0.03, // 超高频逐字浮现
+        ease: 'back.out(1.4)',
+        delay: 0.1
+      })
+      
+    } catch (e) {
+      console.error('Vertical Cut Animation Error:', e)
+      // 如果出现任何错误，强制显示文本防止因为 110% 的 translateY 导致文字完全消失
+      document.querySelectorAll('.v-hero-word').forEach(el => {
+        el.style.transform = 'translateY(0)'
+      })
+    }
+  }, 100)
+})
+</script>
+
 <style>
+/* --- Vertical Cut Reveal Effect for Default Hero --- */
+.v-word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.15em;
+  margin-bottom: -0.15em;
+}
+
+.v-hero-word {
+  display: inline-block;
+  transform: translateY(110%);
+}
+
+.v-space {
+  display: inline-block;
+}
+
+/* Because CSS transform creates a new stacking context, it breaks the parent's background-clip. 
+   We must apply the gradient directly to the moving characters. */
+.VPHero .name .clip {
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+}
+
+.v-hero-name {
+  background: var(--vp-home-hero-name-background, linear-gradient(315deg, var(--vp-c-brand-1) 25%, var(--vp-c-brand-2))) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
 /*爱的魔力转圈圈*/
 @media screen and (max-width: 768px) {
 .m-home-layout{

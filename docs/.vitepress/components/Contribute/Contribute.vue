@@ -43,7 +43,7 @@
             </div>
           </div>
 
-          <!-- Legend -->
+          <!-- Legend (Moved outside of graph-section so it doesn't scroll) -->
           <div class="legend">
             <span class="legend-text">Less</span>
             <div class="legend-cell level-0"></div>
