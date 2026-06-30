@@ -31,9 +31,9 @@ function fetchFile(urls, dest, name, index = 0) {
           fs.mkdirSync(dir, { recursive: true });
         }
         
-        // 【核心修复】：将 Markdown 中的相对图片路径自动替换为 Github Raw 绝对路径，防止 Vitepress 编译报错
+        // 【核心修复】：将 Markdown 中的相对图片路径（支持 `./assets/` 和 `assets/`）自动替换为 Github Raw 绝对路径
         if (name === 'lowcode-form-builder (tech_blog)') {
-          data = data.replace(/\.\/assets\//g, 'https://raw.githubusercontent.com/NanChen042/lowcode-form-builder/main/assets/');
+          data = data.replace(/(?:\.\/)?assets\//g, 'https://raw.githubusercontent.com/NanChen042/lowcode-form-builder/main/assets/');
         }
 
         fs.writeFileSync(dest, data);
