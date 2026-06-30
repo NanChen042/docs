@@ -173,7 +173,7 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
   
   renderer.shadowMap.enabled = true
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap
+  renderer.shadowMap.type = THREE.PCFShadowMap
 
   // 2. Cinematic Studio Lighting
   const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.7)
@@ -1133,12 +1133,14 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
   window.addEventListener('pointerup', onPointerUp)
   canvas.style.cursor = 'grab'
 
-  const clock = new THREE.Clock()
+  const timer = new THREE.Timer()
+  timer.connect(document)
   let animationFrameId: number
   
-  const animate = () => {
+  const animate = (timestamp: number) => {
     animationFrameId = requestAnimationFrame(animate)
-    const elapsedTime = clock.getElapsedTime()
+    timer.update(timestamp)
+    const elapsedTime = timer.getElapsed()
     
     if (!isDragging) {
       // Auto snap back to center slowly for that perfect premium tactile feel
@@ -1321,7 +1323,7 @@ function initThreeJS(canvas: HTMLCanvasElement, THREE: any, gsap: any) {
     renderer.render(scene, camera)
   }
   
-  animate()
+  requestAnimationFrame(animate)
 
   const handleResize = () => {
     if (!container) return

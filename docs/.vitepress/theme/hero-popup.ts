@@ -1,5 +1,6 @@
 let initialized = false
 let outsideClickHandler: ((e: MouseEvent) => void) | null = null
+let heroClickHandler: ((e: MouseEvent) => void) | null = null
 let observer: MutationObserver | null = null
 
 export function initHeroPopup() {
@@ -11,6 +12,28 @@ export function initHeroPopup() {
   if (initialized) return
   initialized = true
 
+  // 在 capture 阶段拦截，优先于 Vue Router 对站内链接的处理
+  heroClickHandler = (e: MouseEvent) => {
+    const target = e.target as HTMLElement
+    if (target.closest('.hero-popup-card')) return
+
+    const btn = target.closest('.VPHero .VPButton.has-popup') as HTMLElement | null
+    if (!btn) return
+
+    e.preventDefault()
+    e.stopPropagation()
+    e.stopImmediatePropagation()
+
+    const popup = btn.parentElement?.querySelector('.hero-popup-card')
+    if (!popup) return
+
+    document.querySelectorAll('.hero-popup-card.is-active').forEach(p => {
+      if (p !== popup) p.classList.remove('is-active')
+    })
+    popup.classList.toggle('is-active')
+  }
+  document.addEventListener('click', heroClickHandler, { capture: true })
+
   outsideClickHandler = (e: MouseEvent) => {
     const target = e.target as HTMLElement
     if (!target.closest('.VPHero .VPButton') && !target.closest('.hero-popup-card')) {
@@ -21,28 +44,36 @@ export function initHeroPopup() {
   }
   document.addEventListener('click', outsideClickHandler)
 
-  observer = new MutationObserver((mutations) => {
-    const shouldBind = mutations.some(m => m.addedNodes.length > 0)
-    if (shouldBind) {
-      requestAnimationFrame(bindEvents)
-    }
+  observer = new MutationObserver(() => {
+    requestAnimationFrame(bindEvents)
   })
 
   const main = document.querySelector('#app') || document.body
-  observer.observe(main, { childList: true, subtree: true })
+  observer.observe(main, { childList: true, subtree: true, attributes: true, attributeFilter: ['href'] })
 }
 
 export function destroyHeroPopup() {
+  heroClickHandler && document.removeEventListener('click', heroClickHandler, { capture: true })
   outsideClickHandler && document.removeEventListener('click', outsideClickHandler)
   observer?.disconnect()
+  heroClickHandler = null
   outsideClickHandler = null
   observer = null
   initialized = false
 
   document.querySelectorAll('.VPHero .VPButton.has-popup').forEach(btn => {
-    btn.classList.remove('has-popup')
+    const el = btn as HTMLElement
+    const href = el.dataset.originalHref
+    if (href) el.setAttribute('href', href)
+    el.removeAttribute('data-original-href')
+    el.removeAttribute('role')
+    el.classList.remove('has-popup')
   })
   document.querySelectorAll('.hero-popup-card').forEach(popup => popup.remove())
+}
+
+function isExternalHref(href: string) {
+  return /^https?:\/\//i.test(href)
 }
 
 function getPopupContent(buttonText: string, originalHref: string) {
@@ -65,6 +96,7 @@ function getPopupContent(buttonText: string, originalHref: string) {
 
   const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
   const tagsHtml = tags.map(t => `<span class="hpc-tag">${t}</span>`).join('')
+  const linkTarget = isExternalHref(originalHref) ? ' target="_blank" rel="noopener noreferrer"' : ''
 
   return `
     <div class="hpc-image-wrapper">
@@ -77,7 +109,7 @@ function getPopupContent(buttonText: string, originalHref: string) {
     <h3 class="hpc-title">${title}</h3>
     <p class="hpc-desc">${desc}</p>
     <div class="hpc-action">
-      <a class="hpc-link" href="${originalHref}" target="_blank">立即前往</a>
+      <a class="hpc-link" href="${originalHref}"${linkTarget}>立即前往</a>
     </div>
     <div class="hpc-footer">
       <span class="hpc-footer-label">Categories</span>
@@ -91,11 +123,17 @@ function getPopupContent(buttonText: string, originalHref: string) {
 function bindEvents() {
   const buttons = document.querySelectorAll('.VPHero .VPButton:not(.has-popup)')
   buttons.forEach((btn) => {
-    btn.classList.add('has-popup')
+    const el = btn as HTMLElement
+    el.classList.add('has-popup')
 
-    const originalHref = btn.getAttribute('href') || '#'
-    const buttonText = btn.textContent || ''
-    ;(btn as HTMLElement).style.cursor = 'pointer'
+    const originalHref = el.getAttribute('href') || el.dataset.originalHref || '#'
+    el.dataset.originalHref = originalHref
+    // 水合完成后再移除 href，避免 mismatch，同时阻止 Router 直接跳转
+    el.removeAttribute('href')
+    el.setAttribute('role', 'button')
+    el.style.cursor = 'pointer'
+
+    const buttonText = el.textContent || ''
 
     const popup = document.createElement('div')
     popup.className = 'hero-popup-card'
@@ -104,21 +142,19 @@ function bindEvents() {
       e.stopPropagation()
     })
 
-    const parent = btn.parentElement
+    const parent = el.parentElement
     if (parent) {
       parent.style.position = 'relative'
       parent.appendChild(popup)
     }
+  })
 
-    btn.addEventListener('click', (e) => {
-      e.preventDefault()
-      e.stopPropagation()
-
-      document.querySelectorAll('.hero-popup-card.is-active').forEach(p => {
-        if (p !== popup) p.classList.remove('is-active')
-      })
-
-      popup.classList.toggle('is-active')
-    }, { capture: true })
+  // Vue 重渲染后可能恢复 href，再次清理
+  document.querySelectorAll('.VPHero .VPButton.has-popup[href]').forEach((btn) => {
+    const el = btn as HTMLElement
+    if (!el.dataset.originalHref) {
+      el.dataset.originalHref = el.getAttribute('href') || '#'
+    }
+    el.removeAttribute('href')
   })
 }
