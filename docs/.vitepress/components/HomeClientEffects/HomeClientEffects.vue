@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import GravityTags from '../GravityTags.vue'
+import { initHeroPopup, destroyHeroPopup } from '../../theme/hero-popup'
 
 const isMounted = ref(false)
 let accordionInterval: ReturnType<typeof setInterval> | null = null
 
 onMounted(() => {
+  // 必须等 Vue 水合完成后再绑定 Hero 弹窗，否则会破坏 SSR DOM 导致 mismatch
+  nextTick(() => {
+    requestAnimationFrame(() => {
+      initHeroPopup()
+    })
+  })
+
   setTimeout(() => {
     if (document.getElementById('gravity-tags-mount')) {
       isMounted.value = true
@@ -69,6 +77,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   if (accordionInterval) clearInterval(accordionInterval)
+  destroyHeroPopup()
 })
 </script>
 

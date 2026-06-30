@@ -1,4 +1,4 @@
-import { h, watch } from 'vue'
+import { h } from 'vue'
 import DefaultTheme from "vitepress/theme";
 import "../../styles/main.scss";
 import "../../assets/styles/font/iconfont.css";
@@ -8,6 +8,7 @@ import ElementPlus from 'element-plus'
 import { initCustomCursor } from './cursor'
 import { envLanguageSupport } from './env-lang'
 import TlbsMap from 'tlbs-map-vue'
+import { nextTick } from 'vue'
 
 import MLayout from '../../nav/components/MLayout.vue'
 import Home from '../../column/home/home.vue'
@@ -23,7 +24,6 @@ import HomeClientEffects from '../components/HomeClientEffects/HomeClientEffects
 import GravityTags from '../components/GravityTags.vue'
 import './custom.css';
 import './style/blur.css';
-import { initHeroPopup } from './hero-popup'
 // 图标并进行全局注册
 export default {
   Layout: () => {
@@ -59,14 +59,24 @@ export default {
    app.use(TlbsMap)
 
    if (typeof window !== 'undefined') {
-     window.addEventListener('DOMContentLoaded', () => {
-       initCustomCursor()
-       initHeroPopup()
-        // 注册环境变量文件语法高亮支持，解决 "The language 'env' is not loaded" 警告
-        envLanguageSupport.register()
+     const initGlobals = () => {
+       nextTick(() => {
+         requestAnimationFrame(() => {
+           initCustomCursor()
+           envLanguageSupport.register()
+         })
        })
+     }
 
-    }
+     const routerAny = router as { isReady?: () => Promise<void>; onReady?: (cb: () => void) => void }
+     if (typeof routerAny.isReady === 'function') {
+       routerAny.isReady().then(initGlobals)
+     } else if (typeof routerAny.onReady === 'function') {
+       routerAny.onReady(initGlobals)
+     } else {
+       initGlobals()
+     }
+   }
   }
 };
 
