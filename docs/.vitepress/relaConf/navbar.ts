@@ -1,8 +1,8 @@
 import { DefaultTheme } from 'vitepress';
 export const nav: DefaultTheme.NavItem[] = [
   {
-    text: 'AIVista',
-    link: 'https://nanchen042.github.io/magicforge/'
+    text: 'Magicforge',
+    link: 'https://magicforge.pages.dev/'
   },
   {
     text: 'DeepSeek',

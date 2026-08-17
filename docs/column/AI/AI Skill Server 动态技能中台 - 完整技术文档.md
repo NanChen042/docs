@@ -1666,7 +1666,7 @@ DB_NAME=ai_skills
 
 # AI 服务配置
 # 使用 SiliconFlow 提供的 API Key
-SILICONFLOW_API_KEY='sk-dveilerokojjwregblgixpbifdqxcigbupkzoweoksjbrmdd'
+SILICONFLOW_API_KEY='sk-'
 SILICONFLOW_MODEL=Qwen/Qwen3.5-4B
 
 # 可选配置（生产环境）

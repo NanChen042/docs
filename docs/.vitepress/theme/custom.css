@@ -289,7 +289,7 @@ a.VPNavBarMenuLink[href*="atlas"] > span::after,
 
 a.VPNavBarMenuLink[href*="magicforge"] > span::after,
 .VPNavBarMenuLink[href*="magicforge"] > span::after {
-  content: '探索 AIVista 智能体';
+  content: '探索 MagicForge 智能体';
 }
 
 a.VPNavBarMenuLink[href*="deepseek"] > span::after,
@@ -417,7 +417,7 @@ a.VPNavBarMenuLink[href*="atlas"]:hover,
 
 /* 导航栏单栏图标自定义通用样式 */
 .nav-deepseek-icon,
-.nav-aivista-icon,
+.nav-magicforge-icon,
 .nav-atilas-icon,
 .nav-nodejs-icon {
   font-size: 0.9em;
@@ -432,11 +432,11 @@ a.VPNavBarMenuLink[href*="atlas"]:hover,
 }
 
 /* DeepSeek 蓝 */
-.nav-aivista-icon {
+.nav-magicforge-icon {
   color: orange;
 }
 
-/* AIVista 橙 */
+/* MagicForge 橙 */
 .nav-atilas-icon {
   color: #FF485A;
 }
@@ -449,15 +449,15 @@ a.VPNavBarMenuLink[href*="atlas"]:hover,
 /* NodeJS 绿 */
 
 /* 鼠标悬停动态效果 (不再统一变紫) */
-.VPLink:hover .iconfont:not(.nav-aivista-icon):not(.nav-deepseek-icon):not(.nav-atilas-icon):not(.nav-nodejs-icon),
-a:hover .iconfont:not(.nav-aivista-icon):not(.nav-deepseek-icon):not(.nav-atilas-icon):not(.nav-nodejs-icon) {
+.VPLink:hover .iconfont:not(.nav-magicforge-icon):not(.nav-deepseek-icon):not(.nav-atilas-icon):not(.nav-nodejs-icon),
+a:hover .iconfont:not(.nav-magicforge-icon):not(.nav-deepseek-icon):not(.nav-atilas-icon):not(.nav-nodejs-icon) {
   color: var(--vp-c-purple-dark, #a06cd5);
 }
 
 .VPLink:hover .nav-deepseek-icon,
 a:hover .nav-deepseek-icon,
-.VPLink:hover .nav-aivista-icon,
-a:hover .nav-aivista-icon,
+.VPLink:hover .nav-magicforge-icon,
+a:hover .nav-magicforge-icon,
 .VPLink:hover .nav-atilas-icon,
 a:hover .nav-atilas-icon,
 .VPLink:hover .nav-nodejs-icon,

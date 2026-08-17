@@ -1,4 +1,4 @@
-# AIVista Image Studio 是怎么做出来的：用 AI 画画的工具台背后的小故事
+# MagicForge Image Studio 是怎么做出来的：用 AI 画画的工具台背后的小故事
 演示效果：
 
 <video controls style="width: 100%;">
@@ -11,13 +11,13 @@
 
 现在用人工智能（AI）画画变得越来越流行了，不再是科幻小说里的情节，而是我们身边就能玩起来的创意工具。不管是专业设计师还是普通爱好者，大家都想试试用 AI 把自己脑子里的想法变成漂亮的图片。
 
-所以，我在网站`AIVista`集成了这个叫 **AIVista Image Studio** 的工具。它背后用了一个很厉害的 AI 模型（目前是 Kwai-Kolors/Kolors）来画画。这个工具不只是简单地调用一下 AI 接口，它更像一个在线画板，你能在这里调整各种设置、用现成的模板、上传参考图，还能管理生成的图片。
+所以，我在网站`MagicForge`集成了这个叫 **MagicForge Image Studio** 的工具。它背后用了一个很厉害的 AI 模型（目前是 Kwai-Kolors/Kolors）来画画。这个工具不只是简单地调用一下 AI 接口，它更像一个在线画板，你能在这里调整各种设置、用现成的模板、上传参考图，还能管理生成的图片。
 
-这篇“文章”会带你看看 AIVista Image Studio 是怎么一步步做出来的，从一开始的想法到最后的技术实现，还会分享一些关键的代码和我的想法。不管你是懂编程的，还是喜欢 AI 应用，或者只是对这类工具怎么做出来的感到好奇，都希望能给你带来点启发。
+这篇“文章”会带你看看 MagicForge Image Studio 是怎么一步步做出来的，从一开始的想法到最后的技术实现，还会分享一些关键的代码和我的想法。不管你是懂编程的，还是喜欢 AI 应用，或者只是对这类工具怎么做出来的感到好奇，都希望能给你带来点启发。
 
 ## ✨ 它能做些什么？（功能亮点）
 
-AIVista Image Studio 努力让你用起来顺手、看得明白，同时功能还挺多：
+MagicForge Image Studio 努力让你用起来顺手、看得明白，同时功能还挺多：
 
 1.  **告诉 AI 你想画啥**: 你可以用“提示词”（Prompt）告诉 AI 你想要画面的内容，也可以用“负面提示词”（Negative Prompt）告诉它你不想要什么东西出现。
 2.  **快速开始**: 不知道怎么写提示词？没关系，我准备了各种风格的“快速模板”，点一下就能自动填好常用的描述和设置，让你马上就能开始玩。
@@ -39,14 +39,14 @@ AIVista Image Studio 努力让你用起来顺手、看得明白，同时功能�
 
 ## 🛠️ 搭积木（技术选型）
 
-就像搭积木一样，也需要选好用的“零件”来搭建 AIVista Image Studio：
+就像搭积木一样，也需要选好用的“零件”来搭建 MagicForge Image Studio：
 
 *   **技术选型**: Vue.js 3 - Element-Plus - TailwindCSS - Axios- Pinia 
 *   **AI模型选择**: Kwai-Kolors/Kolors (通过 SiliconFlow API) - 这是目前我主要使用的 AI 模型，它很擅长根据描述生成高质量的图片。通过 SiliconFlow 提供的服务来使用它。
 
-## 🚀 动手开干：搭建 AIVista Image Studio
+## 🚀 动手开干：搭建 MagicForge Image Studio
 
-下面我们深入“幕后”，看看 AIVista Image Studio 是怎么具体做出来的。
+下面我们深入“幕后”，看看 MagicForge Image Studio 是怎么具体做出来的。
 
 ### 1. 代码放哪里？（项目结构）
 
@@ -432,7 +432,7 @@ export const imageService = new ImageGenerationService();
 
 ## 回顾与未来（总结与展望）
 
-总的来说，结合了 Vue 3、Element Plus和强大的 AI 画图技术，做出了这个叫 AIVista Image Studio 的在线工具。它不仅能让你细致地调整各种画图参数，还通过模板、预设、参考图这些功能，让你用起来更方便、更有趣。
+总的来说，结合了 Vue 3、Element Plus和强大的 AI 画图技术，做出了这个叫 MagicForge Image Studio 的在线工具。它不仅能让你细致地调整各种画图参数，还通过模板、预设、参考图这些功能，让你用起来更方便、更有趣。
 
 在做的过程中，特别注意了：
 
@@ -441,12 +441,12 @@ export const imageService = new ImageGenerationService();
 *   **用户感觉**: 从引导页面到加载动画，再到按钮样式，都尽量做得好用、好看。
 *   **安全第一**: 特别强调了像 API Key 这样的“密码”一定要保管好，不能直接写在代码里。
 
-未来，AIVista Image Studio 还有很多可以改进和增加的功能：
+未来，MagicForge Image Studio 还有很多可以改进和增加的功能：
 
 *   **支持更多 AI**: 接入像 Stable Diffusion 这样其他流行的画图 AI。
 *   **更多编辑功能**: 比如让 AI 修改图片的一部分（局部重绘），或者把图片往外扩展（扩图）。
 *   **记住你的习惯**: 保存你常用的设置和画过的历史记录。
 *   **分享作品**: 让你可以方便地把自己的 AI 画作和用的提示词分享给别人。
 
-希望这篇文章能让你更好地了解 AIVista Image Studio 是怎么来的！如果你有什么想法或建议，欢迎告诉我。
+希望这篇文章能让你更好地了解 MagicForge Image Studio 是怎么来的！如果你有什么想法或建议，欢迎告诉我。
 
