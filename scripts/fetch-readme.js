@@ -12,6 +12,14 @@ const syncTasks = [
       'https://raw.githubusercontent.com/NanChen042/lowcode-form-builder/master/tech_blog.md'
     ],
     dest: path.resolve(__dirname, '../docs/column/web/lowcode-form-builder.md')
+  },
+  {
+    name: 'StoryCanvas-AI',
+    urls: [
+      'https://raw.githubusercontent.com/NanChen042/StoryCanvas-AI/main/README.md',
+      'https://raw.githubusercontent.com/NanChen042/StoryCanvas-AI/master/README.md'
+    ],
+    dest: path.resolve(__dirname, '../docs/column/AI/StoryCanvas-AI.md')
   }
 ];
 
@@ -31,9 +39,26 @@ function fetchFile(urls, dest, name, index = 0) {
           fs.mkdirSync(dir, { recursive: true });
         }
         
-        // 【核心修复】：将 Markdown 中的相对图片路径（支持 `./assets/` 和 `assets/`）自动替换为 Github Raw 绝对路径
+        // 【核心修复】：将 Markdown 中的相对图片路径（支持 `./assets/` 和 `assets/`）自动替换为 Github Raw 绝对路径或本地资产路径
         if (name === 'lowcode-form-builder (tech_blog)') {
           data = data.replace(/(?:\.\/)?assets\//g, 'https://raw.githubusercontent.com/NanChen042/lowcode-form-builder/main/assets/');
+        } else if (name === 'StoryCanvas-AI') {
+          data = data.replace(/\s*-\s*\[\]\(#-?\d*\)/g, '');
+          data = data.replace(/(?:\.\/)?assets\/README\//g, 'assets/StoryCanvas-AI/');
+          data = data.replace(/(?:\.\/)?public\/images\//g, 'assets/StoryCanvas-AI/');
+          const lines = data.split(/\r?\n/);
+          for (let i = 300; i < 365 && i < lines.length; i++) {
+            if (lines[i].startsWith('> ')) {
+              lines[i] = lines[i].substring(2);
+            } else if (lines[i] === '>') {
+              lines[i] = '';
+            }
+          }
+          data = lines.join('\n');
+          data = data.replace(
+            /> \*\*导读\*\*：/,
+            '> **项目开源地址**：[https://github.com/NanChen042/StoryCanvas-AI](https://github.com/NanChen042/StoryCanvas-AI)\n>\n> **导读**：'
+          );
         }
 
         fs.writeFileSync(dest, data);

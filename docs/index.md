@@ -197,6 +197,19 @@ features:
       <div class="article-list dynamic-article-list">
         <div class="article-accordion">
           <div class="article-summary">
+            <span class="article-title">StoryCanvas AI 全流程动态漫分镜创作工作台</span>
+            <svg class="article-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="article-content-wrapper">
+            <div class="article-content">
+              <p>从一段文字到一部动态漫：打造基于 Nuxt 3 + VueFlow 双模编辑器与本地 FFmpeg 视听渲染管线的全流程 AI 创作工作台实战复盘。</p>
+              <a href="/column/AI/StoryCanvas-AI.html" class="article-read-more">阅读全文 →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="article-accordion">
+          <div class="article-summary">
             <span class="article-title">Vue 3 + Naive UI 企业级后台系统实战解析</span>
             <svg class="article-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
           </div>

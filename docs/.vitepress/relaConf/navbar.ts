@@ -100,6 +100,10 @@ export const nav: DefaultTheme.NavItem[] = [
       {
         text: 'Lottie 动画实战',
         link: '/column/map/map.md'
+      },
+      {
+        text: 'StoryCanvas AI (动态漫分镜工作台)',
+        link: 'https://github.com/NanChen042/StoryCanvas-AI'
       }
     ]
   },

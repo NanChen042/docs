@@ -55,6 +55,10 @@ export const sidebar: DefaultTheme.Sidebar = {
           text: 'AI系列——07、Atlas —— 一个 AI 增强的个人知识与生产力系统',
           link: '/column/AI/Atlas.md'
         },
+        {
+          text: 'AI系列——08、从一段文字到一部动态漫：我们如何打造全流程分镜创作工作台 StoryCanvas AI',
+          link: '/column/AI/StoryCanvas-AI.md'
+        },
       ]
     },
     {
@@ -83,6 +87,10 @@ export const sidebar: DefaultTheme.Sidebar = {
         {
           text: '谷记账：一个 Vue 3 批次记账 App 的完整拆解',
           link: '/column/AI/NotelyAI.md'
+        },
+        {
+          text: 'StoryCanvas AI：基于 Nuxt 3 + VueFlow 的全流程动态漫工作台',
+          link: '/column/AI/StoryCanvas-AI.md'
         },
       ]
     }
@@ -217,6 +225,10 @@ export const sidebar: DefaultTheme.Sidebar = {
         {
           text: '别再用原生的 Socket 了！Nest.js 让你的实时聊天系统开发效率翻倍',
           link: '/column/NodeJS/index.md'
+        },
+        {
+          text: 'FFmpeg + Sharp + Prisma：StoryCanvas AI 本地视听渲染管线实战',
+          link: '/column/AI/StoryCanvas-AI.md'
         }
       ]
     }
@@ -228,6 +240,10 @@ export const sidebar: DefaultTheme.Sidebar = {
         {
           text: '低代码表单构建器原理与实战',
           link: '/column/web/lowcode-form-builder.md'
+        },
+        {
+          text: 'VueFlow 画布与双轨时间轴：StoryCanvas AI 双模编辑器架构解析',
+          link: '/column/AI/StoryCanvas-AI.md'
         }
       ]
     }

@@ -3,6 +3,7 @@ import { nav, sidebar } from './relaConf';
 
 
 // https://vitepress.dev/reference/site-config
+// Updated sidebar & navigation for StoryCanvas-AI
 export default defineConfig({
   base: '/',
   title: "personal-blog😶‍🌫️",
