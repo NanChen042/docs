@@ -289,7 +289,7 @@ a.VPNavBarMenuLink[href*="atlas"] > span::after,
 
 a.VPNavBarMenuLink[href*="magicforge"] > span::after,
 .VPNavBarMenuLink[href*="magicforge"] > span::after {
-  content: '探索 MagicForge 智能体';
+  content: '探索 MagicForge 多模态智能体';
 }
 
 a.VPNavBarMenuLink[href*="deepseek"] > span::after,
