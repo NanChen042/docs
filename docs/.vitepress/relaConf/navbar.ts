@@ -5,8 +5,8 @@ export const nav: DefaultTheme.NavItem[] = [
     link: 'https://magicforge.pages.dev/'
   },
   {
-    text: 'DeepSeek',
-    link: 'https://nanchen042.github.io/deepseek/'
+    text: '问流Flow',
+    link: 'https://wenflow-b7b.pages.dev/'
   },
   {
     text: 'Atilas',

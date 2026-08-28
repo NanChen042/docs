@@ -177,16 +177,21 @@ a.VPNavScreenMenuLink[href*="magicforge"] > span::before,
   font-size: 1.05em;
 }
 
-a.VPNavBarMenuLink[href*="deepseek"] > span::before,
-a.VPNavScreenMenuLink[href*="deepseek"] > span::before,
-.VPNavBarMenuLink[href*="deepseek"] > span::before,
-.VPNavScreenMenuLink[href*="deepseek"] > span::before {
-  content: '\e603';
+a.VPNavBarMenuLink[href*="wenflow"] > span::before,
+a.VPNavScreenMenuLink[href*="wenflow"] > span::before,
+.VPNavBarMenuLink[href*="wenflow"] > span::before,
+.VPNavScreenMenuLink[href*="wenflow"] > span::before {
+  content: '';
   display: inline-block;
-  font-family: 'iconfont';
-  color: #1a73e8;
+  width: 17px;
+  height: 17px;
+  background-image: url('/wenflow.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   margin-right: 6px;
-  font-size: 1.05em;
+  vertical-align: -3px;
+  border-radius: 4px;
 }
 
 a.VPNavBarMenuLink[href*="atlas"] > span::before,
@@ -203,20 +208,20 @@ a.VPNavScreenMenuLink[href*="atlas"] > span::before,
 
 /* 仅前三个外链：关闭 VitePress 默认 external-link 箭头，避免与 tooltip 冲突 */
 a.VPNavBarMenuLink[href*="magicforge"].vp-external-link-icon::after,
-a.VPNavBarMenuLink[href*="deepseek"].vp-external-link-icon::after,
+a.VPNavBarMenuLink[href*="wenflow"].vp-external-link-icon::after,
 a.VPNavBarMenuLink[href*="atlas"].vp-external-link-icon::after,
 .VPNavBarMenuLink[href*="magicforge"].vp-external-link-icon::after,
-.VPNavBarMenuLink[href*="deepseek"].vp-external-link-icon::after,
+.VPNavBarMenuLink[href*="wenflow"].vp-external-link-icon::after,
 .VPNavBarMenuLink[href*="atlas"].vp-external-link-icon::after {
   content: none !important;
   display: none !important;
 }
 
 a.VPNavBarMenuLink[href*="magicforge"],
-a.VPNavBarMenuLink[href*="deepseek"],
+a.VPNavBarMenuLink[href*="wenflow"],
 a.VPNavBarMenuLink[href*="atlas"],
 .VPNavBarMenuLink[href*="magicforge"],
-.VPNavBarMenuLink[href*="deepseek"],
+.VPNavBarMenuLink[href*="wenflow"],
 .VPNavBarMenuLink[href*="atlas"] {
   position: relative;
   overflow: visible !important;
@@ -224,10 +229,10 @@ a.VPNavBarMenuLink[href*="atlas"],
 
 /* 外链箭头标识（保留“这是链接”的视觉提示） */
 a.VPNavBarMenuLink[href*="magicforge"]::before,
-a.VPNavBarMenuLink[href*="deepseek"]::before,
+a.VPNavBarMenuLink[href*="wenflow"]::before,
 a.VPNavBarMenuLink[href*="atlas"]::before,
 .VPNavBarMenuLink[href*="magicforge"]::before,
-.VPNavBarMenuLink[href*="deepseek"]::before,
+.VPNavBarMenuLink[href*="wenflow"]::before,
 .VPNavBarMenuLink[href*="atlas"]::before {
   content: '↗';
   order: 2;
@@ -239,10 +244,10 @@ a.VPNavBarMenuLink[href*="atlas"]::before,
 }
 
 a.VPNavBarMenuLink[href*="magicforge"] > span,
-a.VPNavBarMenuLink[href*="deepseek"] > span,
+a.VPNavBarMenuLink[href*="wenflow"] > span,
 a.VPNavBarMenuLink[href*="atlas"] > span,
 .VPNavBarMenuLink[href*="magicforge"] > span,
-.VPNavBarMenuLink[href*="deepseek"] > span,
+.VPNavBarMenuLink[href*="wenflow"] > span,
 .VPNavBarMenuLink[href*="atlas"] > span {
   position: relative;
   display: inline-flex;
@@ -252,10 +257,10 @@ a.VPNavBarMenuLink[href*="atlas"] > span,
 }
 
 a.VPNavBarMenuLink[href*="magicforge"] > span::after,
-a.VPNavBarMenuLink[href*="deepseek"] > span::after,
+a.VPNavBarMenuLink[href*="wenflow"] > span::after,
 a.VPNavBarMenuLink[href*="atlas"] > span::after,
 .VPNavBarMenuLink[href*="magicforge"] > span::after,
-.VPNavBarMenuLink[href*="deepseek"] > span::after,
+.VPNavBarMenuLink[href*="wenflow"] > span::after,
 .VPNavBarMenuLink[href*="atlas"] > span::after {
   content: '';
   position: absolute;
@@ -292,9 +297,9 @@ a.VPNavBarMenuLink[href*="magicforge"] > span::after,
   content: '探索 MagicForge 多模态智能体';
 }
 
-a.VPNavBarMenuLink[href*="deepseek"] > span::after,
-.VPNavBarMenuLink[href*="deepseek"] > span::after {
-  content: '访问 DeepSeek 专栏';
+a.VPNavBarMenuLink[href*="wenflow"] > span::after,
+.VPNavBarMenuLink[href*="wenflow"] > span::after {
+  content: '访问 问流Flow AI 智能工作台';
 }
 
 a.VPNavBarMenuLink[href*="atlas"] > span::after,
@@ -303,10 +308,10 @@ a.VPNavBarMenuLink[href*="atlas"] > span::after,
 }
 
 a.VPNavBarMenuLink[href*="magicforge"]:hover > span::after,
-a.VPNavBarMenuLink[href*="deepseek"]:hover > span::after,
+a.VPNavBarMenuLink[href*="wenflow"]:hover > span::after,
 a.VPNavBarMenuLink[href*="atlas"]:hover > span::after,
 .VPNavBarMenuLink[href*="magicforge"]:hover > span::after,
-.VPNavBarMenuLink[href*="deepseek"]:hover > span::after,
+.VPNavBarMenuLink[href*="wenflow"]:hover > span::after,
 .VPNavBarMenuLink[href*="atlas"]:hover > span::after {
   opacity: 1;
   visibility: visible;
@@ -318,9 +323,9 @@ a.VPNavBarMenuLink[href*="magicforge"]:hover,
   color: orange !important;
 }
 
-a.VPNavBarMenuLink[href*="deepseek"]:hover,
-.VPNavBarMenuLink[href*="deepseek"]:hover {
-  color: #1a73e8 !important;
+a.VPNavBarMenuLink[href*="wenflow"]:hover,
+.VPNavBarMenuLink[href*="wenflow"]:hover {
+  color: #6366f1 !important;
 }
 
 a.VPNavBarMenuLink[href*="atlas"]:hover,
